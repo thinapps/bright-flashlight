@@ -1,50 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="top.thinapps.brightflashlight">
 
-    <!-- Torch control normally uses CAMERA permission.
-         Some OEMs also check FLASHLIGHT; request both to be safe. -->
+    <!-- torch control normally uses CAMERA permission.
+         some OEMs also check FLASHLIGHT; request both to be safe. -->
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.FLASHLIGHT" />
 
-    <!-- Foreground service declaration for strobe/SOS reliability -->
+    <!-- foreground service permissions (Android 14 adds CAMERA-specific type) -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_CAMERA" />
+
+    <!-- optional: if posting notifications beyond the mandatory FGS one -->
+    <!-- <uses-permission android:name="android.permission.POST_NOTIFICATIONS" /> -->
+
+    <!-- declare flashlight feature so Play/device filters behave correctly -->
+    <uses-feature android:name="android.hardware.camera.flash" android:required="false" />
 
     <application
-        android:allowBackup="true"
-        android:label="@string/app_name"
+        android:allowBackup="false"
+        android:supportsRtl="true"
         android:icon="@mipmap/ic_launcher"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:label="@string/app_name"
         android:theme="@style/Theme.BrightFlashlight">
 
+        <!-- screen light activity (color screen mode) -->
         <activity
             android:name=".ui.ScreenLightActivity"
             android:exported="false"
             android:label="@string/screen_light_title"
             android:configChanges="orientation|keyboardHidden|screenSize" />
 
+        <!-- main entry activity -->
         <activity
             android:name=".ui.MainActivity"
             android:exported="true"
             android:label="@string/app_name">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
+        <!-- torch foreground service -->
         <service
             android:name=".torch.TorchService"
             android:exported="false"
-            android:foregroundServiceType="camera">
-        </service>
+            android:foregroundServiceType="camera" />
 
-        <!-- Quick Settings tile for fast torch toggle (API 24+) -->
+        <!-- quick settings tile service -->
         <service
             android:name=".tile.TorchTileService"
-            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE"
-            android:exported="true">
+            android:exported="true"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
             <intent-filter>
-                <action android:name="android.service.quicksettings.action.QS_TILE"/>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
             </intent-filter>
         </service>
 
