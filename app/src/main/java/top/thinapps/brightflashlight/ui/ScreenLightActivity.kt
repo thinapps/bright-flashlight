@@ -3,6 +3,7 @@ package top.thinapps.brightflashlight.ui
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
+import android.view.WindowManager
 import android.widget.SeekBar
 import android.widget.TextView
 import androidx.activity.ComponentActivity
@@ -38,14 +39,14 @@ class ScreenLightActivity : ComponentActivity() {
         seekG.setOnSeekBarChangeListener(listener)
         seekB.setOnSeekBarChangeListener(listener)
 
-        // default to white
+        // default white color
         seekR.progress = 255
         seekG.progress = 255
         seekB.progress = 255
         applyColor()
 
-        // keep screen on while this activity is shown
-        window.addFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        // keep screen on
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
     }
 
     private fun applyColor() {
