@@ -12,8 +12,6 @@ import android.os.IBinder
 import android.os.Looper
 import androidx.core.app.NotificationCompat
 import top.thinapps.brightflashlight.R
-import kotlin.math.max
-import kotlin.math.min
 
 class TorchService : Service() {
 
@@ -34,12 +32,12 @@ class TorchService : Service() {
 
     private var strobeRunning = false
     private var sosRunning = false
-    private var strobeSpeed = 10 // user slider 5..20 (we map to ms)
+    private var strobeSpeed = 10 // user slider 5..20 (mapped to interval)
     private var autoOffAtMs: Long = 0L
 
     override fun onCreate() {
         super.onCreate()
-        controller = TorchController(this)
+        controller = TorchController(applicationContext)
         startForeground(NOTIF_ID, buildNotification())
     }
 
@@ -51,9 +49,7 @@ class TorchService : Service() {
     override fun onBind(intent: Intent?): IBinder? = null
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        intent?.getIntExtra("strobeSpeed", -1)?.let {
-            if (it >= 0) strobeSpeed = it
-        }
+        intent?.getIntExtra("strobeSpeed", -1)?.let { if (it >= 0) strobeSpeed = it }
         intent?.getIntExtra("autoOffMinutes", -1)?.let { mins ->
             if (mins >= 0) {
                 autoOffAtMs = if (mins == 0) 0L else System.currentTimeMillis() + mins * 60_000L
@@ -93,7 +89,7 @@ class TorchService : Service() {
                 controller.setTorch(false)
                 updateNotif()
             }
-            else -> { /* service resume with no action */ }
+            else -> { /* no-op */ }
         }
         return START_STICKY
     }
@@ -105,8 +101,9 @@ class TorchService : Service() {
                 CH_ID,
                 getString(R.string.notification_channel_name),
                 NotificationManager.IMPORTANCE_LOW
-            )
-            ch.description = getString(R.string.notification_channel_desc)
+            ).apply {
+                description = getString(R.string.notification_channel_desc)
+            }
             nm.createNotificationChannel(ch)
         }
         return NotificationCompat.Builder(this, CH_ID)
@@ -136,6 +133,7 @@ class TorchService : Service() {
 
     private fun startStrobe() {
         strobeRunning = true
+        // map user speed (5..20) to interval (~500ms..30ms)
         val minMs = 30L
         val maxMs = 500L
         val step = (20 - strobeSpeed).coerceIn(0, 15) // 0..15
@@ -151,19 +149,17 @@ class TorchService : Service() {
 
     private fun startSos() {
         sosRunning = true
-        // SOS pattern: ... --- ...
-        // dot = 200ms, dash = 600ms, gap between blinks = 200ms, letter gap = 600ms, word gap = 1200ms
+        // sos pattern: ... --- ...
         val dot = 200L
         val dash = 600L
         val gap = 200L
         val letterGap = 600L
         val wordGap = 1200L
 
-        // build one cycle of booleans with durations
         val pattern = mutableListOf<Pair<Boolean, Long>>().apply {
-            repeat(3) { add(true to dot); add(false to gap) }     // ...
-            repeat(3) { add(true to dash); add(false to gap) }    // ---
-            repeat(3) { add(true to dot); add(false to gap) }     // ...
+            repeat(3) { add(true to dot); add(false to gap) }  // ...
+            repeat(3) { add(true to dash); add(false to gap) } // ---
+            repeat(3) { add(true to dot); add(false to gap) }  // ...
             add(false to wordGap)
         }
 
@@ -171,10 +167,7 @@ class TorchService : Service() {
             if (!sosRunning) return
             val (on, dur) = pattern[index]
             controller.setTorch(on)
-            handler.postDelayed({
-                val next = (index + 1) % pattern.size
-                runFrom(next)
-            }, dur)
+            handler.postDelayed({ runFrom((index + 1) % pattern.size) }, dur)
         }
         runFrom(0)
     }
