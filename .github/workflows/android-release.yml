@@ -85,5 +85,5 @@ jobs:
         if: success()
         uses: actions/upload-artifact@v4
         with:
-          name: bright-flashlight-release
+          name: app-release
           path: app/build/outputs/bundle/release/app-release.aab
