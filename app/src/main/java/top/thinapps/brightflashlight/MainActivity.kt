@@ -1,4 +1,4 @@
-package top.thinapps.brightflashlight.ui
+package top.thinapps.brightflashlight
 
 import android.Manifest
 import android.content.Intent
@@ -18,6 +18,7 @@ import top.thinapps.brightflashlight.torch.TorchService.Companion.ACTION_STROBE_
 import top.thinapps.brightflashlight.torch.TorchService.Companion.ACTION_STROBE_STOP
 import top.thinapps.brightflashlight.torch.TorchService.Companion.ACTION_TORCH_OFF
 import top.thinapps.brightflashlight.torch.TorchService.Companion.ACTION_TORCH_ON
+import top.thinapps.brightflashlight.ui.ScreenLightActivity
 
 class MainActivity : ComponentActivity() {
 
@@ -65,7 +66,6 @@ class MainActivity : ComponentActivity() {
         sliderAutoOff.addOnChangeListener { _, value, _ ->
             val minutes = value.toInt()
             tvTimer.text = getString(R.string.timer_label) + ": " + minutes
-            // pass timer to service as an extra for auto-stop
             sendToService(null, autoOffMinutes = minutes)
         }
     }
@@ -84,7 +84,7 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun startStrobe() {
-        val speed = sliderStrobe.value.toInt() // 5..20 (higher = faster)
+        val speed = sliderStrobe.value.toInt() // 5..20
         sendToService(ACTION_STROBE_START, strobeSpeed = speed)
     }
 
