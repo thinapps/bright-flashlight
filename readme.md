@@ -2,6 +2,11 @@
 
 ### Changelog
 
+### 0.2.0
+- fixed crash on startup caused by manifest and `MainActivity.kt` package mismatch  
+- gated all torch actions behind runtime camera permission
+- verified all UI element IDs and bindings for `activity_main.xml`
+
 ### 0.1.0
 - initial test release (signed)
 - general project structure with GitHub Actions support
