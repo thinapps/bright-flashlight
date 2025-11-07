@@ -6,4 +6,7 @@
     <color name="md_card">#1A1F24</color>
     <color name="md_text">#FFFFFF</color>
     <color name="md_text_dim">#B3FFFFFF</color>
+
+    <!-- used for adaptive launcher icon background -->
+    <color name="ic_launcher_background">#1A237E</color>
 </resources>
