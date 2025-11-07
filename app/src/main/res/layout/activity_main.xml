@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/md_bg"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fillViewport="true">
 
     <LinearLayout
         android:orientation="vertical"
@@ -26,7 +28,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
                     android:drawableStart="@drawable/ic_power"
-                    android:text="@string/action_torch_on"/>
+                    android:text="@string/action_torch_on" />
 
                 <com.google.android.material.slider.Slider
                     android:id="@+id/sliderAutoOff"
@@ -35,14 +37,14 @@
                     android:valueFrom="0"
                     android:valueTo="30"
                     android:stepSize="1"
-                    android:layout_marginTop="12dp"/>
+                    android:layout_marginTop="12dp" />
 
                 <TextView
                     android:id="@+id/tvTimer"
                     android:textColor="@color/md_text_dim"
                     android:text="@string/timer_label"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -61,7 +63,7 @@
                     android:text="@string/strobe_speed"
                     android:textColor="@color/md_text"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content" />
 
                 <com.google.android.material.slider.Slider
                     android:id="@+id/sliderStrobe"
@@ -70,7 +72,7 @@
                     android:valueFrom="5"
                     android:valueTo="20"
                     android:stepSize="1"
-                    android:value="10"/>
+                    android:value="10" />
 
                 <LinearLayout
                     android:orientation="horizontal"
@@ -83,16 +85,18 @@
                         android:layout_width="0dp"
                         android:layout_height="48dp"
                         android:layout_weight="1"
-                        android:text="@string/action_strobe_start"/>
+                        android:text="@string/action_strobe_start" />
 
-                    <Space android:layout_width="12dp" android:layout_height="1dp"/>
+                    <Space
+                        android:layout_width="12dp"
+                        android:layout_height="1dp" />
 
                     <Button
                         android:id="@+id/btnStrobeStop"
                         android:layout_width="0dp"
                         android:layout_height="48dp"
                         android:layout_weight="1"
-                        android:text="@string/action_strobe_stop"/>
+                        android:text="@string/action_strobe_stop" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -106,16 +110,18 @@
                         android:layout_width="0dp"
                         android:layout_height="48dp"
                         android:layout_weight="1"
-                        android:text="@string/action_sos_start"/>
+                        android:text="@string/action_sos_start" />
 
-                    <Space android:layout_width="12dp" android:layout_height="1dp"/>
+                    <Space
+                        android:layout_width="12dp"
+                        android:layout_height="1dp" />
 
                     <Button
                         android:id="@+id/btnSosStop"
                         android:layout_width="0dp"
                         android:layout_height="48dp"
                         android:layout_weight="1"
-                        android:text="@string/action_sos_stop"/>
+                        android:text="@string/action_sos_stop" />
                 </LinearLayout>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
@@ -135,7 +141,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:drawableStart="@drawable/ic_screen"
-                    android:text="@string/action_open_screen_light"/>
+                    android:text="@string/action_open_screen_light" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
