@@ -31,6 +31,7 @@
                     android:layout_height="wrap_content"
                     app:singleSelection="true"
                     app:selectionRequired="true"
+                    app:checkedButton="@id/btnModeTorch"
                     android:layout_marginBottom="12dp">
 
                     <com.google.android.material.button.MaterialButton
@@ -40,7 +41,7 @@
                         android:layout_height="48dp"
                         android:layout_weight="1"
                         android:text="@string/mode_torch"
-                        app:checked="true"/>
+                        android:checkable="true" />
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnModeStrobe"
@@ -48,7 +49,8 @@
                         android:layout_width="0dp"
                         android:layout_height="48dp"
                         android:layout_weight="1"
-                        android:text="@string/mode_strobe"/>
+                        android:text="@string/mode_strobe"
+                        android:checkable="true" />
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnModeSos"
@@ -56,7 +58,8 @@
                         android:layout_width="0dp"
                         android:layout_height="48dp"
                         android:layout_weight="1"
-                        android:text="@string/mode_sos"/>
+                        android:text="@string/mode_sos"
+                        android:checkable="true" />
                 </com.google.android.material.button.MaterialButtonToggleGroup>
 
                 <!-- Big power button -->
