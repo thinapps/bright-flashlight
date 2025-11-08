@@ -2,6 +2,13 @@
 
 ### Changelog
 
+### 0.3.1
+- improved strobe mode with real-time speed adjustment from the slider  
+- added `ACTION_STROBE_UPDATE` intent to TorchService for live interval changes  
+- fixed timing logic to ensure smoother, consistent flash rhythm across all speeds  
+- maintained 50/50 duty cycle (equal on/off time) for stable brightness perception  
+- minor cleanup in handler scheduling and interval mapping for better accuracy  
+
 ### 0.3.0
 - replaced separate strobe and SOS buttons with a single radio-style mode selector (Torch / Strobe / SOS)
 - unified all flashlight controls under one large Power button for simpler UX
