@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <!-- CARD: Mode + Power -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -23,6 +24,42 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
+                <!-- Mode selector (single selection) -->
+                <com.google.android.material.button.MaterialButtonToggleGroup
+                    android:id="@+id/groupMode"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:singleSelection="true"
+                    app:selectionRequired="true"
+                    android:layout_marginBottom="12dp">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnModeTorch"
+                        style="?attr/materialButtonOutlinedStyle"
+                        android:layout_width="0dp"
+                        android:layout_height="48dp"
+                        android:layout_weight="1"
+                        android:text="@string/mode_torch"
+                        app:checked="true"/>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnModeStrobe"
+                        style="?attr/materialButtonOutlinedStyle"
+                        android:layout_width="0dp"
+                        android:layout_height="48dp"
+                        android:layout_weight="1"
+                        android:text="@string/mode_strobe"/>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnModeSos"
+                        style="?attr/materialButtonOutlinedStyle"
+                        android:layout_width="0dp"
+                        android:layout_height="48dp"
+                        android:layout_weight="1"
+                        android:text="@string/mode_sos"/>
+                </com.google.android.material.button.MaterialButtonToggleGroup>
+
+                <!-- Big power button -->
                 <Button
                     android:id="@+id/btnToggle"
                     android:layout_width="match_parent"
@@ -50,6 +87,7 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
+        <!-- CARD: Strobe controls (speed) -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -76,6 +114,7 @@
                     android:stepSize="1"
                     android:value="10" />
 
+                <!--
                 <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
@@ -125,9 +164,11 @@
                         android:layout_weight="1"
                         android:text="@string/action_sos_stop" />
                 </LinearLayout>
+                -->
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
+        <!-- CARD: Screen light -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
