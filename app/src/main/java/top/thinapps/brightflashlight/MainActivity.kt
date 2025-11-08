@@ -16,6 +16,7 @@ import top.thinapps.brightflashlight.torch.TorchService.Companion.ACTION_SOS_STA
 import top.thinapps.brightflashlight.torch.TorchService.Companion.ACTION_SOS_STOP
 import top.thinapps.brightflashlight.torch.TorchService.Companion.ACTION_STROBE_START
 import top.thinapps.brightflashlight.torch.TorchService.Companion.ACTION_STROBE_STOP
+import top.thinapps.brightflashlight.torch.TorchService.Companion.ACTION_STROBE_UPDATE
 import top.thinapps.brightflashlight.torch.TorchService.Companion.ACTION_TORCH_OFF
 import top.thinapps.brightflashlight.torch.TorchService.Companion.ACTION_TORCH_ON
 import top.thinapps.brightflashlight.ui.ScreenLightActivity
@@ -63,6 +64,12 @@ class MainActivity : ComponentActivity() {
             }
             stopAllModes()
             setPowerLabel(off = true)
+        }
+
+        sliderStrobe.addOnChangeListener { _, value, fromUser ->
+            if (fromUser && strobeRunning) {
+                sendToService(ACTION_STROBE_UPDATE, strobeSpeed = value.toInt())
+            }
         }
     }
 
