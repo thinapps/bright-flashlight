@@ -39,6 +39,9 @@ class TorchService : Service() {
     private var curIntervalMs: Long = 100L
     private var autoOffAtMs: Long = 0L
 
+    // local lamp state for strobe loop (avoids needing controller.isTorchOn())
+    private var strobeLampOn = false
+
     override fun onCreate() {
         super.onCreate()
         controller = TorchController(applicationContext)
@@ -156,29 +159,29 @@ class TorchService : Service() {
 
     private fun startStrobe() {
         strobeRunning = true
-        // kick off the toggling loop
-        tickStrobe(on = true)
+        strobeLampOn = false
+        tickStrobe() // begin loop
     }
 
     private fun restartStrobe() {
         if (!strobeRunning) return
-        // cancel pending posts and restart at the new interval
         handler.removeCallbacks(strobeTickRunnable)
-        tickStrobe(on = true)
+        tickStrobe()
     }
 
     private val strobeTickRunnable = object : Runnable {
         override fun run() {
             if (!strobeRunning) return
-            // flip state
-            controller.setTorch(!controller.isTorchOn())
+            strobeLampOn = !strobeLampOn
+            controller.setTorch(strobeLampOn)
             handler.postDelayed(this, curIntervalMs / 2)
         }
     }
 
-    private fun tickStrobe(on: Boolean) {
+    private fun tickStrobe() {
         if (!strobeRunning) return
-        controller.setTorch(on)
+        strobeLampOn = !strobeLampOn
+        controller.setTorch(strobeLampOn)
         handler.postDelayed(strobeTickRunnable, curIntervalMs / 2)
     }
 
