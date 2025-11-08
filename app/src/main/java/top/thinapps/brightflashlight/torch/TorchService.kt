@@ -20,11 +20,14 @@ class TorchService : Service() {
         const val ACTION_TORCH_OFF = "act_torch_off"
         const val ACTION_STROBE_START = "act_strobe_start"
         const val ACTION_STROBE_STOP = "act_strobe_stop"
+        const val ACTION_STROBE_UPDATE = "act_strobe_update"
         const val ACTION_SOS_START = "act_sos_start"
         const val ACTION_SOS_STOP = "act_sos_stop"
 
         private const val CH_ID = "flashlight"
         private const val NOTIF_ID = 42
+        private const val EXTRA_STROBE_SPEED = "strobeSpeed"
+        private const val EXTRA_AUTO_OFF_MINUTES = "autoOffMinutes"
     }
 
     private lateinit var controller: TorchController
@@ -32,12 +35,14 @@ class TorchService : Service() {
 
     private var strobeRunning = false
     private var sosRunning = false
-    private var strobeSpeed = 10 // user slider 5..20 (mapped to interval)
+    private var strobeSpeed = 10 // user slider 5..20
+    private var curIntervalMs: Long = 100L
     private var autoOffAtMs: Long = 0L
 
     override fun onCreate() {
         super.onCreate()
         controller = TorchController(applicationContext)
+        curIntervalMs = strobeIntervalMs(strobeSpeed)
         startForeground(NOTIF_ID, buildNotification())
     }
 
@@ -49,8 +54,11 @@ class TorchService : Service() {
     override fun onBind(intent: Intent?): IBinder? = null
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        intent?.getIntExtra("strobeSpeed", -1)?.let { if (it >= 0) strobeSpeed = it }
-        intent?.getIntExtra("autoOffMinutes", -1)?.let { mins ->
+        intent?.getIntExtra(EXTRA_STROBE_SPEED, -1)?.let { if (it >= 0) {
+            strobeSpeed = it
+            curIntervalMs = strobeIntervalMs(strobeSpeed)
+        } }
+        intent?.getIntExtra(EXTRA_AUTO_OFF_MINUTES, -1)?.let { mins ->
             if (mins >= 0) {
                 autoOffAtMs = if (mins == 0) 0L else System.currentTimeMillis() + mins * 60_000L
             }
@@ -72,6 +80,11 @@ class TorchService : Service() {
                 startStrobe()
                 scheduleAutoOffCheck()
                 updateNotif()
+            }
+            ACTION_STROBE_UPDATE -> {
+                // apply new speed live
+                curIntervalMs = strobeIntervalMs(strobeSpeed)
+                if (strobeRunning) restartStrobe()
             }
             ACTION_STROBE_STOP -> {
                 stopPatterns()
@@ -131,29 +144,49 @@ class TorchService : Service() {
         handler.removeCallbacksAndMessages(null)
     }
 
+    // map user speed (5..20) to a sensible interval (fast at 20, slow at 5)
+    private fun strobeIntervalMs(speed: Int): Long {
+        val s = speed.coerceIn(5, 20)
+        // simple Hz mapping: 5..20 Hz -> 200ms..50ms period (half on, half off)
+        val hz = s.toDouble()
+        val period = (1000.0 / hz).toLong()  // total cycle
+        val min = 30L
+        return period.coerceAtLeast(min)
+    }
+
     private fun startStrobe() {
         strobeRunning = true
-        // map user speed (5..20) to interval (~500ms..30ms)
-        val minMs = 30L
-        val maxMs = 500L
-        val step = (20 - strobeSpeed).coerceIn(0, 15) // 0..15
-        val interval = (minMs + (step * ((maxMs - minMs) / 15f))).toLong()
+        // kick off the toggling loop
+        tickStrobe(on = true)
+    }
 
-        fun tick(on: Boolean) {
+    private fun restartStrobe() {
+        if (!strobeRunning) return
+        // cancel pending posts and restart at the new interval
+        handler.removeCallbacks(strobeTickRunnable)
+        tickStrobe(on = true)
+    }
+
+    private val strobeTickRunnable = object : Runnable {
+        override fun run() {
             if (!strobeRunning) return
-            controller.setTorch(on)
-            handler.postDelayed({ tick(!on) }, interval)
+            // flip state
+            controller.setTorch(!controller.isTorchOn())
+            handler.postDelayed(this, curIntervalMs / 2)
         }
-        tick(true)
+    }
+
+    private fun tickStrobe(on: Boolean) {
+        if (!strobeRunning) return
+        controller.setTorch(on)
+        handler.postDelayed(strobeTickRunnable, curIntervalMs / 2)
     }
 
     private fun startSos() {
         sosRunning = true
-        // sos pattern: ... --- ...
         val dot = 200L
         val dash = 600L
         val gap = 200L
-        val letterGap = 600L
         val wordGap = 1200L
 
         val pattern = mutableListOf<Pair<Boolean, Long>>().apply {
