@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Bright Flashlight</string>
     <string name="permission_rationale">Flashlight requires camera permission to control the torch.</string>
+
     <string name="action_torch_on">Torch ON</string>
     <string name="action_torch_off">Torch OFF</string>
     <string name="action_strobe_start">Start Strobe</string>
@@ -8,11 +9,19 @@
     <string name="action_sos_start">Start SOS</string>
     <string name="action_sos_stop">Stop SOS</string>
     <string name="action_open_screen_light">Screen Light</string>
+
+    <string name="mode_torch">Torch</string>
+    <string name="mode_strobe">Strobe</string>
+    <string name="mode_sos">SOS</string>
+
     <string name="strobe_speed">Strobe Speed</string>
     <string name="timer_label">Auto-off (minutes)</string>
+
     <string name="screen_light_title">Screen Light</string>
     <string name="screen_color">Screen Color</string>
+
     <string name="tile_label">Flashlight</string>
+
     <string name="notification_channel_name">Flashlight</string>
     <string name="notification_channel_desc">Running flashlight or strobe mode</string>
     <string name="notification_running">Flashlight is active</string>
