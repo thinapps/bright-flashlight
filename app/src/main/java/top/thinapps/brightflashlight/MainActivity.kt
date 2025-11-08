@@ -4,13 +4,13 @@ import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
-import android.widget.TextView
 import androidx.activity.ComponentActivity
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import com.google.android.material.button.MaterialButtonToggleGroup
 import com.google.android.material.slider.Slider
-import top.thinapps.brightflashlight.R
 import top.thinapps.brightflashlight.torch.TorchService
 import top.thinapps.brightflashlight.torch.TorchService.Companion.ACTION_SOS_START
 import top.thinapps.brightflashlight.torch.TorchService.Companion.ACTION_SOS_STOP
@@ -22,22 +22,22 @@ import top.thinapps.brightflashlight.ui.ScreenLightActivity
 
 class MainActivity : ComponentActivity() {
 
+    private enum class Mode { TORCH, STROBE, SOS }
+
     private lateinit var btnToggle: Button
-    private lateinit var btnStrobeStart: Button
-    private lateinit var btnStrobeStop: Button
-    private lateinit var btnSosStart: Button
-    private lateinit var btnSosStop: Button
     private lateinit var btnScreenLight: Button
     private lateinit var sliderStrobe: Slider
-    private lateinit var sliderAutoOff: Slider
-    private lateinit var tvTimer: TextView
+    private lateinit var groupMode: MaterialButtonToggleGroup
 
+    private var selectedMode = Mode.TORCH
     private var torchOn = false
+    private var strobeRunning = false
+    private var sosRunning = false
 
     private val permLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { granted ->
-        if (granted) toggleTorch()
+        if (granted) onPowerClicked(btnToggle)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,28 +45,24 @@ class MainActivity : ComponentActivity() {
         setContentView(R.layout.activity_main)
 
         btnToggle = findViewById(R.id.btnToggle)
-        btnStrobeStart = findViewById(R.id.btnStrobeStart)
-        btnStrobeStop = findViewById(R.id.btnStrobeStop)
-        btnSosStart = findViewById(R.id.btnSosStart)
-        btnSosStop = findViewById(R.id.btnSosStop)
         btnScreenLight = findViewById(R.id.btnScreenLight)
         sliderStrobe = findViewById(R.id.sliderStrobe)
-        sliderAutoOff = findViewById(R.id.sliderAutoOff)
-        tvTimer = findViewById(R.id.tvTimer)
+        groupMode = findViewById(R.id.groupMode)
 
-        btnToggle.setOnClickListener { ensurePermissionThen { toggleTorch() } }
-        btnStrobeStart.setOnClickListener { ensurePermissionThen { startStrobe() } }
-        btnStrobeStop.setOnClickListener { sendToService(ACTION_STROBE_STOP) }
-        btnSosStart.setOnClickListener { ensurePermissionThen { sendToService(ACTION_SOS_START) } }
-        btnSosStop.setOnClickListener { sendToService(ACTION_SOS_STOP) }
+        btnToggle.setOnClickListener(::onPowerClicked)
         btnScreenLight.setOnClickListener {
             startActivity(Intent(this, ScreenLightActivity::class.java))
         }
 
-        sliderAutoOff.addOnChangeListener { _, value, _ ->
-            val minutes = value.toInt()
-            tvTimer.text = getString(R.string.timer_label) + ": " + minutes
-            sendToService(null, autoOffMinutes = minutes)
+        groupMode.addOnButtonCheckedListener { _, checkedId, isChecked ->
+            if (!isChecked) return@addOnButtonCheckedListener
+            selectedMode = when (checkedId) {
+                R.id.btnModeStrobe -> Mode.STROBE
+                R.id.btnModeSos -> Mode.SOS
+                else -> Mode.TORCH
+            }
+            stopAllModes()
+            setPowerLabel(off = true)
         }
     }
 
@@ -77,26 +73,75 @@ class MainActivity : ComponentActivity() {
         if (granted) block() else permLauncher.launch(Manifest.permission.CAMERA)
     }
 
-    private fun toggleTorch() {
-        torchOn = !torchOn
-        sendToService(if (torchOn) ACTION_TORCH_ON else ACTION_TORCH_OFF)
-        btnToggle.setText(if (torchOn) R.string.action_torch_off else R.string.action_torch_on)
+    @Suppress("UNUSED_PARAMETER")
+    fun onPowerClicked(v: View) {
+        when (selectedMode) {
+            Mode.TORCH -> ensurePermissionThen {
+                if (torchOn) {
+                    sendToService(ACTION_TORCH_OFF)
+                    torchOn = false
+                    setPowerLabel(true)
+                } else {
+                    stopAllModes()
+                    sendToService(ACTION_TORCH_ON)
+                    torchOn = true
+                    setPowerLabel(false)
+                }
+            }
+            Mode.STROBE -> ensurePermissionThen {
+                if (strobeRunning) {
+                    sendToService(ACTION_STROBE_STOP)
+                    strobeRunning = false
+                    setPowerLabel(true)
+                } else {
+                    stopAllModes()
+                    val speed = sliderStrobe.value.toInt()
+                    sendToService(ACTION_STROBE_START, strobeSpeed = speed)
+                    strobeRunning = true
+                    setPowerLabel(false)
+                }
+            }
+            Mode.SOS -> ensurePermissionThen {
+                if (sosRunning) {
+                    sendToService(ACTION_SOS_STOP)
+                    sosRunning = false
+                    setPowerLabel(true)
+                } else {
+                    stopAllModes()
+                    sendToService(ACTION_SOS_START)
+                    sosRunning = true
+                    setPowerLabel(false)
+                }
+            }
+        }
     }
 
-    private fun startStrobe() {
-        val speed = sliderStrobe.value.toInt() // 5..20
-        sendToService(ACTION_STROBE_START, strobeSpeed = speed)
+    private fun stopAllModes() {
+        if (torchOn) {
+            sendToService(ACTION_TORCH_OFF)
+            torchOn = false
+        }
+        if (strobeRunning) {
+            sendToService(ACTION_STROBE_STOP)
+            strobeRunning = false
+        }
+        if (sosRunning) {
+            sendToService(ACTION_SOS_STOP)
+            sosRunning = false
+        }
+    }
+
+    private fun setPowerLabel(off: Boolean) {
+        btnToggle.setText(if (off) R.string.action_torch_on else R.string.action_torch_off)
     }
 
     private fun sendToService(
         action: String?,
-        strobeSpeed: Int? = null,
-        autoOffMinutes: Int? = null
+        strobeSpeed: Int? = null
     ) {
         val i = Intent(this, TorchService::class.java)
         if (action != null) i.action = action
         strobeSpeed?.let { i.putExtra("strobeSpeed", it) }
-        autoOffMinutes?.let { i.putExtra("autoOffMinutes", it) }
         ContextCompat.startForegroundService(this, i)
     }
 }
