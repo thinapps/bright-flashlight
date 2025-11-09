@@ -24,6 +24,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
+                <!-- Mode selector (single selection) -->
                 <com.google.android.material.button.MaterialButtonToggleGroup
                     android:id="@+id/groupMode"
                     android:layout_width="match_parent"
@@ -61,6 +62,7 @@
                         android:checkable="true" />
                 </com.google.android.material.button.MaterialButtonToggleGroup>
 
+                <!-- Big power button -->
                 <Button
                     android:id="@+id/btnToggle"
                     android:layout_width="match_parent"
@@ -144,6 +146,58 @@
                     android:valueTo="10"
                     android:stepSize="1"
                     android:value="5" />
+
+                <!--
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp">
+
+                    <Button
+                        android:id="@+id/btnStrobeStart"
+                        android:layout_width="0dp"
+                        android:layout_height="48dp"
+                        android:layout_weight="1"
+                        android:text="@string/action_strobe_start" />
+
+                    <Space
+                        android:layout_width="12dp"
+                        android:layout_height="1dp" />
+
+                    <Button
+                        android:id="@+id/btnStrobeStop"
+                        android:layout_width="0dp"
+                        android:layout_height="48dp"
+                        android:layout_weight="1"
+                        android:text="@string/action_strobe_stop" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp">
+
+                    <Button
+                        android:id="@+id/btnSosStart"
+                        android:layout_width="0dp"
+                        android:layout_height="48dp"
+                        android:layout_weight="1"
+                        android:text="@string/action_sos_start" />
+
+                    <Space
+                        android:layout_width="12dp"
+                        android:layout_height="1dp" />
+
+                    <Button
+                        android:id="@+id/btnSosStop"
+                        android:layout_width="0dp"
+                        android:layout_height="48dp"
+                        android:layout_weight="1"
+                        android:text="@string/action_sos_stop" />
+                </LinearLayout>
+                -->
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
