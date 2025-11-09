@@ -2,6 +2,12 @@
 
 ### Changelog
 
+### 0.4.0
+- correctly mapped `colorSurface` and `colorOnSurface` in the application theme
+- fixed visual bugs where unselected mode buttons displayed with poor contrast
+- implemented Variable Brightness Control for all modes (Torch, Strobe, SOS) via a new slider
+- UI brightness setting maps to the device's Camera2 API intensity levels (API 33+)
+
 ### 0.3.2
 - adjusted the Strobe speed slider range from 5-20 Hz to a slower 1-10 Hz
 - this provides slower, more distinct flashing speeds at the low end (down to 1 flash per second)
