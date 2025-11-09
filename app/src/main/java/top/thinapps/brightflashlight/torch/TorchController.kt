@@ -19,7 +19,7 @@ class TorchController(context: Context) {
     // lazily discovered camera id with flash
     private var backCameraId: String? = null
 
-    // defaults to 1; on android 13+ we read the max strength level if available
+    // defaults to 1; we try to read real max on API 33+ via reflection
     private var maxIntensity: Int = 1
 
     // camera permission is required on android 13+ for torch apis
@@ -38,10 +38,20 @@ class TorchController(context: Context) {
         return backCameraId != null
     }
 
-    private fun getMaximumIntensity(chars: CameraCharacteristics): Int {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            chars.get(CameraCharacteristics.FLASH_INFO_STRENGTH_MAXIMUM_LEVEL) ?: 1
-        } else {
+    /**
+     * Reflective read of FLASH_INFO_STRENGTH_MAXIMUM_LEVEL (API 33+).
+     * Avoids compile-time reference so this builds even if compileSdk < 33.
+     */
+    @Suppress("UNCHECKED_CAST")
+    private fun getMaximumIntensityReflective(chars: CameraCharacteristics): Int {
+        if (Build.VERSION.SDK_INT < 33) return 1
+        return try {
+            val keyField = CameraCharacteristics::class.java.getField(
+                "FLASH_INFO_STRENGTH_MAXIMUM_LEVEL"
+            )
+            val keyObj = keyField.get(null) as? CameraCharacteristics.Key<Int>
+            if (keyObj != null) (chars.get(keyObj) ?: 1) else 1
+        } catch (_: Throwable) {
             1
         }
     }
@@ -54,7 +64,7 @@ class TorchController(context: Context) {
                 val hasFlash = chars.get(CameraCharacteristics.FLASH_INFO_AVAILABLE) == true
                 val facing = chars.get(CameraCharacteristics.LENS_FACING)
                 if (hasFlash && facing == CameraCharacteristics.LENS_FACING_BACK) {
-                    maxIntensity = getMaximumIntensity(chars)
+                    maxIntensity = getMaximumIntensityReflective(chars)
                     true
                 } else {
                     false
@@ -67,7 +77,7 @@ class TorchController(context: Context) {
                 val chars = cm.getCameraCharacteristics(id)
                 val hasFlash = chars.get(CameraCharacteristics.FLASH_INFO_AVAILABLE) == true
                 if (hasFlash) {
-                    maxIntensity = getMaximumIntensity(chars)
+                    maxIntensity = getMaximumIntensityReflective(chars)
                 }
                 hasFlash
             }
@@ -76,10 +86,7 @@ class TorchController(context: Context) {
         }
     }
 
-    fun isAvailable(): Boolean {
-        if (!ensureCameraSelected()) return false
-        return true
-    }
+    fun isAvailable(): Boolean = ensureCameraSelected()
 
     fun getMaxIntensity(): Int = maxIntensity
 
@@ -105,6 +112,25 @@ class TorchController(context: Context) {
         }
     }
 
+    /**
+     * Reflective call to CameraManager.setTorchStrengthLevel(String, int) (API 33+).
+     * Returns true if the reflective call succeeded.
+     */
+    private fun setTorchStrengthLevelReflective(id: String, level: Int): Boolean {
+        if (Build.VERSION.SDK_INT < 33) return false
+        return try {
+            val method = CameraManager::class.java.getMethod(
+                "setTorchStrengthLevel",
+                String::class.java,
+                Int::class.javaPrimitiveType
+            )
+            method.invoke(cm, id, level)
+            true
+        } catch (_: Throwable) {
+            false
+        }
+    }
+
     @SuppressLint("MissingPermission")
     fun setTorchIntensity(intensity: Int): Boolean {
         if (!ensureCameraSelected()) return false
@@ -113,12 +139,17 @@ class TorchController(context: Context) {
         if (!hasCameraPermission()) return false
 
         return try {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && maxIntensity > 1) {
+            // try variable strength if available, else fall back
+            if (maxIntensity > 1) {
                 val level = intensity.coerceIn(0, maxIntensity)
                 if (level <= 0) {
                     cm.setTorchMode(id, false)
                 } else {
-                    cm.setTorchStrengthLevel(id, level)
+                    // reflectively call API 33+ method; returns false on older compileSdks/devices
+                    if (!setTorchStrengthLevelReflective(id, level)) {
+                        // fallback if reflection failed
+                        cm.setTorchMode(id, true)
+                    }
                 }
             } else {
                 cm.setTorchMode(id, intensity > 0)
