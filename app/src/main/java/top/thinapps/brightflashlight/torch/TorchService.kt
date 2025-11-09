@@ -18,6 +18,7 @@ class TorchService : Service() {
     companion object {
         const val ACTION_TORCH_ON = "act_torch_on"
         const val ACTION_TORCH_OFF = "act_torch_off"
+        const val ACTION_TORCH_UPDATE_INTENSITY = "act_torch_update_intensity" // new
         const val ACTION_STROBE_START = "act_strobe_start"
         const val ACTION_STROBE_STOP = "act_strobe_stop"
         const val ACTION_STROBE_UPDATE = "act_strobe_update"
@@ -28,6 +29,7 @@ class TorchService : Service() {
         private const val NOTIF_ID = 42
         private const val EXTRA_STROBE_SPEED = "strobeSpeed"
         private const val EXTRA_AUTO_OFF_MINUTES = "autoOffMinutes"
+        const val EXTRA_TORCH_INTENSITY = "torchIntensity" // new
     }
 
     private lateinit var controller: TorchController
@@ -36,6 +38,7 @@ class TorchService : Service() {
     private var strobeRunning = false
     private var sosRunning = false
     private var strobeSpeed = 5 // user slider 1..10
+    private var curIntensity = 1 // new: mapped device level (0..max), 0 = off
     private var curIntervalMs: Long = 100L
     private var autoOffAtMs: Long = 0L
 
@@ -46,6 +49,9 @@ class TorchService : Service() {
         super.onCreate()
         controller = TorchController(applicationContext)
         curIntervalMs = strobeIntervalMs(strobeSpeed)
+        // default to device max if supported, otherwise 1 (on)
+        val maxApi = controller.getMaxIntensity()
+        curIntensity = if (maxApi > 1) maxApi else 1
         startForeground(NOTIF_ID, buildNotification())
     }
 
@@ -61,6 +67,14 @@ class TorchService : Service() {
             strobeSpeed = it
             curIntervalMs = strobeIntervalMs(strobeSpeed)
         } }
+
+        // new: handle brightness extra from UI slider (0..10; 0 means off)
+        intent?.getIntExtra(EXTRA_TORCH_INTENSITY, -1)?.let { uiVal ->
+            if (uiVal >= 0) {
+                curIntensity = mapUiToDeviceIntensity(uiVal, controller.getMaxIntensity())
+            }
+        }
+
         intent?.getIntExtra(EXTRA_AUTO_OFF_MINUTES, -1)?.let { mins ->
             if (mins >= 0) {
                 autoOffAtMs = if (mins == 0) 0L else System.currentTimeMillis() + mins * 60_000L
@@ -70,13 +84,22 @@ class TorchService : Service() {
         when (intent?.action) {
             ACTION_TORCH_ON -> {
                 stopPatterns()
-                controller.setTorch(true)
+                // use intensity path; falls back to ON/OFF internally when device lacks strength API
+                val level = if (curIntensity <= 0) 1 else curIntensity
+                controller.setTorchIntensity(level)
                 scheduleAutoOffCheck()
                 updateNotif()
             }
             ACTION_TORCH_OFF -> {
                 stopAll()
                 updateNotif()
+            }
+            ACTION_TORCH_UPDATE_INTENSITY -> {
+                // update live only when not in patterns
+                if (!strobeRunning && !sosRunning) {
+                    controller.setTorchIntensity(curIntensity)
+                    updateNotif()
+                }
             }
             ACTION_STROBE_START -> {
                 stopPatterns()
@@ -173,7 +196,8 @@ class TorchService : Service() {
         override fun run() {
             if (!strobeRunning) return
             strobeLampOn = !strobeLampOn
-            controller.setTorch(strobeLampOn)
+            // use intensity on "on" phase; off = 0
+            controller.setTorchIntensity(if (strobeLampOn) curIntensity.coerceAtLeast(1) else 0)
             handler.postDelayed(this, curIntervalMs / 2)
         }
     }
@@ -181,7 +205,7 @@ class TorchService : Service() {
     private fun tickStrobe() {
         if (!strobeRunning) return
         strobeLampOn = !strobeLampOn
-        controller.setTorch(strobeLampOn)
+        controller.setTorchIntensity(if (strobeLampOn) curIntensity.coerceAtLeast(1) else 0)
         handler.postDelayed(strobeTickRunnable, curIntervalMs / 2)
     }
 
@@ -202,7 +226,7 @@ class TorchService : Service() {
         fun runFrom(index: Int) {
             if (!sosRunning) return
             val (on, dur) = pattern[index]
-            controller.setTorch(on)
+            controller.setTorchIntensity(if (on) curIntensity.coerceAtLeast(1) else 0)
             handler.postDelayed({ runFrom((index + 1) % pattern.size) }, dur)
         }
         runFrom(0)
@@ -220,5 +244,15 @@ class TorchService : Service() {
                 }
             }
         }, 1000L)
+    }
+
+    // map UI slider (0..10) to device intensity (0..maxApi). 0 means off.
+    private fun mapUiToDeviceIntensity(uiVal: Int, maxApi: Int): Int {
+        val u = uiVal.coerceIn(0, 10)
+        if (u == 0) return 0
+        if (maxApi <= 1) return 1 // device doesn't support strength
+        // linear map [1..10] -> [1..maxApi]
+        val mapped = ((u - 1).toFloat() / 9f) * (maxApi - 1) + 1f
+        return mapped.toInt().coerceIn(1, maxApi)
     }
 }
