@@ -35,7 +35,7 @@ class TorchService : Service() {
 
     private var strobeRunning = false
     private var sosRunning = false
-    private var strobeSpeed = 10 // user slider 5..20
+    private var strobeSpeed = 5 // user slider 1..10
     private var curIntervalMs: Long = 100L
     private var autoOffAtMs: Long = 0L
 
@@ -147,10 +147,10 @@ class TorchService : Service() {
         handler.removeCallbacksAndMessages(null)
     }
 
-    // map user speed (5..20) to a sensible interval (fast at 20, slow at 5)
+    // map user speed (1..10) to a sensible interval (fast at 10, slow at 1)
     private fun strobeIntervalMs(speed: Int): Long {
-        val s = speed.coerceIn(5, 20)
-        // simple Hz mapping: 5..20 Hz -> 200ms..50ms period (half on, half off)
+        val s = speed.coerceIn(1, 10)
+        // simple Hz mapping: 1..10 Hz -> 1000ms..100ms period (half on, half off)
         val hz = s.toDouble()
         val period = (1000.0 / hz).toLong()  // total cycle
         val min = 30L
