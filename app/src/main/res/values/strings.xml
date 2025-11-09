@@ -15,6 +15,7 @@
     <string name="mode_sos">SOS</string>
 
     <string name="strobe_speed">Strobe Speed</string>
+    <string name="torch_brightness">Brightness</string>
     <string name="timer_label">Auto-off (minutes)</string>
 
     <string name="screen_light_title">Screen Light</string>
