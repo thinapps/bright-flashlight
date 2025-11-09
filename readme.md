@@ -2,6 +2,10 @@
 
 ### Changelog
 
+### 0.3.2
+- adjusted the Strobe speed slider range from 5-20 Hz to a slower 1-10 Hz
+- this provides slower, more distinct flashing speeds at the low end (down to 1 flash per second)
+
 ### 0.3.1
 - improved strobe mode with real-time speed adjustment from the slider  
 - added `ACTION_STROBE_UPDATE` intent to TorchService for live interval changes  
