@@ -19,6 +19,7 @@ import top.thinapps.brightflashlight.torch.TorchService.Companion.ACTION_STROBE_
 import top.thinapps.brightflashlight.torch.TorchService.Companion.ACTION_STROBE_UPDATE
 import top.thinapps.brightflashlight.torch.TorchService.Companion.ACTION_TORCH_OFF
 import top.thinapps.brightflashlight.torch.TorchService.Companion.ACTION_TORCH_ON
+import top.thinapps.brightflashlight.torch.TorchService.Companion.ACTION_TORCH_UPDATE_INTENSITY // added
 import top.thinapps.brightflashlight.ui.ScreenLightActivity
 
 class MainActivity : ComponentActivity() {
@@ -28,6 +29,7 @@ class MainActivity : ComponentActivity() {
     private lateinit var btnToggle: Button
     private lateinit var btnScreenLight: Button
     private lateinit var sliderStrobe: Slider
+    private lateinit var sliderBrightness: Slider // added
     private lateinit var groupMode: MaterialButtonToggleGroup
 
     private var selectedMode = Mode.TORCH
@@ -48,6 +50,7 @@ class MainActivity : ComponentActivity() {
         btnToggle = findViewById(R.id.btnToggle)
         btnScreenLight = findViewById(R.id.btnScreenLight)
         sliderStrobe = findViewById(R.id.sliderStrobe)
+        sliderBrightness = findViewById(R.id.sliderBrightness) // added
         groupMode = findViewById(R.id.groupMode)
 
         btnToggle.setOnClickListener(::onPowerClicked)
@@ -71,6 +74,13 @@ class MainActivity : ComponentActivity() {
                 sendToService(ACTION_STROBE_UPDATE, strobeSpeed = value.toInt())
             }
         }
+
+        // added: brightness live updates while torch is on (TORCH mode)
+        sliderBrightness.addOnChangeListener { _, value, fromUser ->
+            if (fromUser && torchOn && selectedMode == Mode.TORCH) {
+                sendToService(ACTION_TORCH_UPDATE_INTENSITY, torchIntensity = value.toInt())
+            }
+        }
     }
 
     private fun ensurePermissionThen(block: () -> Unit) {
@@ -90,7 +100,8 @@ class MainActivity : ComponentActivity() {
                     setPowerLabel(true)
                 } else {
                     stopAllModes()
-                    sendToService(ACTION_TORCH_ON)
+                    val intensity = sliderBrightness.value.toInt() // added
+                    sendToService(ACTION_TORCH_ON, torchIntensity = intensity) // added
                     torchOn = true
                     setPowerLabel(false)
                 }
@@ -144,11 +155,13 @@ class MainActivity : ComponentActivity() {
 
     private fun sendToService(
         action: String?,
-        strobeSpeed: Int? = null
+        strobeSpeed: Int? = null,
+        torchIntensity: Int? = null // added
     ) {
         val i = Intent(this, TorchService::class.java)
         if (action != null) i.action = action
         strobeSpeed?.let { i.putExtra("strobeSpeed", it) }
+        torchIntensity?.let { i.putExtra(TorchService.EXTRA_TORCH_INTENSITY, it) } // added
         ContextCompat.startForegroundService(this, i)
     }
 }
