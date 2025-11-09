@@ -1,13 +1,13 @@
 package top.thinapps.brightflashlight.torch
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.PackageManager
 import android.hardware.camera2.CameraAccessException
 import android.hardware.camera2.CameraCharacteristics
 import android.hardware.camera2.CameraManager
 import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 
 class TorchController(context: Context) {
@@ -25,12 +25,9 @@ class TorchController(context: Context) {
     // camera permission is required on android 13+ for torch apis
     private fun hasCameraPermission(): Boolean {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            ContextCompat.checkSelfPermission(
-                appContext,
-                Manifest.permission.CAMERA
-            ) == PackageManager.PERMISSION_GRANTED
+            ContextCompat.checkSelfPermission(appContext, Manifest.permission.CAMERA) ==
+                PackageManager.PERMISSION_GRANTED
         } else {
-            // pre-android 13 torch apis do not require the camera permission
             true
         }
     }
@@ -41,10 +38,12 @@ class TorchController(context: Context) {
         return backCameraId != null
     }
 
-    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
-    private fun getMaximumIntensityTiramisu(chars: CameraCharacteristics): Int {
-        // Reads the new characteristic value, which is restricted to API 33+
-        return chars.get(CameraCharacteristics.FLASH_INFO_STRENGTH_MAXIMUM_LEVEL) ?: 1
+    private fun getMaximumIntensity(chars: CameraCharacteristics): Int {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            chars.get(CameraCharacteristics.FLASH_INFO_STRENGTH_MAXIMUM_LEVEL) ?: 1
+        } else {
+            1
+        }
     }
 
     private fun findBackCameraWithFlash(): String? {
@@ -55,9 +54,7 @@ class TorchController(context: Context) {
                 val hasFlash = chars.get(CameraCharacteristics.FLASH_INFO_AVAILABLE) == true
                 val facing = chars.get(CameraCharacteristics.LENS_FACING)
                 if (hasFlash && facing == CameraCharacteristics.LENS_FACING_BACK) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                        maxIntensity = getMaximumIntensityTiramisu(chars)
-                    }
+                    maxIntensity = getMaximumIntensity(chars)
                     true
                 } else {
                     false
@@ -69,8 +66,8 @@ class TorchController(context: Context) {
             cm.cameraIdList.firstOrNull { id ->
                 val chars = cm.getCameraCharacteristics(id)
                 val hasFlash = chars.get(CameraCharacteristics.FLASH_INFO_AVAILABLE) == true
-                if (hasFlash && Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                    maxIntensity = getMaximumIntensityTiramisu(chars)
+                if (hasFlash) {
+                    maxIntensity = getMaximumIntensity(chars)
                 }
                 hasFlash
             }
@@ -86,11 +83,11 @@ class TorchController(context: Context) {
 
     fun getMaxIntensity(): Int = maxIntensity
 
+    @SuppressLint("MissingPermission")
     fun setTorch(on: Boolean): Boolean {
         if (!ensureCameraSelected()) return false
         val id = backCameraId ?: return false
 
-        // android 13+ requires CAMERA permission for torch apis
         if (!hasCameraPermission()) return false
 
         return try {
@@ -101,30 +98,14 @@ class TorchController(context: Context) {
         } catch (_: SecurityException) {
             false
         } catch (_: IllegalArgumentException) {
-            // id might be invalidated if camera stack changed
             backCameraId = null
             false
         } catch (_: IllegalStateException) {
-            // rare: device busy
-            false
-        }
-    }
-    
-    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
-    private fun setTorchIntensityTiramisu(id: String, intensity: Int): Boolean {
-        val level = intensity.coerceIn(0, maxIntensity)
-        return try {
-            if (level <= 0) {
-                cm.setTorchMode(id, false)
-            } else {
-                cm.setTorchStrengthLevel(id, level) // The API 33+ call
-            }
-            true
-        } catch (_: Exception) {
             false
         }
     }
 
+    @SuppressLint("MissingPermission")
     fun setTorchIntensity(intensity: Int): Boolean {
         if (!ensureCameraSelected()) return false
         val id = backCameraId ?: return false
@@ -133,13 +114,15 @@ class TorchController(context: Context) {
 
         return try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && maxIntensity > 1) {
-                // Delegate to the annotated function if the API is available
-                if (setTorchIntensityTiramisu(id, intensity)) return true
+                val level = intensity.coerceIn(0, maxIntensity)
+                if (level <= 0) {
+                    cm.setTorchMode(id, false)
+                } else {
+                    cm.setTorchStrengthLevel(id, level)
+                }
+            } else {
+                cm.setTorchMode(id, intensity > 0)
             }
-
-            // Fallback for pre-android 13 or devices without variable strength,
-            // or if the Tiramisu function failed.
-            cm.setTorchMode(id, intensity > 0)
             true
         } catch (_: CameraAccessException) {
             false
