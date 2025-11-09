@@ -112,10 +112,10 @@
                     android:id="@+id/sliderStrobe"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:valueFrom="5"
-                    android:valueTo="20"
+                    android:valueFrom="1"
+                    android:valueTo="10"
                     android:stepSize="1"
-                    android:value="10" />
+                    android:value="5" />
 
                 <!--
                 <LinearLayout
