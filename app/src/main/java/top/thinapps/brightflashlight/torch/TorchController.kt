@@ -19,10 +19,10 @@ class TorchController(context: Context) {
     // lazily discovered camera id with flash
     private var backCameraId: String? = null
 
-    // defaults to 1; we try to read real max on API 33+ via reflection
+    // max steps for variable brightness; 1 means on/off only
     private var maxIntensity: Int = 1
 
-    // camera permission is required on android 13+ for torch apis
+    // camera permission is required on android 13+
     private fun hasCameraPermission(): Boolean {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             ContextCompat.checkSelfPermission(appContext, Manifest.permission.CAMERA) ==
@@ -38,46 +38,37 @@ class TorchController(context: Context) {
         return backCameraId != null
     }
 
-    /**
-     * Reflective read of FLASH_INFO_STRENGTH_MAXIMUM_LEVEL (API 33+).
-     * Avoids compile-time reference so this builds even if compileSdk < 33.
-     */
-    @Suppress("UNCHECKED_CAST")
-    private fun getMaximumIntensityReflective(chars: CameraCharacteristics): Int {
-        if (Build.VERSION.SDK_INT < 33) return 1
-        return try {
-            val keyField = CameraCharacteristics::class.java.getField(
-                "FLASH_INFO_STRENGTH_MAXIMUM_LEVEL"
-            )
-            val keyObj = keyField.get(null) as? CameraCharacteristics.Key<Int>
-            if (keyObj != null) (chars.get(keyObj) ?: 1) else 1
-        } catch (_: Throwable) {
-            1
-        }
-    }
-
+    // find a camera with flash; prefer back camera. also read max intensity on api 33+
     private fun findBackCameraWithFlash(): String? {
         return try {
             // prefer back camera with flash
-            val primary = cm.cameraIdList.firstOrNull { id ->
+            val preferred = cm.cameraIdList.firstOrNull { id ->
                 val chars = cm.getCameraCharacteristics(id)
                 val hasFlash = chars.get(CameraCharacteristics.FLASH_INFO_AVAILABLE) == true
                 val facing = chars.get(CameraCharacteristics.LENS_FACING)
                 if (hasFlash && facing == CameraCharacteristics.LENS_FACING_BACK) {
-                    maxIntensity = getMaximumIntensityReflective(chars)
+                    maxIntensity = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                        chars.get(CameraCharacteristics.FLASH_INFO_STRENGTH_MAXIMUM_LEVEL) ?: 1
+                    } else {
+                        1
+                    }
                     true
                 } else {
                     false
                 }
             }
-            if (primary != null) return primary
+            if (preferred != null) return preferred
 
             // fallback: any camera with flash
             cm.cameraIdList.firstOrNull { id ->
                 val chars = cm.getCameraCharacteristics(id)
                 val hasFlash = chars.get(CameraCharacteristics.FLASH_INFO_AVAILABLE) == true
                 if (hasFlash) {
-                    maxIntensity = getMaximumIntensityReflective(chars)
+                    maxIntensity = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                        chars.get(CameraCharacteristics.FLASH_INFO_STRENGTH_MAXIMUM_LEVEL) ?: 1
+                    } else {
+                        1
+                    }
                 }
                 hasFlash
             }
@@ -86,15 +77,16 @@ class TorchController(context: Context) {
         }
     }
 
+    // expose availability to ui
     fun isAvailable(): Boolean = ensureCameraSelected()
 
-    fun getMaxIntensity(): Int = maxIntensity
+    // expose max steps to ui (use for slider max); 1 means only on/off
+    fun getMaxIntensity(): Int = if (maxIntensity >= 1) maxIntensity else 1
 
     @SuppressLint("MissingPermission")
     fun setTorch(on: Boolean): Boolean {
         if (!ensureCameraSelected()) return false
         val id = backCameraId ?: return false
-
         if (!hasCameraPermission()) return false
 
         return try {
@@ -112,47 +104,26 @@ class TorchController(context: Context) {
         }
     }
 
-    /**
-     * Reflective call to CameraManager.setTorchStrengthLevel(String, int) (API 33+).
-     * Returns true if the reflective call succeeded.
-     */
-    private fun setTorchStrengthLevelReflective(id: String, level: Int): Boolean {
-        if (Build.VERSION.SDK_INT < 33) return false
-        return try {
-            val method = CameraManager::class.java.getMethod(
-                "setTorchStrengthLevel",
-                String::class.java,
-                Int::class.javaPrimitiveType
-            )
-            method.invoke(cm, id, level)
-            true
-        } catch (_: Throwable) {
-            false
-        }
-    }
-
+    // intensity: 0 turns off; 1..max turns on with given strength on api 33+
     @SuppressLint("MissingPermission")
     fun setTorchIntensity(intensity: Int): Boolean {
         if (!ensureCameraSelected()) return false
         val id = backCameraId ?: return false
-
         if (!hasCameraPermission()) return false
 
         return try {
-            // try variable strength if available, else fall back
-            if (maxIntensity > 1) {
-                val level = intensity.coerceIn(0, maxIntensity)
+            val max = if (maxIntensity >= 1) maxIntensity else 1
+            val level = intensity.coerceIn(0, max)
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 if (level <= 0) {
                     cm.setTorchMode(id, false)
                 } else {
-                    // reflectively call API 33+ method; returns false on older compileSdks/devices
-                    if (!setTorchStrengthLevelReflective(id, level)) {
-                        // fallback if reflection failed
-                        cm.setTorchMode(id, true)
-                    }
+                    cm.setTorchStrengthLevel(id, level)
                 }
             } else {
-                cm.setTorchMode(id, intensity > 0)
+                // pre-33 does not support variable strength
+                cm.setTorchMode(id, level > 0)
             }
             true
         } catch (_: CameraAccessException) {
@@ -163,6 +134,12 @@ class TorchController(context: Context) {
             backCameraId = null
             false
         } catch (_: IllegalStateException) {
+            false
+        } catch (_: Throwable) {
+            // last-resort fallback to simple on/off
+            try {
+                cm.setTorchMode(backCameraId ?: return false, intensity > 0)
+            } catch (_: Throwable) { }
             false
         }
     }
