@@ -2,6 +2,12 @@
 
 ### Changelog
 
+### 0.5.1
+- fixed app crash caused by unguarded access to `sliderBrightness` during activity startup
+- made brightness slider nullable and safely initialized to prevent null pointer exceptions
+- updated `activity_main.xml` to use explicit `Material3.Slider` style for consistent rendering across Android 12–14
+- cleaned `AndroidManifest.xml` by removing deprecated `android.permission.FLASHLIGHT`
+
 ### 0.5.0
 - rebuilt torch brightness control using reflection-safe shim to `setTorchStrengthLevel()` on Android 13+ (API 33+) while maintaining compatibility with older devices
 - refactored `TorchController.kt` for consistent brightness handling and reliable fallback behavior
