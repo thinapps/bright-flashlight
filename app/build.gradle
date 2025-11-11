@@ -11,8 +11,8 @@ android {
         applicationId "top.thinapps.brightflashlight"
         minSdk 24
         targetSdk 35
-        versionCode 8
-        versionName "0.5.1"
+        versionCode 9
+        versionName "0.5.2"
 
         // forces the use of the support library for vector drawables
         vectorDrawables.useSupportLibrary = true
