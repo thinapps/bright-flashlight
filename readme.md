@@ -2,6 +2,10 @@
 
 ### Changelog
 
+### 0.5.2
+- fixed app crash caused by unguarded access to `sliderBrightness` during activity startup (again)
+- ensured the brightness slider is safely initialized (nullable, safe-call operator) to prevent Null Pointer Exceptions
+
 ### 0.5.1
 - fixed app crash caused by unguarded access to `sliderBrightness` during activity startup
 - made brightness slider nullable and safely initialized to prevent null pointer exceptions
