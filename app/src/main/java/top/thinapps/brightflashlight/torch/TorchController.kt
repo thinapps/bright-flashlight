@@ -104,6 +104,26 @@ class TorchController(context: Context) {
         }
     }
 
+    // best-effort call that prefers the public api and falls back if stubs are missing
+    private fun setTorchStrengthCompat(cm: CameraManager, id: String, level: Int) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            try {
+                cm.setTorchStrengthLevel(id, level)
+                return
+            } catch (_: NoSuchMethodError) { }
+        }
+        try {
+            val m = CameraManager::class.java.getMethod(
+                "setTorchStrengthLevel",
+                String::class.java,
+                Int::class.javaPrimitiveType
+            )
+            m.invoke(cm, id, level)
+        } catch (_: Throwable) {
+            throw NoSuchMethodError("torch strength not available")
+        }
+    }
+
     // intensity: 0 turns off; 1..max turns on with given strength on api 33+
     @SuppressLint("MissingPermission")
     fun setTorchIntensity(intensity: Int): Boolean {
@@ -119,10 +139,9 @@ class TorchController(context: Context) {
                 if (level <= 0) {
                     cm.setTorchMode(id, false)
                 } else {
-                    cm.setTorchStrengthLevel(id, level)
+                    setTorchStrengthCompat(cm, id, level)
                 }
             } else {
-                // pre-33 does not support variable strength
                 cm.setTorchMode(id, level > 0)
             }
             true
@@ -136,7 +155,6 @@ class TorchController(context: Context) {
         } catch (_: IllegalStateException) {
             false
         } catch (_: Throwable) {
-            // last-resort fallback to simple on/off
             try {
                 cm.setTorchMode(backCameraId ?: return false, intensity > 0)
             } catch (_: Throwable) { }
