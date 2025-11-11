@@ -58,7 +58,7 @@ class MainActivity : ComponentActivity() {
         groupMode = findViewById(R.id.groupMode)
 
         torch = TorchController(this)
-        setupBrightnessSlider()
+        // NOTE: setupBrightnessSlider() standalone call removed, logic moved to sliderBrightness?.let block below
 
         btnToggle.setOnClickListener(::onPowerClicked)
         btnScreenLight.setOnClickListener {
@@ -82,9 +82,13 @@ class MainActivity : ComponentActivity() {
             }
         }
 
-        sliderBrightness?.addOnChangeListener { _, value, fromUser ->
-            if (fromUser && torchOn && selectedMode == Mode.TORCH) {
-                sendToService(ACTION_TORCH_UPDATE_INTENSITY, torchIntensity = value.toInt())
+        // Safely set up the brightness slider only if the view is found in the layout (fixing crash risk)
+        sliderBrightness?.let { sb ->
+            setupBrightnessSlider()
+            sb.addOnChangeListener { _, value, fromUser ->
+                if (fromUser && torchOn && selectedMode == Mode.TORCH) {
+                    sendToService(ACTION_TORCH_UPDATE_INTENSITY, torchIntensity = value.toInt())
+                }
             }
         }
     }
