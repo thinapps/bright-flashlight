@@ -3,6 +3,7 @@ package top.thinapps.brightflashlight
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -11,6 +12,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import com.google.android.material.button.MaterialButtonToggleGroup
 import com.google.android.material.slider.Slider
+import top.thinapps.brightflashlight.torch.TorchController
 import top.thinapps.brightflashlight.torch.TorchService
 import top.thinapps.brightflashlight.torch.TorchService.Companion.ACTION_SOS_START
 import top.thinapps.brightflashlight.torch.TorchService.Companion.ACTION_SOS_STOP
@@ -19,7 +21,7 @@ import top.thinapps.brightflashlight.torch.TorchService.Companion.ACTION_STROBE_
 import top.thinapps.brightflashlight.torch.TorchService.Companion.ACTION_STROBE_UPDATE
 import top.thinapps.brightflashlight.torch.TorchService.Companion.ACTION_TORCH_OFF
 import top.thinapps.brightflashlight.torch.TorchService.Companion.ACTION_TORCH_ON
-import top.thinapps.brightflashlight.torch.TorchService.Companion.ACTION_TORCH_UPDATE_INTENSITY // added
+import top.thinapps.brightflashlight.torch.TorchService.Companion.ACTION_TORCH_UPDATE_INTENSITY
 import top.thinapps.brightflashlight.ui.ScreenLightActivity
 
 class MainActivity : ComponentActivity() {
@@ -29,13 +31,16 @@ class MainActivity : ComponentActivity() {
     private lateinit var btnToggle: Button
     private lateinit var btnScreenLight: Button
     private lateinit var sliderStrobe: Slider
-    private lateinit var sliderBrightness: Slider // added
+    private lateinit var sliderBrightness: Slider
     private lateinit var groupMode: MaterialButtonToggleGroup
 
     private var selectedMode = Mode.TORCH
     private var torchOn = false
     private var strobeRunning = false
     private var sosRunning = false
+
+    // used only to query capability/max steps for the brightness slider
+    private lateinit var torch: TorchController
 
     private val permLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
@@ -50,8 +55,11 @@ class MainActivity : ComponentActivity() {
         btnToggle = findViewById(R.id.btnToggle)
         btnScreenLight = findViewById(R.id.btnScreenLight)
         sliderStrobe = findViewById(R.id.sliderStrobe)
-        sliderBrightness = findViewById(R.id.sliderBrightness) // added
+        sliderBrightness = findViewById(R.id.sliderBrightness)
         groupMode = findViewById(R.id.groupMode)
+
+        torch = TorchController(this)
+        setupBrightnessSlider()
 
         btnToggle.setOnClickListener(::onPowerClicked)
         btnScreenLight.setOnClickListener {
@@ -75,11 +83,33 @@ class MainActivity : ComponentActivity() {
             }
         }
 
-        // added: brightness live updates while torch is on (TORCH mode)
+        // brightness live updates while torch is on (torch mode)
         sliderBrightness.addOnChangeListener { _, value, fromUser ->
             if (fromUser && torchOn && selectedMode == Mode.TORCH) {
                 sendToService(ACTION_TORCH_UPDATE_INTENSITY, torchIntensity = value.toInt())
             }
+        }
+    }
+
+    // lock slider on <33 (on/off only). on 33+ map 1..maxIntensity
+    private fun setupBrightnessSlider() {
+        val supportsVariable = Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
+        val max = torch.getMaxIntensity().coerceAtLeast(1)
+
+        if (!supportsVariable || max <= 1) {
+            // fixed brightness: set single step and disable
+            sliderBrightness.isEnabled = false
+            sliderBrightness.valueFrom = 1f
+            sliderBrightness.valueTo = 1f
+            sliderBrightness.stepSize = 1f
+            sliderBrightness.value = 1f
+        } else {
+            sliderBrightness.isEnabled = true
+            sliderBrightness.valueFrom = 1f
+            sliderBrightness.valueTo = max.toFloat()
+            sliderBrightness.stepSize = 1f
+            // start at max by default
+            sliderBrightness.value = max.toFloat()
         }
     }
 
@@ -100,8 +130,8 @@ class MainActivity : ComponentActivity() {
                     setPowerLabel(true)
                 } else {
                     stopAllModes()
-                    val intensity = sliderBrightness.value.toInt() // added
-                    sendToService(ACTION_TORCH_ON, torchIntensity = intensity) // added
+                    val intensity = sliderBrightness.value.toInt()
+                    sendToService(ACTION_TORCH_ON, torchIntensity = intensity)
                     torchOn = true
                     setPowerLabel(false)
                 }
@@ -156,12 +186,12 @@ class MainActivity : ComponentActivity() {
     private fun sendToService(
         action: String?,
         strobeSpeed: Int? = null,
-        torchIntensity: Int? = null // added
+        torchIntensity: Int? = null
     ) {
         val i = Intent(this, TorchService::class.java)
         if (action != null) i.action = action
         strobeSpeed?.let { i.putExtra("strobeSpeed", it) }
-        torchIntensity?.let { i.putExtra(TorchService.EXTRA_TORCH_INTENSITY, it) } // added
+        torchIntensity?.let { i.putExtra(TorchService.EXTRA_TORCH_INTENSITY, it) }
         ContextCompat.startForegroundService(this, i)
     }
 }
