@@ -2,6 +2,11 @@
 
 ### Changelog
 
+### 0.5.0
+- replaced reflection-based torch strength logic with direct Camera2 APIs for Android 13+ (API 33 and higher)
+- modernized `TorchController.kt` for stable brightness control and safe fallbacks on older devices
+- added logic in `MainActivity.kt` to auto-lock slider at max brightness on unsupported devices
+
 ### 0.4.0
 - correctly mapped `colorSurface` and `colorOnSurface` in the application theme
 - fixed visual bugs where unselected mode buttons displayed with poor contrast
