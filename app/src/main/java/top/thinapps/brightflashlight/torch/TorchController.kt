@@ -12,17 +12,14 @@ import androidx.core.content.ContextCompat
 
 class TorchController(context: Context) {
 
-    // use app context to avoid leaking activities
     private val appContext = context.applicationContext
     private val cm = appContext.getSystemService(Context.CAMERA_SERVICE) as CameraManager
 
-    // lazily discovered camera id with flash
     private var backCameraId: String? = null
 
     // max steps for variable brightness; 1 means on/off only
     private var maxIntensity: Int = 1
 
-    // camera permission is required on android 13+
     private fun hasCameraPermission(): Boolean {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             ContextCompat.checkSelfPermission(appContext, Manifest.permission.CAMERA) ==
@@ -41,7 +38,6 @@ class TorchController(context: Context) {
     // find a camera with flash; prefer back camera. also read max intensity on api 33+
     private fun findBackCameraWithFlash(): String? {
         return try {
-            // prefer back camera with flash
             val preferred = cm.cameraIdList.firstOrNull { id ->
                 val chars = cm.getCameraCharacteristics(id)
                 val hasFlash = chars.get(CameraCharacteristics.FLASH_INFO_AVAILABLE) == true
@@ -59,7 +55,6 @@ class TorchController(context: Context) {
             }
             if (preferred != null) return preferred
 
-            // fallback: any camera with flash
             cm.cameraIdList.firstOrNull { id ->
                 val chars = cm.getCameraCharacteristics(id)
                 val hasFlash = chars.get(CameraCharacteristics.FLASH_INFO_AVAILABLE) == true
@@ -77,10 +72,8 @@ class TorchController(context: Context) {
         }
     }
 
-    // expose availability to ui
     fun isAvailable(): Boolean = ensureCameraSelected()
 
-    // expose max steps to ui (use for slider max); 1 means only on/off
     fun getMaxIntensity(): Int = if (maxIntensity >= 1) maxIntensity else 1
 
     @SuppressLint("MissingPermission")
@@ -104,24 +97,17 @@ class TorchController(context: Context) {
         }
     }
 
-    // best-effort call that prefers the public api and falls back if stubs are missing
+    // reflection-only compat: avoids compile-time reference to setTorchStrengthLevel
     private fun setTorchStrengthCompat(cm: CameraManager, id: String, level: Int) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            try {
-                cm.setTorchStrengthLevel(id, level)
-                return
-            } catch (_: NoSuchMethodError) { }
-        }
-        try {
-            val m = CameraManager::class.java.getMethod(
-                "setTorchStrengthLevel",
-                String::class.java,
-                Int::class.javaPrimitiveType
-            )
-            m.invoke(cm, id, level)
-        } catch (_: Throwable) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
             throw NoSuchMethodError("torch strength not available")
         }
+        val m = CameraManager::class.java.getMethod(
+            "setTorchStrengthLevel",
+            String::class.java,
+            Int::class.javaPrimitiveType
+        )
+        m.invoke(cm, id, level)
     }
 
     // intensity: 0 turns off; 1..max turns on with given strength on api 33+
@@ -139,7 +125,11 @@ class TorchController(context: Context) {
                 if (level <= 0) {
                     cm.setTorchMode(id, false)
                 } else {
-                    setTorchStrengthCompat(cm, id, level)
+                    try {
+                        setTorchStrengthCompat(cm, id, level)
+                    } catch (_: Throwable) {
+                        cm.setTorchMode(id, true)
+                    }
                 }
             } else {
                 cm.setTorchMode(id, level > 0)
