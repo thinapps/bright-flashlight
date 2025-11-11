@@ -36,6 +36,15 @@ jobs:
       - name: Set up Android SDK
         uses: android-actions/setup-android@v3
 
+      - name: Install Android SDK platform + build-tools (35)
+        run: |
+          yes | sdkmanager --licenses
+          sdkmanager \
+            "platform-tools" \
+            "cmdline-tools;latest" \
+            "build-tools;35.0.0" \
+            "platforms;android-35"
+
       - name: Clean any leftover/broken wrapper
         run: rm -f gradle/wrapper/gradle-wrapper.jar
 
