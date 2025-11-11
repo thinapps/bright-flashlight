@@ -39,7 +39,6 @@ class MainActivity : ComponentActivity() {
     private var strobeRunning = false
     private var sosRunning = false
 
-    // used only to query capability/max steps for the brightness slider
     private lateinit var torch: TorchController
 
     private val permLauncher = registerForActivityResult(
@@ -83,34 +82,30 @@ class MainActivity : ComponentActivity() {
             }
         }
 
-        // brightness live updates while torch is on (torch mode)
         sliderBrightness?.addOnChangeListener { _, value, fromUser ->
-        sliderBrightness.addOnChangeListener { _, value, fromUser ->
             if (fromUser && torchOn && selectedMode == Mode.TORCH) {
                 sendToService(ACTION_TORCH_UPDATE_INTENSITY, torchIntensity = value.toInt())
             }
         }
     }
 
-    // lock slider on <33 (on/off only). on 33+ map 1..maxIntensity
     private fun setupBrightnessSlider() {
+        val sb = sliderBrightness ?: return
         val supportsVariable = Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
         val max = torch.getMaxIntensity().coerceAtLeast(1)
 
         if (!supportsVariable || max <= 1) {
-            // fixed brightness: set single step and disable
-            sliderBrightness.isEnabled = false
-            sliderBrightness.valueFrom = 1f
-            sliderBrightness.valueTo = 1f
-            sliderBrightness.stepSize = 1f
-            sliderBrightness.value = 1f
+            sb.isEnabled = false
+            sb.valueFrom = 1f
+            sb.valueTo = 1f
+            sb.stepSize = 1f
+            sb.value = 1f
         } else {
-            sliderBrightness.isEnabled = true
-            sliderBrightness.valueFrom = 1f
-            sliderBrightness.valueTo = max.toFloat()
-            sliderBrightness.stepSize = 1f
-            // start at max by default
-            sliderBrightness.value = max.toFloat()
+            sb.isEnabled = true
+            sb.valueFrom = 1f
+            sb.valueTo = max.toFloat()
+            sb.stepSize = 1f
+            sb.value = max.toFloat()
         }
     }
 
