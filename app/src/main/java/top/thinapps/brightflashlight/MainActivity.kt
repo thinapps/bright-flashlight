@@ -31,7 +31,7 @@ class MainActivity : ComponentActivity() {
     private lateinit var btnToggle: Button
     private lateinit var btnScreenLight: Button
     private lateinit var sliderStrobe: Slider
-    private lateinit var sliderBrightness: Slider
+    private var sliderBrightness: Slider? = null
     private lateinit var groupMode: MaterialButtonToggleGroup
 
     private var selectedMode = Mode.TORCH
@@ -84,6 +84,7 @@ class MainActivity : ComponentActivity() {
         }
 
         // brightness live updates while torch is on (torch mode)
+        sliderBrightness?.addOnChangeListener { _, value, fromUser ->
         sliderBrightness.addOnChangeListener { _, value, fromUser ->
             if (fromUser && torchOn && selectedMode == Mode.TORCH) {
                 sendToService(ACTION_TORCH_UPDATE_INTENSITY, torchIntensity = value.toInt())
@@ -130,7 +131,7 @@ class MainActivity : ComponentActivity() {
                     setPowerLabel(true)
                 } else {
                     stopAllModes()
-                    val intensity = sliderBrightness.value.toInt()
+                    val intensity = (sliderBrightness?.value ?: 1f).toInt()
                     sendToService(ACTION_TORCH_ON, torchIntensity = intensity)
                     torchOn = true
                     setPowerLabel(false)
