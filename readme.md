@@ -3,8 +3,8 @@
 ### Changelog
 
 ### 0.5.0
-- replaced reflection-based torch strength logic with direct Camera2 APIs for Android 13+ (API 33 and higher)
-- modernized `TorchController.kt` for stable brightness control and safe fallbacks on older devices
+- rebuilt torch brightness control using reflection-safe shim to `setTorchStrengthLevel()` on Android 13+ (API 33+) while maintaining compatibility with older devices
+- refactored `TorchController.kt` for consistent brightness handling and reliable fallback behavior
 - added logic in `MainActivity.kt` to auto-lock slider at max brightness on unsupported devices
 
 ### 0.4.0
