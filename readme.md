@@ -2,6 +2,9 @@
 
 ### Changelog
 
+### 0.5.4
+- hardened Camera2 flash detection in `TorchController.kt` with safe fallbacks for devices that throw errors during camera characteristic reads
+
 ### 0.5.3
 - removed explicit Material3 style references from `activity_main.xml` to ensure compatibility with the current app theme and prevent potential layout inflation crashes during startup
 
