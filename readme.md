@@ -2,6 +2,9 @@
 
 ### Changelog
 
+### 0.5.3
+- removed explicit Material3 style references from `activity_main.xml` to ensure compatibility with the current app theme and prevent potential layout inflation crashes during startup
+
 ### 0.5.2
 - fixed app crash caused by unguarded access to `sliderBrightness` during activity startup (again)
 - ensured the brightness slider is safely initialized (nullable, safe-call operator) to prevent Null Pointer Exceptions
