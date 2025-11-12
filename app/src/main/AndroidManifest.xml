@@ -2,17 +2,17 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="top.thinapps.brightflashlight">
 
-    <!-- camera controls torch; runtime permission on android 13+ -->
+    <!-- torch control (runtime on 13+) -->
     <uses-permission android:name="android.permission.CAMERA" />
 
-    <!-- foreground service permissions (android 14 adds camera-specific type) -->
+    <!-- foreground service for camera torch -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_CAMERA" />
 
-    <!-- optional: if you show non-FGS notifications, add this and request at runtime on 13+ -->
+    <!-- optional: notifications on 13+ if you show non-FGS notifications -->
     <!-- <uses-permission android:name="android.permission.POST_NOTIFICATIONS" /> -->
 
-    <!-- declare flashlight feature so Play/device filters behave correctly -->
+    <!-- allow install on devices without flash (for Screen Light) -->
     <uses-feature android:name="android.hardware.camera.flash" android:required="false" />
 
     <application
