@@ -6,12 +6,11 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
 import androidx.activity.ComponentActivity
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
-import com.google.android.material.button.MaterialButtonToggleGroup
 import com.google.android.material.slider.Slider
+import top.thinapps.brightflashlight.databinding.ActivityMainBinding
 import top.thinapps.brightflashlight.torch.TorchController
 import top.thinapps.brightflashlight.torch.TorchService
 import top.thinapps.brightflashlight.torch.TorchService.Companion.ACTION_SOS_START
@@ -28,44 +27,45 @@ class MainActivity : ComponentActivity() {
 
     private enum class Mode { TORCH, STROBE, SOS }
 
-    private lateinit var btnToggle: Button
-    private lateinit var btnScreenLight: Button
-    private lateinit var sliderStrobe: Slider
+    private lateinit var binding: ActivityMainBinding
+
     private var sliderBrightness: Slider? = null
-    private lateinit var groupMode: MaterialButtonToggleGroup
 
     private var selectedMode = Mode.TORCH
     private var torchOn = false
     private var strobeRunning = false
     private var sosRunning = false
 
-    private lateinit var torch: TorchController
+    private var torch: TorchController? = null
+    private var strengthSupported = false
+    private var maxStrength = 1
 
     private val permLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { granted ->
-        if (granted) onPowerClicked(btnToggle)
+        syncUiEnabledState(granted)
+        if (granted) {
+            ensureTorch()
+            setupBrightnessUi()
+            if (selectedMode == Mode.TORCH) onPowerClicked(binding.btnToggle)
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
 
-        btnToggle = findViewById(R.id.btnToggle)
-        btnScreenLight = findViewById(R.id.btnScreenLight)
-        sliderStrobe = findViewById(R.id.sliderStrobe)
-        sliderBrightness = findViewById(R.id.sliderBrightness)
-        groupMode = findViewById(R.id.groupMode)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        torch = TorchController(this)
-        // NOTE: setupBrightnessSlider() standalone call removed, logic moved to sliderBrightness?.let block below
+        sliderBrightness = binding.root.findViewById(R.id.sliderBrightness)
 
-        btnToggle.setOnClickListener(::onPowerClicked)
-        btnScreenLight.setOnClickListener {
+        binding.btnToggle.setOnClickListener(::onPowerClicked)
+
+        binding.btnScreenLight.setOnClickListener {
             startActivity(Intent(this, ScreenLightActivity::class.java))
         }
 
-        groupMode.addOnButtonCheckedListener { _, checkedId, isChecked ->
+        binding.groupMode.addOnButtonCheckedListener { _, checkedId, isChecked ->
             if (!isChecked) return@addOnButtonCheckedListener
             selectedMode = when (checkedId) {
                 R.id.btnModeStrobe -> Mode.STROBE
@@ -76,29 +76,38 @@ class MainActivity : ComponentActivity() {
             setPowerLabel(off = true)
         }
 
-        sliderStrobe.addOnChangeListener { _, value, fromUser ->
+        binding.sliderStrobe.addOnChangeListener { _, value, fromUser ->
             if (fromUser && strobeRunning) {
                 sendToService(ACTION_STROBE_UPDATE, strobeSpeed = value.toInt())
             }
         }
 
-        // Safely set up the brightness slider only if the view is found in the layout (fixing crash risk)
-        sliderBrightness?.let { sb ->
-            setupBrightnessSlider()
-            sb.addOnChangeListener { _, value, fromUser ->
-                if (fromUser && torchOn && selectedMode == Mode.TORCH) {
-                    sendToService(ACTION_TORCH_UPDATE_INTENSITY, torchIntensity = value.toInt())
-                }
+        sliderBrightness?.addOnChangeListener { _, value, fromUser ->
+            if (fromUser && torchOn && selectedMode == Mode.TORCH && strengthSupported) {
+                sendToService(ACTION_TORCH_UPDATE_INTENSITY, torchIntensity = value.toInt())
             }
+        }
+
+        val hasCam = hasCameraPermission()
+        syncUiEnabledState(hasCam)
+        if (hasCam) {
+            ensureTorch()
+            setupBrightnessUi()
+        } else {
+            requestCameraPermission()
         }
     }
 
-    private fun setupBrightnessSlider() {
-        val sb = sliderBrightness ?: return
-        val supportsVariable = Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
-        val max = torch.getMaxIntensity().coerceAtLeast(1)
+    private fun ensureTorch() {
+        if (torch == null) torch = TorchController(applicationContext)
+        val (supported, max) = torch!!.getStrengthSupport()
+        strengthSupported = supported
+        maxStrength = max.coerceAtLeast(1)
+    }
 
-        if (!supportsVariable || max <= 1) {
+    private fun setupBrightnessUi() {
+        val sb = sliderBrightness ?: return
+        if (!strengthSupported) {
             sb.isEnabled = false
             sb.valueFrom = 1f
             sb.valueTo = 1f
@@ -107,17 +116,25 @@ class MainActivity : ComponentActivity() {
         } else {
             sb.isEnabled = true
             sb.valueFrom = 1f
-            sb.valueTo = max.toFloat()
+            sb.valueTo = maxStrength.toFloat()
             sb.stepSize = 1f
-            sb.value = max.toFloat()
+            sb.value = maxStrength.toFloat()
         }
     }
 
-    private fun ensurePermissionThen(block: () -> Unit) {
-        val granted = ContextCompat.checkSelfPermission(
-            this, Manifest.permission.CAMERA
-        ) == PackageManager.PERMISSION_GRANTED
-        if (granted) block() else permLauncher.launch(Manifest.permission.CAMERA)
+    private fun hasCameraPermission(): Boolean {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) ==
+                PackageManager.PERMISSION_GRANTED
+        } else {
+            true
+        }
+    }
+
+    private fun requestCameraPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            permLauncher.launch(Manifest.permission.CAMERA)
+        }
     }
 
     @Suppress("UNUSED_PARAMETER")
@@ -130,7 +147,7 @@ class MainActivity : ComponentActivity() {
                     setPowerLabel(true)
                 } else {
                     stopAllModes()
-                    val intensity = (sliderBrightness?.value ?: 1f).toInt()
+                    val intensity = (sliderBrightness?.value ?: 1f).toInt().coerceAtLeast(1)
                     sendToService(ACTION_TORCH_ON, torchIntensity = intensity)
                     torchOn = true
                     setPowerLabel(false)
@@ -143,7 +160,7 @@ class MainActivity : ComponentActivity() {
                     setPowerLabel(true)
                 } else {
                     stopAllModes()
-                    val speed = sliderStrobe.value.toInt()
+                    val speed = binding.sliderStrobe.value.toInt()
                     sendToService(ACTION_STROBE_START, strobeSpeed = speed)
                     strobeRunning = true
                     setPowerLabel(false)
@@ -164,6 +181,14 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    private fun ensurePermissionThen(block: () -> Unit) {
+        if (hasCameraPermission()) {
+            block()
+        } else {
+            requestCameraPermission()
+        }
+    }
+
     private fun stopAllModes() {
         if (torchOn) {
             sendToService(ACTION_TORCH_OFF)
@@ -180,7 +205,15 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun setPowerLabel(off: Boolean) {
-        btnToggle.setText(if (off) R.string.action_torch_on else R.string.action_torch_off)
+        binding.btnToggle.setText(if (off) R.string.action_torch_on else R.string.action_torch_off)
+    }
+
+    private fun syncUiEnabledState(enabled: Boolean) {
+        binding.btnToggle.isEnabled = enabled
+        binding.sliderStrobe.isEnabled = enabled
+        sliderBrightness?.isEnabled = enabled && strengthSupported
+        binding.groupMode.isEnabled = enabled
+        binding.btnScreenLight.isEnabled = true
     }
 
     private fun sendToService(
