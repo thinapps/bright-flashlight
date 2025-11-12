@@ -32,10 +32,9 @@ class TorchController(context: Context) {
     private fun ensureCameraReady(): Boolean {
         if (backCameraId != null && probed) return true
         return try {
-            var chosenId: String? = null
             val ids = cm.cameraIdList
 
-            chosenId = ids.firstOrNull { id ->
+            val chosenId = ids.firstOrNull { id ->
                 try {
                     val c = cm.getCameraCharacteristics(id)
                     c.get(CameraCharacteristics.FLASH_INFO_AVAILABLE) == true &&
@@ -95,6 +94,9 @@ class TorchController(context: Context) {
     }
 
     fun getMaxStrength(): Int = if (maxStrengthLevel >= 1) maxStrengthLevel else 1
+
+    // compatibility shim for older callers (e.g., TorchService)
+    fun getMaxIntensity(): Int = getMaxStrength()
 
     @SuppressLint("MissingPermission")
     fun setTorch(on: Boolean, level: Int = getMaxStrength()): Boolean {
