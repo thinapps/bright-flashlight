@@ -16,7 +16,9 @@
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp">
+            android:layout_marginBottom="16dp"
+            app:cardUseCompatPadding="true"
+            app:cardPreventCornerOverlap="true">
 
             <LinearLayout
                 android:orientation="vertical"
@@ -28,10 +30,10 @@
                     android:id="@+id/groupMode"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
                     app:singleSelection="true"
                     app:selectionRequired="true"
-                    app:checkedButton="@id/btnModeTorch"
-                    android:layout_marginBottom="12dp">
+                    app:checkedButton="@id/btnModeTorch">
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnModeTorch"
@@ -65,23 +67,6 @@
                     android:drawableStart="@drawable/ic_power"
                     android:text="@string/action_torch_on" />
 
-                <!--
-                <com.google.android.material.slider.Slider
-                    android:id="@+id/sliderAutoOff"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:valueFrom="0"
-                    android:valueTo="30"
-                    android:stepSize="1"
-                    android:layout_marginTop="12dp" />
-
-                <TextView
-                    android:id="@+id/tvTimer"
-                    android:textColor="@color/md_text_dim"
-                    android:text="@string/timer_label"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                -->
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -90,7 +75,9 @@
             android:id="@+id/cardBrightness"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp">
+            android:layout_marginBottom="16dp"
+            app:cardUseCompatPadding="true"
+            app:cardPreventCornerOverlap="true">
 
             <LinearLayout
                 android:orientation="vertical"
@@ -108,6 +95,7 @@
                     android:id="@+id/sliderBrightness"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
                     android:valueFrom="1"
                     android:valueTo="10"
                     android:stepSize="1"
@@ -119,7 +107,9 @@
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp">
+            android:layout_marginBottom="16dp"
+            app:cardUseCompatPadding="true"
+            app:cardPreventCornerOverlap="true">
 
             <LinearLayout
                 android:orientation="vertical"
@@ -137,69 +127,20 @@
                     android:id="@+id/sliderStrobe"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
                     android:valueFrom="1"
                     android:valueTo="10"
                     android:stepSize="1"
                     android:value="5" />
-
-                <!--
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp">
-
-                    <Button
-                        android:id="@+id/btnStrobeStart"
-                        android:layout_width="0dp"
-                        android:layout_height="48dp"
-                        android:layout_weight="1"
-                        android:text="@string/action_strobe_start" />
-
-                    <Space
-                        android:layout_width="12dp"
-                        android:layout_height="1dp" />
-
-                    <Button
-                        android:id="@+id/btnStrobeStop"
-                        android:layout_width="0dp"
-                        android:layout_height="48dp"
-                        android:layout_weight="1"
-                        android:text="@string/action_strobe_stop" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp">
-
-                    <Button
-                        android:id="@+id/btnSosStart"
-                        android:layout_width="0dp"
-                        android:layout_height="48dp"
-                        android:layout_weight="1"
-                        android:text="@string/action_sos_start" />
-
-                    <Space
-                        android:layout_width="12dp"
-                        android:layout_height="1dp" />
-
-                    <Button
-                        android:id="@+id/btnSosStop"
-                        android:layout_width="0dp"
-                        android:layout_height="48dp"
-                        android:layout_weight="1"
-                        android:text="@string/action_sos_stop" />
-                </LinearLayout>
-                -->
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
         <!-- CARD: Screen light -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            app:cardUseCompatPadding="true"
+            app:cardPreventCornerOverlap="true">
 
             <LinearLayout
                 android:orientation="vertical"
