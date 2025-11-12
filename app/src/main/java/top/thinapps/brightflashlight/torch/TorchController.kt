@@ -13,12 +13,12 @@ import androidx.core.content.ContextCompat
 class TorchController(context: Context) {
 
     private val appContext = context.applicationContext
-    private val cm = appContext.getSystemService(Context.CAMERA_SERVICE) as CameraManager
+    private val cm by lazy { appContext.getSystemService(Context.CAMERA_SERVICE) as CameraManager }
 
     private var backCameraId: String? = null
-
-    // max steps for variable brightness; 1 means on/off only
-    private var maxIntensity: Int = 1
+    private var maxStrengthLevel: Int = 1
+    private var strengthSupported: Boolean = false
+    private var probed = false
 
     private fun hasCameraPermission(): Boolean {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -29,71 +29,90 @@ class TorchController(context: Context) {
         }
     }
 
-    private fun ensureCameraSelected(): Boolean {
-        if (backCameraId != null) return true
-        backCameraId = findBackCameraWithFlash()
-        return backCameraId != null
-    }
-
-    // find a camera with flash; prefer back camera. also read max intensity on api 33+
-    private fun findBackCameraWithFlash(): String? {
+    private fun ensureCameraReady(): Boolean {
+        if (backCameraId != null && probed) return true
         return try {
-            val preferred = cm.cameraIdList.firstOrNull { id ->
-                try {
-                    val chars = cm.getCameraCharacteristics(id)
-                    val hasFlash = chars.get(CameraCharacteristics.FLASH_INFO_AVAILABLE) == true
-                    val facing = chars.get(CameraCharacteristics.LENS_FACING)
-                    if (hasFlash && facing == CameraCharacteristics.LENS_FACING_BACK) {
-                        maxIntensity = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                            chars.get(CameraCharacteristics.FLASH_INFO_STRENGTH_MAXIMUM_LEVEL) ?: 1
-                        } else {
-                            1
-                        }
-                        true
-                    } else {
-                        false
-                    }
-                } catch (_: Throwable) {
-                    // Catch any exception (even runtime) and skip this camera ID safely.
-                    false
-                }
-            }
-            if (preferred != null) return preferred
+            var chosenId: String? = null
+            val ids = cm.cameraIdList
 
-            cm.cameraIdList.firstOrNull { id ->
+            chosenId = ids.firstOrNull { id ->
                 try {
-                    val chars = cm.getCameraCharacteristics(id)
-                    val hasFlash = chars.get(CameraCharacteristics.FLASH_INFO_AVAILABLE) == true
-                    if (hasFlash) {
-                        maxIntensity = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                            chars.get(CameraCharacteristics.FLASH_INFO_STRENGTH_MAXIMUM_LEVEL) ?: 1
-                        } else {
-                            1
-                        }
-                    }
-                    hasFlash
+                    val c = cm.getCameraCharacteristics(id)
+                    c.get(CameraCharacteristics.FLASH_INFO_AVAILABLE) == true &&
+                        c.get(CameraCharacteristics.LENS_FACING) == CameraCharacteristics.LENS_FACING_BACK
                 } catch (_: Throwable) {
-                    // Catch any exception and skip this camera ID safely.
+                    false
+                }
+            } ?: ids.firstOrNull { id ->
+                try {
+                    cm.getCameraCharacteristics(id)
+                        .get(CameraCharacteristics.FLASH_INFO_AVAILABLE) == true
+                } catch (_: Throwable) {
                     false
                 }
             }
-        } catch (_: Exception) {
-            null
+
+            backCameraId = chosenId
+            probeStrength(chosenId)
+            backCameraId != null
+        } catch (_: Throwable) {
+            backCameraId = null
+            strengthSupported = false
+            maxStrengthLevel = 1
+            false
         }
     }
 
-    fun isAvailable(): Boolean = ensureCameraSelected()
+    private fun probeStrength(id: String?) {
+        if (id == null) {
+            strengthSupported = false
+            maxStrengthLevel = 1
+            probed = true
+            return
+        }
+        if (probed) return
+        try {
+            val c = cm.getCameraCharacteristics(id)
+            maxStrengthLevel = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                c.get(CameraCharacteristics.FLASH_INFO_STRENGTH_MAXIMUM_LEVEL) ?: 1
+            } else {
+                1
+            }
+            strengthSupported = Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && maxStrengthLevel > 1
+        } catch (_: Throwable) {
+            strengthSupported = false
+            maxStrengthLevel = 1
+        } finally {
+            probed = true
+        }
+    }
 
-    fun getMaxIntensity(): Int = if (maxIntensity >= 1) maxIntensity else 1
+    fun isAvailable(): Boolean = ensureCameraReady()
+
+    fun getStrengthSupport(): Pair<Boolean, Int> {
+        ensureCameraReady()
+        return strengthSupported to getMaxStrength()
+    }
+
+    fun getMaxStrength(): Int = if (maxStrengthLevel >= 1) maxStrengthLevel else 1
 
     @SuppressLint("MissingPermission")
-    fun setTorch(on: Boolean): Boolean {
-        if (!ensureCameraSelected()) return false
+    fun setTorch(on: Boolean, level: Int = getMaxStrength()): Boolean {
+        if (!ensureCameraReady()) return false
         val id = backCameraId ?: return false
         if (!hasCameraPermission()) return false
 
         return try {
-            cm.setTorchMode(id, on)
+            if (on && strengthSupported && Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                val clamped = level.coerceIn(1, getMaxStrength())
+                try {
+                    setTorchStrengthCompat(cm, id, clamped)
+                } catch (_: Throwable) {
+                    cm.setTorchMode(id, true)
+                }
+            } else {
+                cm.setTorchMode(id, on)
+            }
             true
         } catch (_: CameraAccessException) {
             false
@@ -107,31 +126,17 @@ class TorchController(context: Context) {
         }
     }
 
-    // reflection-only compat: avoids compile-time reference to setTorchStrengthLevel
-    private fun setTorchStrengthCompat(cm: CameraManager, id: String, level: Int) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
-            throw NoSuchMethodError("torch strength not available")
-        }
-        val m = CameraManager::class.java.getMethod(
-            "setTorchStrengthLevel",
-            String::class.java,
-            Int::class.javaPrimitiveType
-        )
-        m.invoke(cm, id, level)
-    }
-
-    // intensity: 0 turns off; 1..max turns on with given strength on api 33+
     @SuppressLint("MissingPermission")
     fun setTorchIntensity(intensity: Int): Boolean {
-        if (!ensureCameraSelected()) return false
+        if (!ensureCameraReady()) return false
         val id = backCameraId ?: return false
         if (!hasCameraPermission()) return false
 
         return try {
-            val max = if (maxIntensity >= 1) maxIntensity else 1
+            val max = getMaxStrength()
             val level = intensity.coerceIn(0, max)
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && strengthSupported) {
                 if (level <= 0) {
                     cm.setTorchMode(id, false)
                 } else {
@@ -157,8 +162,20 @@ class TorchController(context: Context) {
         } catch (_: Throwable) {
             try {
                 cm.setTorchMode(backCameraId ?: return false, intensity > 0)
-            } catch (_: Throwable) { }
+            } catch (_: Throwable) {}
             false
         }
+    }
+
+    private fun setTorchStrengthCompat(cm: CameraManager, id: String, level: Int) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+            throw NoSuchMethodError("torch strength not available")
+        }
+        val m = CameraManager::class.java.getMethod(
+            "setTorchStrengthLevel",
+            String::class.java,
+            Int::class.javaPrimitiveType
+        )
+        m.invoke(cm, id, level)
     }
 }
