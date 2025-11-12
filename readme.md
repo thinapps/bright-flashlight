@@ -2,6 +2,13 @@
 
 ### Changelog
 
+### 0.5.5  
+- fixed app crash on startup caused by `lateinit` UI binding and Camera2 vendor issues  
+- migrated `MainActivity` to View Binding for safer and cleaner UI access  
+- ensured Camera permission check runs reliably before any torch actions on Android 13+  
+- updated `TorchController` with lazy camera initialization, safe strength detection, and fallback to on/off when vendors misbehave  
+- refactored brightness slider setup to be null-safe and stable on all devices  
+
 ### 0.5.4
 - hardened Camera2 flash detection in `TorchController.kt` with safe fallbacks for devices that throw errors during camera characteristic reads
 
