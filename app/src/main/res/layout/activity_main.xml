@@ -24,7 +24,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <!-- Mode selector (single selection) -->
                 <com.google.android.material.button.MaterialButtonToggleGroup
                     android:id="@+id/groupMode"
                     android:layout_width="match_parent"
@@ -36,7 +35,6 @@
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnModeTorch"
-                        style="?attr/materialButtonOutlinedStyle"
                         android:layout_width="0dp"
                         android:layout_height="48dp"
                         android:layout_weight="1"
@@ -45,7 +43,6 @@
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnModeStrobe"
-                        style="?attr/materialButtonOutlinedStyle"
                         android:layout_width="0dp"
                         android:layout_height="48dp"
                         android:layout_weight="1"
@@ -54,7 +51,6 @@
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnModeSos"
-                        style="?attr/materialButtonOutlinedStyle"
                         android:layout_width="0dp"
                         android:layout_height="48dp"
                         android:layout_weight="1"
@@ -62,7 +58,6 @@
                         android:checkable="true" />
                 </com.google.android.material.button.MaterialButtonToggleGroup>
 
-                <!-- Big power button -->
                 <Button
                     android:id="@+id/btnToggle"
                     android:layout_width="match_parent"
@@ -111,7 +106,6 @@
 
                 <com.google.android.material.slider.Slider
                     android:id="@+id/sliderBrightness"
-                    style="@style/Widget.Material3.Slider"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:valueFrom="1"
@@ -141,7 +135,6 @@
 
                 <com.google.android.material.slider.Slider
                     android:id="@+id/sliderStrobe"
-                    style="@style/Widget.Material3.Slider"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:valueFrom="1"
