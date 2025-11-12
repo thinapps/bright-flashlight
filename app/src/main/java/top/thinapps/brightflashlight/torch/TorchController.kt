@@ -39,33 +39,43 @@ class TorchController(context: Context) {
     private fun findBackCameraWithFlash(): String? {
         return try {
             val preferred = cm.cameraIdList.firstOrNull { id ->
-                val chars = cm.getCameraCharacteristics(id)
-                val hasFlash = chars.get(CameraCharacteristics.FLASH_INFO_AVAILABLE) == true
-                val facing = chars.get(CameraCharacteristics.LENS_FACING)
-                if (hasFlash && facing == CameraCharacteristics.LENS_FACING_BACK) {
-                    maxIntensity = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                        chars.get(CameraCharacteristics.FLASH_INFO_STRENGTH_MAXIMUM_LEVEL) ?: 1
+                try {
+                    val chars = cm.getCameraCharacteristics(id)
+                    val hasFlash = chars.get(CameraCharacteristics.FLASH_INFO_AVAILABLE) == true
+                    val facing = chars.get(CameraCharacteristics.LENS_FACING)
+                    if (hasFlash && facing == CameraCharacteristics.LENS_FACING_BACK) {
+                        maxIntensity = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                            chars.get(CameraCharacteristics.FLASH_INFO_STRENGTH_MAXIMUM_LEVEL) ?: 1
+                        } else {
+                            1
+                        }
+                        true
                     } else {
-                        1
+                        false
                     }
-                    true
-                } else {
+                } catch (_: Throwable) {
+                    // Catch any exception (even runtime) and skip this camera ID safely.
                     false
                 }
             }
             if (preferred != null) return preferred
 
             cm.cameraIdList.firstOrNull { id ->
-                val chars = cm.getCameraCharacteristics(id)
-                val hasFlash = chars.get(CameraCharacteristics.FLASH_INFO_AVAILABLE) == true
-                if (hasFlash) {
-                    maxIntensity = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                        chars.get(CameraCharacteristics.FLASH_INFO_STRENGTH_MAXIMUM_LEVEL) ?: 1
-                    } else {
-                        1
+                try {
+                    val chars = cm.getCameraCharacteristics(id)
+                    val hasFlash = chars.get(CameraCharacteristics.FLASH_INFO_AVAILABLE) == true
+                    if (hasFlash) {
+                        maxIntensity = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                            chars.get(CameraCharacteristics.FLASH_INFO_STRENGTH_MAXIMUM_LEVEL) ?: 1
+                        } else {
+                            1
+                        }
                     }
+                    hasFlash
+                } catch (_: Throwable) {
+                    // Catch any exception and skip this camera ID safely.
+                    false
                 }
-                hasFlash
             }
         } catch (_: Exception) {
             null
