@@ -26,4 +26,7 @@
     <string name="notification_channel_name">Flashlight</string>
     <string name="notification_channel_desc">Running flashlight or strobe mode</string>
     <string name="notification_running">Flashlight is active</string>
+
+    <string name="action_view_photos_videos">View Recovered Photos/Videos</string>
+    <string name="action_view_audio">View Recovered Audio</string>
 </resources>
