@@ -67,6 +67,15 @@
                     android:drawableStart="@drawable/ic_power"
                     android:text="@string/action_torch_on" />
 
+                <TextView
+                    android:id="@+id/txtNoFlash"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="@string/no_flash_message"
+                    android:textColor="@color/md_text_dim"
+                    android:visibility="gone" />
+
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -105,6 +114,7 @@
 
         <!-- CARD: Strobe controls (speed) -->
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardStrobe"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
@@ -132,6 +142,71 @@
                     android:valueTo="10"
                     android:stepSize="1"
                     android:value="5" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- CARD: Auto-off controls -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardAutoOff"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            app:cardUseCompatPadding="true"
+            app:cardPreventCornerOverlap="true">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:text="@string/timer_label"
+                    android:textColor="@color/md_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <com.google.android.material.button.MaterialButtonToggleGroup
+                    android:id="@+id/groupAutoOff"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    app:singleSelection="true"
+                    app:selectionRequired="true"
+                    app:checkedButton="@id/btnAutoOffOff">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnAutoOffOff"
+                        android:layout_width="0dp"
+                        android:layout_height="48dp"
+                        android:layout_weight="1"
+                        android:text="@string/timer_off"
+                        android:checkable="true" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnAutoOff1"
+                        android:layout_width="0dp"
+                        android:layout_height="48dp"
+                        android:layout_weight="1"
+                        android:text="@string/timer_1_min"
+                        android:checkable="true" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnAutoOff5"
+                        android:layout_width="0dp"
+                        android:layout_height="48dp"
+                        android:layout_weight="1"
+                        android:text="@string/timer_5_min"
+                        android:checkable="true" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnAutoOff15"
+                        android:layout_width="0dp"
+                        android:layout_height="48dp"
+                        android:layout_weight="1"
+                        android:text="@string/timer_15_min"
+                        android:checkable="true" />
+                </com.google.android.material.button.MaterialButtonToggleGroup>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
