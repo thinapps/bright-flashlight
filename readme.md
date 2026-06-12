@@ -2,6 +2,13 @@
 
 ### Changelog
 
+### 0.5.7
+- completed basic Auto-off controls with Off, 1m, 5m, and 15m options for torch, strobe, and SOS modes
+- improved foreground service shutdown so the service and notification stop cleanly when flashlight modes are off
+- synced the Quick Settings tile with saved service state instead of a local toggle guess
+- added clearer no-flash-device handling while keeping Screen Light available
+- cleaned stale service comments and bumped Android release metadata to version `0.5.7`
+
 ### 0.5.6
 - fixed startup crash on devices without torch strength support by hiding the brightness slider instead of setting an invalid `1..1` slider range
 - corrected Camera runtime permission handling across the activity, torch controller, service, and Quick Settings tile paths
