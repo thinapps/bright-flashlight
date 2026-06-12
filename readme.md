@@ -2,6 +2,11 @@
 
 ### Changelog
 
+### 0.5.6
+- fixed startup crash on devices without torch strength support by hiding the brightness slider instead of setting an invalid `1..1` slider range
+- corrected Camera runtime permission handling for all supported Android versions, not only Android 13+
+- bumped Android release metadata to version `0.5.6`
+
 ### 0.5.5  
 - fixed app crash on startup caused by `lateinit` UI binding and Camera2 vendor issues  
 - migrated `MainActivity` to View Binding for safer and cleaner UI access  
