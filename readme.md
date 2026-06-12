@@ -4,7 +4,7 @@
 
 ### 0.5.6
 - fixed startup crash on devices without torch strength support by hiding the brightness slider instead of setting an invalid `1..1` slider range
-- corrected Camera runtime permission handling for all supported Android versions, not only Android 13+
+- corrected Camera runtime permission handling across the activity, torch controller, service, and Quick Settings tile paths
 - bumped Android release metadata to version `0.5.6`
 
 ### 0.5.5  
