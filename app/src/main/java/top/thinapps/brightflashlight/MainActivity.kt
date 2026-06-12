@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import androidx.activity.ComponentActivity
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
@@ -20,6 +21,7 @@ import top.thinapps.brightflashlight.torch.TorchService.Companion.ACTION_STROBE_
 import top.thinapps.brightflashlight.torch.TorchService.Companion.ACTION_TORCH_OFF
 import top.thinapps.brightflashlight.torch.TorchService.Companion.ACTION_TORCH_ON
 import top.thinapps.brightflashlight.torch.TorchService.Companion.ACTION_TORCH_UPDATE_INTENSITY
+import top.thinapps.brightflashlight.torch.TorchService.Companion.EXTRA_AUTO_OFF_MINUTES
 import top.thinapps.brightflashlight.ui.ScreenLightActivity
 
 class MainActivity : ComponentActivity() {
@@ -31,22 +33,26 @@ class MainActivity : ComponentActivity() {
     private var sliderBrightness: Slider? = null
 
     private var selectedMode = Mode.TORCH
+    private var selectedAutoOffMinutes = 0
     private var torchOn = false
     private var strobeRunning = false
     private var sosRunning = false
 
     private var torch: TorchController? = null
+    private var torchAvailable = false
     private var strengthSupported = false
     private var maxStrength = 1
 
     private val permLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { granted ->
-        syncUiEnabledState(granted)
         if (granted) {
             ensureTorch()
-            setupBrightnessUi()
-            if (selectedMode == Mode.TORCH) onPowerClicked(binding.btnToggle)
+            refreshTorchUi()
+            syncUiEnabledState(true)
+            if (selectedMode == Mode.TORCH && torchAvailable) onPowerClicked(binding.btnToggle)
+        } else {
+            syncUiEnabledState(false)
         }
     }
 
@@ -75,6 +81,17 @@ class MainActivity : ComponentActivity() {
             setPowerLabel(off = true)
         }
 
+        binding.groupAutoOff.addOnButtonCheckedListener { _, checkedId, isChecked ->
+            if (!isChecked) return@addOnButtonCheckedListener
+            selectedAutoOffMinutes = when (checkedId) {
+                R.id.btnAutoOff1 -> 1
+                R.id.btnAutoOff5 -> 5
+                R.id.btnAutoOff15 -> 15
+                else -> 0
+            }
+            updateAutoOffIfRunning()
+        }
+
         binding.sliderStrobe.addOnChangeListener { _, value, fromUser ->
             if (fromUser && strobeRunning) {
                 sendToService(ACTION_STROBE_UPDATE, strobeSpeed = value.toInt())
@@ -88,20 +105,41 @@ class MainActivity : ComponentActivity() {
         }
 
         val hasCam = hasCameraPermission()
-        syncUiEnabledState(hasCam)
         if (hasCam) {
             ensureTorch()
-            setupBrightnessUi()
+            refreshTorchUi()
         } else {
+            binding.txtNoFlash.visibility = View.GONE
             requestCameraPermission()
         }
+        syncUiEnabledState(hasCam)
     }
 
     private fun ensureTorch() {
-        if (torch == null) torch = TorchController(applicationContext)
-        val (supported, max) = torch!!.getStrengthSupport()
+        val controller = torch ?: TorchController(applicationContext).also { torch = it }
+        torchAvailable = controller.isAvailable()
+        val (supported, max) = if (torchAvailable) {
+            controller.getStrengthSupport()
+        } else {
+            false to 1
+        }
         strengthSupported = supported
         maxStrength = max.coerceAtLeast(1)
+    }
+
+    private fun refreshTorchUi() {
+        if (!torchAvailable) {
+            binding.txtNoFlash.visibility = View.VISIBLE
+            binding.cardBrightness.visibility = View.GONE
+            binding.cardStrobe.visibility = View.GONE
+            binding.cardAutoOff.visibility = View.GONE
+            return
+        }
+
+        binding.txtNoFlash.visibility = View.GONE
+        binding.cardStrobe.visibility = View.VISIBLE
+        binding.cardAutoOff.visibility = View.VISIBLE
+        setupBrightnessUi()
     }
 
     private fun setupBrightnessUi() {
@@ -131,6 +169,8 @@ class MainActivity : ComponentActivity() {
 
     @Suppress("UNUSED_PARAMETER")
     fun onPowerClicked(v: View) {
+        if (!torchAvailable) return
+
         when (selectedMode) {
             Mode.TORCH -> ensurePermissionThen {
                 if (torchOn) {
@@ -181,6 +221,17 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    private fun updateAutoOffIfRunning() {
+        when {
+            torchOn -> {
+                val intensity = (sliderBrightness?.value ?: 1f).toInt().coerceAtLeast(1)
+                sendToService(ACTION_TORCH_ON, torchIntensity = intensity)
+            }
+            strobeRunning -> sendToService(ACTION_STROBE_START, strobeSpeed = binding.sliderStrobe.value.toInt())
+            sosRunning -> sendToService(ACTION_SOS_START)
+        }
+    }
+
     private fun stopAllModes() {
         if (torchOn) {
             sendToService(ACTION_TORCH_OFF)
@@ -201,11 +252,22 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun syncUiEnabledState(enabled: Boolean) {
-        binding.btnToggle.isEnabled = enabled
-        binding.sliderStrobe.isEnabled = enabled
-        sliderBrightness?.isEnabled = enabled && strengthSupported
-        binding.groupMode.isEnabled = enabled
+        val torchControlsEnabled = enabled && torchAvailable
+        binding.btnToggle.isEnabled = torchControlsEnabled
+        binding.sliderStrobe.isEnabled = torchControlsEnabled
+        sliderBrightness?.isEnabled = torchControlsEnabled && strengthSupported
+        setEnabledRecursive(binding.groupMode, torchControlsEnabled)
+        setEnabledRecursive(binding.groupAutoOff, torchControlsEnabled)
         binding.btnScreenLight.isEnabled = true
+    }
+
+    private fun setEnabledRecursive(view: View, enabled: Boolean) {
+        view.isEnabled = enabled
+        if (view is ViewGroup) {
+            for (i in 0 until view.childCount) {
+                setEnabledRecursive(view.getChildAt(i), enabled)
+            }
+        }
     }
 
     private fun sendToService(
@@ -215,6 +277,7 @@ class MainActivity : ComponentActivity() {
     ) {
         val i = Intent(this, TorchService::class.java)
         if (action != null) i.action = action
+        i.putExtra(EXTRA_AUTO_OFF_MINUTES, selectedAutoOffMinutes)
         strobeSpeed?.let { i.putExtra("strobeSpeed", it) }
         torchIntensity?.let { i.putExtra(TorchService.EXTRA_TORCH_INTENSITY, it) }
         ContextCompat.startForegroundService(this, i)
