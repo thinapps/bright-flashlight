@@ -3,7 +3,6 @@ package top.thinapps.brightflashlight
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.activity.ComponentActivity
@@ -107,34 +106,27 @@ class MainActivity : ComponentActivity() {
 
     private fun setupBrightnessUi() {
         val sb = sliderBrightness ?: return
-        if (!strengthSupported) {
-            sb.isEnabled = false
-            sb.valueFrom = 1f
-            sb.valueTo = 1f
-            sb.stepSize = 1f
-            sb.value = 1f
-        } else {
-            sb.isEnabled = true
-            sb.valueFrom = 1f
-            sb.valueTo = maxStrength.toFloat()
-            sb.stepSize = 1f
-            sb.value = maxStrength.toFloat()
+        if (!strengthSupported || maxStrength <= 1) {
+            binding.cardBrightness.visibility = View.GONE
+            return
         }
+
+        binding.cardBrightness.visibility = View.VISIBLE
+        sb.isEnabled = true
+        sb.valueFrom = 1f
+        sb.value = 1f
+        sb.valueTo = maxStrength.toFloat()
+        sb.stepSize = 1f
+        sb.value = maxStrength.toFloat()
     }
 
     private fun hasCameraPermission(): Boolean {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) ==
-                PackageManager.PERMISSION_GRANTED
-        } else {
-            true
-        }
+        return ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) ==
+            PackageManager.PERMISSION_GRANTED
     }
 
     private fun requestCameraPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            permLauncher.launch(Manifest.permission.CAMERA)
-        }
+        permLauncher.launch(Manifest.permission.CAMERA)
     }
 
     @Suppress("UNUSED_PARAMETER")
