@@ -16,7 +16,12 @@
 
     <string name="strobe_speed">Strobe Speed</string>
     <string name="torch_brightness">Brightness</string>
-    <string name="timer_label">Auto-off (minutes)</string>
+    <string name="timer_label">Auto-off</string>
+    <string name="timer_off">Off</string>
+    <string name="timer_1_min">1m</string>
+    <string name="timer_5_min">5m</string>
+    <string name="timer_15_min">15m</string>
+    <string name="no_flash_message">Camera flash not available. Screen Light is still available.</string>
 
     <string name="screen_light_title">Screen Light</string>
     <string name="screen_color">Screen Color</string>
