@@ -21,12 +21,8 @@ class TorchController(context: Context) {
     private var probed = false
 
     private fun hasCameraPermission(): Boolean {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            ContextCompat.checkSelfPermission(appContext, Manifest.permission.CAMERA) ==
-                PackageManager.PERMISSION_GRANTED
-        } else {
-            true
-        }
+        return ContextCompat.checkSelfPermission(appContext, Manifest.permission.CAMERA) ==
+            PackageManager.PERMISSION_GRANTED
     }
 
     private fun ensureCameraReady(): Boolean {
