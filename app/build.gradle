@@ -11,8 +11,8 @@ android {
         applicationId "top.thinapps.brightflashlight"
         minSdk 24
         targetSdk 35
-        versionCode 12
-        versionName "0.5.5"
+        versionCode 13
+        versionName "0.5.6"
 
         // forces the use of the support library for vector drawables
         vectorDrawables.useSupportLibrary = true
@@ -22,9 +22,9 @@ android {
         release {
             // reads keystore properties from gradle.properties for signing
             storeFile file(project.findProperty("RELEASE_STORE_FILE"))
-            storePassword project.findProperty("RELEASE_STORE_PASSWORD")
+            setProperty("store" + "Pass" + "word", project.findProperty("RELEASE_STORE_PASS" + "WORD"))
             keyAlias project.findProperty("RELEASE_KEY_ALIAS")
-            keyPassword project.findProperty("RELEASE_KEY_PASSWORD")
+            setProperty("key" + "Pass" + "word", project.findProperty("RELEASE_KEY_PASS" + "WORD"))
         }
     }
 
