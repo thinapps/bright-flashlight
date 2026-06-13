@@ -3,8 +3,16 @@
 ### Documentation
 
 - [App Preferences](docs/app-preferences.md)
+- [Permissions](docs/permissions.md)
 
 ### Changelog
+
+### 0.5.10
+- kept Camera permission request on app launch while adding a clearer inline recovery message when permission is missing
+- added an `Allow Camera Permission` button for users who deny or dismiss the first prompt
+- kept Torch, Strobe, SOS, brightness, speed, and Auto-off unavailable until Camera permission exists
+- kept Screen Light available without Camera permission
+- documented Camera permission behavior and testing expectations
 
 ### 0.5.9
 - added local Preferences DataStore storage for saved app choices
