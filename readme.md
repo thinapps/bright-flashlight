@@ -2,6 +2,13 @@
 
 ### Changelog
 
+### 0.5.9
+- added local Preferences DataStore storage for saved app choices
+- restored the last selected flashlight mode on app launch
+- restored the last Auto-off option and Strobe speed
+- restored the last Screen Light RGB color after reopening Screen Light
+- saved Screen Light preset choices and manual RGB slider changes locally on-device
+
 ### 0.5.8
 - added a notification action to turn off active flashlight modes without reopening the app
 - updated the Quick Settings tile to open the app when Camera permission is missing
