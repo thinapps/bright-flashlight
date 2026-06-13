@@ -14,7 +14,8 @@ data class SavedPreferences(
     val strobeSpeed: Int = 5,
     val screenLightR: Int = 255,
     val screenLightG: Int = 255,
-    val screenLightB: Int = 255
+    val screenLightB: Int = 255,
+    val screenLightPreset: String = "WHITE"
 )
 
 private val Context.brightFlashlightDataStore by preferencesDataStore(
@@ -30,6 +31,7 @@ class AppPreferences(private val context: Context) {
         val SCREEN_LIGHT_R = intPreferencesKey("screen_light_r")
         val SCREEN_LIGHT_G = intPreferencesKey("screen_light_g")
         val SCREEN_LIGHT_B = intPreferencesKey("screen_light_b")
+        val SCREEN_LIGHT_PRESET = stringPreferencesKey("screen_light_preset")
     }
 
     val preferences: Flow<SavedPreferences> = context.brightFlashlightDataStore.data.map { prefs ->
@@ -39,7 +41,8 @@ class AppPreferences(private val context: Context) {
             strobeSpeed = (prefs[Keys.STROBE_SPEED] ?: 5).coerceIn(1, 10),
             screenLightR = (prefs[Keys.SCREEN_LIGHT_R] ?: 255).coerceIn(0, 255),
             screenLightG = (prefs[Keys.SCREEN_LIGHT_G] ?: 255).coerceIn(0, 255),
-            screenLightB = (prefs[Keys.SCREEN_LIGHT_B] ?: 255).coerceIn(0, 255)
+            screenLightB = (prefs[Keys.SCREEN_LIGHT_B] ?: 255).coerceIn(0, 255),
+            screenLightPreset = prefs[Keys.SCREEN_LIGHT_PRESET] ?: "WHITE"
         )
     }
 
@@ -61,11 +64,16 @@ class AppPreferences(private val context: Context) {
         }
     }
 
-    suspend fun saveScreenLightColor(r: Int, g: Int, b: Int) {
+    suspend fun saveScreenLightColor(r: Int, g: Int, b: Int, preset: String?) {
         context.brightFlashlightDataStore.edit { prefs ->
             prefs[Keys.SCREEN_LIGHT_R] = r.coerceIn(0, 255)
             prefs[Keys.SCREEN_LIGHT_G] = g.coerceIn(0, 255)
             prefs[Keys.SCREEN_LIGHT_B] = b.coerceIn(0, 255)
+            if (preset == null) {
+                prefs.remove(Keys.SCREEN_LIGHT_PRESET)
+            } else {
+                prefs[Keys.SCREEN_LIGHT_PRESET] = preset
+            }
         }
     }
 }
