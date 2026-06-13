@@ -2,6 +2,13 @@
 
 ### Changelog
 
+### 0.5.8
+- added a notification action to turn off active flashlight modes without reopening the app
+- updated the Quick Settings tile to open the app when Camera permission is missing
+- made the main controls mode-specific so brightness only appears for Torch and speed only appears for Strobe
+- added a 30m Auto-off option
+- added Screen Light preset buttons for White, Warm, Red, and Blue
+
 ### 0.5.7
 - completed basic Auto-off controls with Off, 1m, 5m, and 15m options for torch, strobe, and SOS modes
 - improved foreground service shutdown so the service and notification stop cleanly when flashlight modes are off
