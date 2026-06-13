@@ -1,5 +1,9 @@
 # Bright Flashlight
 
+### Documentation
+
+- [App Preferences](docs/app-preferences.md)
+
 ### Changelog
 
 ### 0.5.9
