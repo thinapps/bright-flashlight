@@ -163,6 +163,7 @@
                 android:layout_height="wrap_content">
 
                 <TextView
+                    android:id="@+id/txtStrobeSpeed"
                     android:text="@string/strobe_speed"
                     android:textColor="@color/md_text"
                     android:layout_width="wrap_content"
@@ -173,10 +174,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:valueFrom="1"
-                    android:valueTo="10"
+                    android:valueFrom="0"
+                    android:valueTo="4"
                     android:stepSize="1"
-                    android:value="5" />
+                    android:value="1" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
