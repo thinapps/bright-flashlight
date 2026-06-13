@@ -8,6 +8,8 @@
 ### Changelog
 
 ### 0.6.3
+- lowered the main control area slightly for easier one-handed power button reach
+- restyled Auto-off as a darker segmented switch matching the Mode control
 - removed the duplicate Screen Light section label above the button
 - replaced the Screen Light button icon with a dedicated mobile icon drawable
 - removed unused screen icon drawable after switching to the mobile icon
