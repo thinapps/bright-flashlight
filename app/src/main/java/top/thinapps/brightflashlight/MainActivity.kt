@@ -111,11 +111,13 @@ class MainActivity : ComponentActivity() {
         }
 
         binding.sliderStrobe.addOnChangeListener { _, value, fromUser ->
+            val speedHz = strobeSpeedForSlider(value.toInt())
+            updateStrobeSpeedLabel(speedHz)
             if (fromUser && !restoringPreferences) {
-                saveStrobeSpeedPreference(value.toInt())
+                saveStrobeSpeedPreference(speedHz)
             }
             if (fromUser && strobeRunning) {
-                sendToService(ACTION_STROBE_UPDATE, strobeSpeed = value.toInt())
+                sendToService(ACTION_STROBE_UPDATE, strobeSpeed = speedHz)
             }
         }
 
@@ -125,6 +127,7 @@ class MainActivity : ComponentActivity() {
             }
         }
 
+        updateStrobeSpeedLabel()
         restorePreferences()
 
         val hasCam = hasCameraPermission()
@@ -182,7 +185,8 @@ class MainActivity : ComponentActivity() {
                 else -> R.id.btnAutoOffOff
             }
         )
-        binding.sliderStrobe.value = saved.strobeSpeed.toFloat()
+        binding.sliderStrobe.value = sliderValueForStrobeSpeed(saved.strobeSpeed).toFloat()
+        updateStrobeSpeedLabel(saved.strobeSpeed)
     }
 
     private fun ensureTorch() {
@@ -277,8 +281,7 @@ class MainActivity : ComponentActivity() {
                     setPowerLabel(true)
                 } else {
                     stopAllModes()
-                    val speed = binding.sliderStrobe.value.toInt()
-                    sendToService(ACTION_STROBE_START, strobeSpeed = speed)
+                    sendToService(ACTION_STROBE_START, strobeSpeed = selectedStrobeSpeed())
                     strobeRunning = true
                     setPowerLabel(false)
                 }
@@ -313,7 +316,7 @@ class MainActivity : ComponentActivity() {
                 val intensity = (sliderBrightness?.value ?: 1f).toInt().coerceAtLeast(1)
                 sendToService(ACTION_TORCH_ON, torchIntensity = intensity)
             }
-            strobeRunning -> sendToService(ACTION_STROBE_START, strobeSpeed = binding.sliderStrobe.value.toInt())
+            strobeRunning -> sendToService(ACTION_STROBE_START, strobeSpeed = selectedStrobeSpeed())
             sosRunning -> sendToService(ACTION_SOS_START)
         }
     }
@@ -363,6 +366,48 @@ class MainActivity : ComponentActivity() {
                 setEnabledRecursive(view.getChildAt(i), enabled)
             }
         }
+    }
+
+    private fun selectedStrobeSpeed(): Int {
+        return strobeSpeedForSlider(binding.sliderStrobe.value.toInt())
+    }
+
+    private fun strobeSpeedForSlider(value: Int): Int {
+        return when (value.coerceIn(0, 4)) {
+            0 -> 1
+            1 -> 2
+            2 -> 3
+            3 -> 4
+            else -> 6
+        }
+    }
+
+    private fun sliderValueForStrobeSpeed(speed: Int): Int {
+        return when {
+            speed <= 1 -> 0
+            speed == 2 -> 1
+            speed == 3 -> 2
+            speed == 4 -> 3
+            else -> 4
+        }
+    }
+
+    private fun updateStrobeSpeedLabel(speed: Int = selectedStrobeSpeed()) {
+        binding.txtStrobeSpeed.text = getString(
+            R.string.strobe_speed_value,
+            strobeSpeedDisplayName(speed)
+        )
+    }
+
+    private fun strobeSpeedDisplayName(speed: Int): String {
+        val label = when {
+            speed <= 1 -> getString(R.string.strobe_speed_slow)
+            speed == 2 -> getString(R.string.strobe_speed_medium)
+            speed == 3 -> getString(R.string.strobe_speed_alert)
+            speed == 4 -> getString(R.string.strobe_speed_fast)
+            else -> getString(R.string.strobe_speed_max)
+        }
+        return "$label (${strobeSpeedForSlider(sliderValueForStrobeSpeed(speed))} Hz)"
     }
 
     private fun saveModePreference() {
