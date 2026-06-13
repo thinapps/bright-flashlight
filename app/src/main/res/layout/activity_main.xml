@@ -29,7 +29,7 @@
                     android:id="@+id/groupMode"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="12dp"
+                    android:layout_marginBottom="16dp"
                     app:singleSelection="true"
                     app:selectionRequired="true"
                     app:checkedButton="@id/btnModeTorch">
@@ -61,16 +61,32 @@
 
                 <Button
                     android:id="@+id/btnToggle"
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:drawableStart="@drawable/ic_power"
-                    android:text="@string/action_torch_on" />
+                    android:layout_width="156dp"
+                    android:layout_height="156dp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/bg_power_button_off"
+                    android:drawableTop="@drawable/ic_power"
+                    android:drawablePadding="8dp"
+                    android:elevation="8dp"
+                    android:gravity="center"
+                    android:minWidth="0dp"
+                    android:minHeight="0dp"
+                    android:paddingLeft="18dp"
+                    android:paddingTop="26dp"
+                    android:paddingRight="18dp"
+                    android:paddingBottom="22dp"
+                    android:stateListAnimator="@null"
+                    android:text="@string/action_torch_on"
+                    android:textAllCaps="true"
+                    android:textColor="#FFFFFFFF"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
 
                 <LinearLayout
                     android:id="@+id/layoutAccessNotice"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginTop="16dp"
                     android:orientation="vertical"
                     android:visibility="gone">
 
