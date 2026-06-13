@@ -54,11 +54,13 @@ class MainActivity : ComponentActivity() {
         ActivityResultContracts.RequestPermission()
     ) { granted ->
         if (granted) {
+            showAccessNotice(false)
             ensureTorch()
             refreshTorchUi()
             syncUiEnabledState(true)
             if (selectedMode == Mode.TORCH && torchAvailable) onPowerClicked(binding.btnToggle)
         } else {
+            showAccessNotice(true)
             syncUiEnabledState(false)
         }
     }
@@ -73,6 +75,7 @@ class MainActivity : ComponentActivity() {
         sliderBrightness = binding.root.findViewById(R.id.sliderBrightness)
 
         binding.btnToggle.setOnClickListener(::onPowerClicked)
+        binding.btnAccessNotice.setOnClickListener { requestCameraPermission() }
 
         binding.btnScreenLight.setOnClickListener {
             startActivity(Intent(this, ScreenLightActivity::class.java))
@@ -125,10 +128,11 @@ class MainActivity : ComponentActivity() {
 
         val hasCam = hasCameraPermission()
         if (hasCam) {
+            showAccessNotice(false)
             ensureTorch()
             refreshTorchUi()
         } else {
-            binding.txtNoFlash.visibility = View.GONE
+            showAccessNotice(true)
             requestCameraPermission()
         }
         syncUiEnabledState(hasCam)
@@ -142,9 +146,13 @@ class MainActivity : ComponentActivity() {
             restoringPreferences = false
 
             if (hasCameraPermission()) {
+                showAccessNotice(false)
                 ensureTorch()
                 refreshTorchUi()
                 syncUiEnabledState(true)
+            } else {
+                showAccessNotice(true)
+                syncUiEnabledState(false)
             }
         }
     }
@@ -189,6 +197,17 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun refreshTorchUi() {
+        if (!hasCameraPermission()) {
+            showAccessNotice(true)
+            binding.txtNoFlash.visibility = View.GONE
+            binding.cardBrightness.visibility = View.GONE
+            binding.cardStrobe.visibility = View.GONE
+            binding.cardAutoOff.visibility = View.GONE
+            return
+        }
+
+        showAccessNotice(false)
+
         if (!torchAvailable) {
             binding.txtNoFlash.visibility = View.VISIBLE
             binding.cardBrightness.visibility = View.GONE
@@ -226,6 +245,10 @@ class MainActivity : ComponentActivity() {
 
     private fun requestCameraPermission() {
         permLauncher.launch(Manifest.permission.CAMERA)
+    }
+
+    private fun showAccessNotice(show: Boolean) {
+        binding.layoutAccessNotice.visibility = if (show) View.VISIBLE else View.GONE
     }
 
     @Suppress("UNUSED_PARAMETER")
@@ -278,6 +301,7 @@ class MainActivity : ComponentActivity() {
         if (hasCameraPermission()) {
             block()
         } else {
+            showAccessNotice(true)
             requestCameraPermission()
         }
     }
