@@ -15,7 +15,7 @@ data class SavedPreferences(
     val screenLightR: Int = 255,
     val screenLightG: Int = 255,
     val screenLightB: Int = 255,
-    val screenLightPreset: String = "WHITE"
+    val screenLightPreset: String? = null
 )
 
 private val Context.brightFlashlightDataStore by preferencesDataStore(
@@ -42,7 +42,7 @@ class AppPreferences(private val context: Context) {
             screenLightR = (prefs[Keys.SCREEN_LIGHT_R] ?: 255).coerceIn(0, 255),
             screenLightG = (prefs[Keys.SCREEN_LIGHT_G] ?: 255).coerceIn(0, 255),
             screenLightB = (prefs[Keys.SCREEN_LIGHT_B] ?: 255).coerceIn(0, 255),
-            screenLightPreset = prefs[Keys.SCREEN_LIGHT_PRESET] ?: "WHITE"
+            screenLightPreset = prefs[Keys.SCREEN_LIGHT_PRESET]
         )
     }
 
