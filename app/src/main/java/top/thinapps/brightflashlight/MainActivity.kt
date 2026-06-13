@@ -79,6 +79,7 @@ class MainActivity : ComponentActivity() {
             }
             stopAllModes()
             setPowerLabel(off = true)
+            refreshTorchUi()
         }
 
         binding.groupAutoOff.addOnButtonCheckedListener { _, checkedId, isChecked ->
@@ -87,6 +88,7 @@ class MainActivity : ComponentActivity() {
                 R.id.btnAutoOff1 -> 1
                 R.id.btnAutoOff5 -> 5
                 R.id.btnAutoOff15 -> 15
+                R.id.btnAutoOff30 -> 30
                 else -> 0
             }
             updateAutoOffIfRunning()
@@ -137,14 +139,14 @@ class MainActivity : ComponentActivity() {
         }
 
         binding.txtNoFlash.visibility = View.GONE
-        binding.cardStrobe.visibility = View.VISIBLE
         binding.cardAutoOff.visibility = View.VISIBLE
+        binding.cardStrobe.visibility = if (selectedMode == Mode.STROBE) View.VISIBLE else View.GONE
         setupBrightnessUi()
     }
 
     private fun setupBrightnessUi() {
         val sb = sliderBrightness ?: return
-        if (!strengthSupported || maxStrength <= 1) {
+        if (selectedMode != Mode.TORCH || !strengthSupported || maxStrength <= 1) {
             binding.cardBrightness.visibility = View.GONE
             return
         }
@@ -255,7 +257,7 @@ class MainActivity : ComponentActivity() {
         val torchControlsEnabled = enabled && torchAvailable
         binding.btnToggle.isEnabled = torchControlsEnabled
         binding.sliderStrobe.isEnabled = torchControlsEnabled
-        sliderBrightness?.isEnabled = torchControlsEnabled && strengthSupported
+        sliderBrightness?.isEnabled = torchControlsEnabled && strengthSupported && selectedMode == Mode.TORCH
         setEnabledRecursive(binding.groupMode, torchControlsEnabled)
         setEnabledRecursive(binding.groupAutoOff, torchControlsEnabled)
         binding.btnScreenLight.isEnabled = true
