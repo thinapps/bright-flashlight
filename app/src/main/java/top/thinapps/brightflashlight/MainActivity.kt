@@ -335,6 +335,9 @@ class MainActivity : ComponentActivity() {
 
     private fun setPowerLabel(off: Boolean) {
         binding.btnToggle.setText(if (off) R.string.action_torch_on else R.string.action_torch_off)
+        binding.btnToggle.setBackgroundResource(
+            if (off) R.drawable.bg_power_button_off else R.drawable.bg_power_button_on
+        )
     }
 
     private fun syncUiEnabledState(enabled: Boolean) {
@@ -345,6 +348,12 @@ class MainActivity : ComponentActivity() {
         setEnabledRecursive(binding.groupMode, torchControlsEnabled)
         setEnabledRecursive(binding.groupAutoOff, torchControlsEnabled)
         binding.btnScreenLight.isEnabled = true
+        if (!torchControlsEnabled) {
+            binding.btnToggle.setText(R.string.action_torch_on)
+            binding.btnToggle.setBackgroundResource(R.drawable.bg_power_button_disabled)
+        } else {
+            setPowerLabel(off = !(torchOn || strobeRunning || sosRunning))
+        }
     }
 
     private fun setEnabledRecursive(view: View, enabled: Boolean) {
