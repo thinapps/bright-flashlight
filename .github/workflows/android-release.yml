@@ -69,11 +69,6 @@ jobs:
           set -euo pipefail
           echo "${{ secrets.RELEASE_KEYSTORE }}" | base64 --decode > "$HOME/keystore/upload-key.jks"
 
-      - name: Diagnose Kotlin compile (verbose)
-        run: |
-          ./gradlew --no-daemon --stacktrace --debug --info --warning-mode all \
-            --rerun-tasks :app:compileReleaseKotlin
-
       - name: Build signed Release bundle
         run: ./gradlew --no-daemon --stacktrace --info clean bundleRelease
 
