@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Bright Flashlight</string>
     <string name="permission_rationale">Flashlight requires camera permission to control the torch.</string>
+    <string name="camera_permission_message">Camera permission is required to control the flashlight. Screen Light works without camera permission.</string>
+    <string name="camera_permission_button">Allow Camera Permission</string>
 
     <string name="action_torch_on">Torch ON</string>
     <string name="action_torch_off">Torch OFF</string>
