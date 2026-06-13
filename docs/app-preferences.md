@@ -49,6 +49,7 @@ Current saved values:
 | `screen_light_r` | Int | `255` | Restores the red channel for Screen Light. |
 | `screen_light_g` | Int | `255` | Restores the green channel for Screen Light. |
 | `screen_light_b` | Int | `255` | Restores the blue channel for Screen Light. |
+| `screen_light_preset` | String | none | Restores the selected Screen Light preset button when a preset was tapped. |
 
 ## Intentionally not saved
 
@@ -75,6 +76,7 @@ On app launch, `MainActivity` restores:
 On Screen Light launch, `ScreenLightActivity` restores:
 
 - last RGB color
+- selected preset button, when the saved color came from a preset
 
 ## Save behavior
 
@@ -83,8 +85,8 @@ The app saves preferences when the user changes normal UI choices:
 - changing mode saves `last_mode`
 - changing Auto-off saves `auto_off_minutes`
 - changing Strobe speed saves `strobe_speed`
-- tapping a Screen Light preset saves RGB values
-- manually changing Screen Light RGB sliders saves RGB values
+- tapping a Screen Light preset saves RGB values and `screen_light_preset`
+- manually changing Screen Light RGB sliders saves RGB values and clears `screen_light_preset`
 
 ## Adding new preferences
 
@@ -107,4 +109,5 @@ Before shipping preference changes, test:
 - change Strobe speed, close app, reopen app
 - change Screen Light preset, close Screen Light, reopen Screen Light
 - change Screen Light sliders manually, close Screen Light, reopen Screen Light
+- confirm manual Screen Light slider changes clear the selected preset button
 - confirm flashlight does not turn on automatically after reopening the app
