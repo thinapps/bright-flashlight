@@ -77,8 +77,18 @@ jobs:
       - name: Build signed Release bundle
         run: ./gradlew --no-daemon --stacktrace --info clean bundleRelease
 
+      - name: Name release bundle
+        run: |
+          set -euo pipefail
+          VERSION_NAME=$(grep -m1 'versionName' app/build.gradle | sed -E 's/.*"([^"]+)".*/\1/')
+          AAB_BASENAME="bright-flashlight-${VERSION_NAME}-release"
+          AAB_FILE="${AAB_BASENAME}.aab"
+          cp app/build/outputs/bundle/release/app-release.aab "$AAB_FILE"
+          echo "AAB_BASENAME=$AAB_BASENAME" >> "$GITHUB_ENV"
+          echo "AAB_FILE=$AAB_FILE" >> "$GITHUB_ENV"
+
       - name: Verify AAB signature
-        run: jarsigner -verify app/build/outputs/bundle/release/app-release.aab
+        run: jarsigner -verify "$AAB_FILE"
 
       - name: Upload build logs
         if: failure()
@@ -97,5 +107,5 @@ jobs:
         if: success()
         uses: actions/upload-artifact@v4
         with:
-          name: app-release
-          path: app/build/outputs/bundle/release/app-release.aab
+          name: ${{ env.AAB_BASENAME }}
+          path: ${{ env.AAB_FILE }}
