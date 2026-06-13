@@ -75,7 +75,6 @@
                     android:paddingTop="26dp"
                     android:paddingRight="18dp"
                     android:paddingBottom="22dp"
-                    android:stateListAnimator="@null"
                     android:text="@string/action_torch_on"
                     android:textAllCaps="true"
                     android:textColor="#FFFFFFFF"
