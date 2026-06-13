@@ -45,7 +45,7 @@ Current saved values:
 | --- | --- | --- | --- |
 | `last_mode` | String | `TORCH` | Restores the last selected flashlight mode. |
 | `auto_off_minutes` | Int | `0` | Restores the selected Auto-off option. |
-| `strobe_speed` | Int | `5` | Restores the Strobe speed slider. |
+| `strobe_speed` | Int | `2` | Restores the selected Strobe speed in hertz. Supported preset values are `1`, `2`, `3`, `4`, and `6`. |
 | `screen_light_r` | Int | `255` | Restores the red channel for Screen Light. |
 | `screen_light_g` | Int | `255` | Restores the green channel for Screen Light. |
 | `screen_light_b` | Int | `255` | Restores the blue channel for Screen Light. |
@@ -107,6 +107,7 @@ Before shipping preference changes, test:
 - change mode, close app, reopen app
 - change Auto-off, close app, reopen app
 - change Strobe speed, close app, reopen app
+- confirm Strobe speed restores to the same named preset
 - change Screen Light preset, close Screen Light, reopen Screen Light
 - change Screen Light sliders manually, close Screen Light, reopen Screen Light
 - confirm manual Screen Light slider changes clear the selected preset button
