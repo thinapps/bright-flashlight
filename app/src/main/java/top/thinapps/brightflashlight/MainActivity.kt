@@ -59,7 +59,6 @@ class MainActivity : ComponentActivity() {
             ensureTorch()
             refreshTorchUi()
             syncUiEnabledState(true)
-            if (selectedMode == Mode.TORCH && torchAvailable) onPowerClicked(binding.btnToggle)
         } else {
             showAccessNotice(true)
             syncUiEnabledState(false)
