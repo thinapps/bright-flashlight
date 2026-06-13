@@ -12,6 +12,7 @@
     <string name="action_sos_stop">Stop SOS</string>
     <string name="action_open_screen_light">Screen Light</string>
 
+    <string name="mode_label">Mode</string>
     <string name="mode_torch">Torch</string>
     <string name="mode_strobe">Strobe</string>
     <string name="mode_sos">SOS</string>
