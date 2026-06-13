@@ -9,8 +9,13 @@ import android.view.ViewGroup
 import androidx.activity.ComponentActivity
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.slider.Slider
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import top.thinapps.brightflashlight.databinding.ActivityMainBinding
+import top.thinapps.brightflashlight.prefs.AppPreferences
+import top.thinapps.brightflashlight.prefs.SavedPreferences
 import top.thinapps.brightflashlight.torch.TorchController
 import top.thinapps.brightflashlight.torch.TorchService
 import top.thinapps.brightflashlight.torch.TorchService.Companion.ACTION_SOS_START
@@ -29,6 +34,7 @@ class MainActivity : ComponentActivity() {
     private enum class Mode { TORCH, STROBE, SOS }
 
     private lateinit var binding: ActivityMainBinding
+    private lateinit var appPreferences: AppPreferences
 
     private var sliderBrightness: Slider? = null
 
@@ -37,6 +43,7 @@ class MainActivity : ComponentActivity() {
     private var torchOn = false
     private var strobeRunning = false
     private var sosRunning = false
+    private var restoringPreferences = false
 
     private var torch: TorchController? = null
     private var torchAvailable = false
@@ -59,6 +66,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        appPreferences = AppPreferences(applicationContext)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -80,6 +88,7 @@ class MainActivity : ComponentActivity() {
             stopAllModes()
             setPowerLabel(off = true)
             refreshTorchUi()
+            if (!restoringPreferences) saveModePreference()
         }
 
         binding.groupAutoOff.addOnButtonCheckedListener { _, checkedId, isChecked ->
@@ -91,10 +100,16 @@ class MainActivity : ComponentActivity() {
                 R.id.btnAutoOff30 -> 30
                 else -> 0
             }
-            updateAutoOffIfRunning()
+            if (!restoringPreferences) {
+                saveAutoOffPreference()
+                updateAutoOffIfRunning()
+            }
         }
 
         binding.sliderStrobe.addOnChangeListener { _, value, fromUser ->
+            if (fromUser && !restoringPreferences) {
+                saveStrobeSpeedPreference(value.toInt())
+            }
             if (fromUser && strobeRunning) {
                 sendToService(ACTION_STROBE_UPDATE, strobeSpeed = value.toInt())
             }
@@ -106,6 +121,8 @@ class MainActivity : ComponentActivity() {
             }
         }
 
+        restorePreferences()
+
         val hasCam = hasCameraPermission()
         if (hasCam) {
             ensureTorch()
@@ -115,6 +132,48 @@ class MainActivity : ComponentActivity() {
             requestCameraPermission()
         }
         syncUiEnabledState(hasCam)
+    }
+
+    private fun restorePreferences() {
+        lifecycleScope.launch {
+            val saved = appPreferences.preferences.first()
+            restoringPreferences = true
+            applySavedPreferences(saved)
+            restoringPreferences = false
+
+            if (hasCameraPermission()) {
+                ensureTorch()
+                refreshTorchUi()
+                syncUiEnabledState(true)
+            }
+        }
+    }
+
+    private fun applySavedPreferences(saved: SavedPreferences) {
+        selectedMode = when (saved.lastMode) {
+            Mode.STROBE.name -> Mode.STROBE
+            Mode.SOS.name -> Mode.SOS
+            else -> Mode.TORCH
+        }
+        selectedAutoOffMinutes = saved.autoOffMinutes
+
+        binding.groupMode.check(
+            when (selectedMode) {
+                Mode.STROBE -> R.id.btnModeStrobe
+                Mode.SOS -> R.id.btnModeSos
+                Mode.TORCH -> R.id.btnModeTorch
+            }
+        )
+        binding.groupAutoOff.check(
+            when (selectedAutoOffMinutes) {
+                1 -> R.id.btnAutoOff1
+                5 -> R.id.btnAutoOff5
+                15 -> R.id.btnAutoOff15
+                30 -> R.id.btnAutoOff30
+                else -> R.id.btnAutoOffOff
+            }
+        )
+        binding.sliderStrobe.value = saved.strobeSpeed.toFloat()
     }
 
     private fun ensureTorch() {
@@ -269,6 +328,24 @@ class MainActivity : ComponentActivity() {
             for (i in 0 until view.childCount) {
                 setEnabledRecursive(view.getChildAt(i), enabled)
             }
+        }
+    }
+
+    private fun saveModePreference() {
+        lifecycleScope.launch {
+            appPreferences.saveMode(selectedMode.name)
+        }
+    }
+
+    private fun saveAutoOffPreference() {
+        lifecycleScope.launch {
+            appPreferences.saveAutoOffMinutes(selectedAutoOffMinutes)
+        }
+    }
+
+    private fun saveStrobeSpeedPreference(speed: Int) {
+        lifecycleScope.launch {
+            appPreferences.saveStrobeSpeed(speed)
         }
     }
 
