@@ -3,6 +3,7 @@ package top.thinapps.brightflashlight.torch
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.app.Service
 import android.content.Context
 import android.content.Intent
@@ -158,11 +159,25 @@ class TorchService : Service() {
             }
             nm.createNotificationChannel(ch)
         }
+
+        val offIntent = Intent(this, TorchService::class.java).setAction(ACTION_TORCH_OFF)
+        val offPendingIntent = PendingIntent.getService(
+            this,
+            0,
+            offIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+
         return NotificationCompat.Builder(this, CH_ID)
             .setOngoing(true)
             .setSmallIcon(R.drawable.ic_power)
             .setContentTitle(getString(R.string.app_name))
             .setContentText(getString(R.string.notification_running))
+            .addAction(
+                R.drawable.ic_power,
+                getString(R.string.notification_action_turn_off),
+                offPendingIntent
+            )
             .build()
     }
 
