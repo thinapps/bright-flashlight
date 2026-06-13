@@ -128,23 +128,11 @@
                         app:strokeWidth="1dp" />
                 </com.google.android.material.button.MaterialButtonToggleGroup>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="16dp"
-                    android:letterSpacing="0.14"
-                    android:text="@string/display_light_label"
-                    android:textAllCaps="true"
-                    android:textColor="@color/md_text_dim"
-                    android:textSize="12sp"
-                    android:textStyle="bold" />
-
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnScreenLight"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="16dp"
                     android:insetTop="0dp"
                     android:insetBottom="0dp"
                     android:text="@string/action_open_screen_light"
