@@ -39,14 +39,20 @@ class ScreenLightActivity : ComponentActivity() {
         seekG.setOnSeekBarChangeListener(listener)
         seekB.setOnSeekBarChangeListener(listener)
 
-        // default white color
-        seekR.progress = 255
-        seekG.progress = 255
-        seekB.progress = 255
-        applyColor()
+        findViewById<View>(R.id.btnPresetWhite).setOnClickListener { setColor(255, 255, 255) }
+        findViewById<View>(R.id.btnPresetWarm).setOnClickListener { setColor(255, 196, 120) }
+        findViewById<View>(R.id.btnPresetRed).setOnClickListener { setColor(255, 0, 0) }
+        findViewById<View>(R.id.btnPresetBlue).setOnClickListener { setColor(0, 96, 255) }
 
-        // keep screen on
+        setColor(255, 255, 255)
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+    }
+
+    private fun setColor(r: Int, g: Int, b: Int) {
+        seekR.progress = r.coerceIn(0, 255)
+        seekG.progress = g.coerceIn(0, 255)
+        seekB.progress = b.coerceIn(0, 255)
+        applyColor()
     }
 
     private fun applyColor() {
