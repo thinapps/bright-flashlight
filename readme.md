@@ -7,6 +7,10 @@
 
 ### Changelog
 
+### 0.6.2
+- moved the flashlight mode selector below the main power button
+- restyled Torch, Strobe, and SOS as a darker hardware-style segmented switch
+
 ### 0.6.1
 - changed permission approval flow so controls are enabled without starting Torch mode
 - added haptic feedback when touching the main power button
