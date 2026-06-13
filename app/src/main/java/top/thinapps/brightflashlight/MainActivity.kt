@@ -27,6 +27,7 @@ import top.thinapps.brightflashlight.torch.TorchService.Companion.ACTION_TORCH_O
 import top.thinapps.brightflashlight.torch.TorchService.Companion.ACTION_TORCH_ON
 import top.thinapps.brightflashlight.torch.TorchService.Companion.ACTION_TORCH_UPDATE_INTENSITY
 import top.thinapps.brightflashlight.torch.TorchService.Companion.EXTRA_AUTO_OFF_MINUTES
+import top.thinapps.brightflashlight.torch.TorchService.Companion.EXTRA_STROBE_SPEED
 import top.thinapps.brightflashlight.ui.ScreenLightActivity
 
 class MainActivity : ComponentActivity() {
@@ -381,7 +382,7 @@ class MainActivity : ComponentActivity() {
         val i = Intent(this, TorchService::class.java)
         if (action != null) i.action = action
         i.putExtra(EXTRA_AUTO_OFF_MINUTES, selectedAutoOffMinutes)
-        strobeSpeed?.let { i.putExtra("strobeSpeed", it) }
+        strobeSpeed?.let { i.putExtra(EXTRA_STROBE_SPEED, it) }
         torchIntensity?.let { i.putExtra(TorchService.EXTRA_TORCH_INTENSITY, it) }
         ContextCompat.startForegroundService(this, i)
     }
