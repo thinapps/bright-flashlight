@@ -7,13 +7,15 @@
 
 ### Changelog
 
+### 0.6.3
+- removed the duplicate Screen Light section label above the button
+- replaced the Screen Light button icon with a dedicated mobile icon drawable
+- removed unused screen icon drawable after switching to the mobile icon
+
 ### 0.6.2
 - moved the flashlight mode selector below the main power button
 - restyled Torch, Strobe, and SOS as a darker hardware-style segmented switch
 - repositioned Screen Light as a secondary control in the main control card
-- removed the duplicate Screen Light section label above the button
-- replaced the Screen Light button icon with a dedicated mobile icon drawable
-- removed unused power button and screen icon drawables
 
 ### 0.6.1
 - changed permission approval flow so controls are enabled without starting Torch mode
