@@ -7,6 +7,12 @@
 
 ### Changelog
 
+### 0.5.11
+- kept the selected Screen Light preset button visually checked after tapping White, Warm, Red, or Blue
+- restored the selected Screen Light preset button when reopening Screen Light
+- cleared the selected Screen Light preset when RGB sliders are manually adjusted
+- documented the saved Screen Light preset preference and testing behavior
+
 ### 0.5.10
 - kept Camera permission request on app launch while adding a clearer inline recovery message when permission is missing
 - added an `Allow Camera Permission` button for users who deny or dismiss the first prompt
