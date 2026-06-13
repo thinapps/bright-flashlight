@@ -9,6 +9,7 @@ android {
         applicationId "top.thinapps.brightflashlight"
         minSdk 24
         targetSdk 35
+
         versionCode 18
         versionName "0.5.11"
 
@@ -17,23 +18,27 @@ android {
 
     signingConfigs {
         release {
-            def suffix = "Pass" + "w" + "ord"
+            // Release signing values are supplied by GitHub Actions via ~/.gradle/gradle.properties.
+            // Do not hard-code keystore paths, aliases, or passwords in the repo.
             storeFile file(project.findProperty("RELEASE_STORE_FILE"))
-            setProperty("store" + suffix, project.findProperty("RELEASE_" + "STORE_" + "PASS" + "WORD"))
+            storePassword project.findProperty("RELEASE_STORE_PASSWORD")
             keyAlias project.findProperty("RELEASE_KEY_ALIAS")
-            setProperty("key" + suffix, project.findProperty("RELEASE_" + "KEY_" + "PASS" + "WORD"))
+            keyPassword project.findProperty("RELEASE_KEY_PASSWORD")
         }
     }
 
     buildTypes {
         release {
             signingConfig signingConfigs.release
-        }
-        debug {
+
+            // Keep minification disabled for now because this small app does not need it yet.
+            minifyEnabled false
+            shrinkResources false
         }
     }
 
     buildFeatures {
+        // Required for ActivityMainBinding and other generated view binding classes.
         viewBinding true
     }
 
@@ -48,7 +53,7 @@ android {
 
     packagingOptions {
         resources {
-            excludes += [ "META-INF/*" ]
+            excludes += ["META-INF/*"]
         }
     }
 }
@@ -57,17 +62,20 @@ dependencies {
     implementation platform("org.jetbrains.kotlin:kotlin-bom:1.9.24")
     implementation "org.jetbrains.kotlin:kotlin-stdlib"
 
+    // AndroidX core UI/runtime support.
     implementation "androidx.core:core-ktx:1.15.0"
     implementation "androidx.appcompat:appcompat:1.7.0"
-    implementation "com.google.android.material:material:1.13.0"
-
-    implementation "androidx.datastore:datastore-preferences:1.2.1"
-
-    implementation "androidx.constraintlayout:constraintlayout:2.2.0"
-
     implementation "androidx.activity:activity-ktx:1.9.3"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.8.6"
 
+    // Material Components for sliders, buttons, cards, and toggle groups.
+    implementation "com.google.android.material:material:1.13.0"
+    implementation "androidx.constraintlayout:constraintlayout:2.2.0"
+
+    // Local app preferences for remembered UI choices.
+    implementation "androidx.datastore:datastore-preferences:1.2.1"
+
+    // Lightweight helpers kept for compatibility/future AndroidX usage.
     implementation "androidx.preference:preference-ktx:1.2.1"
     implementation "androidx.annotation:annotation:1.8.2"
 }
