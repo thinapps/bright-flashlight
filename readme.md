@@ -10,6 +10,7 @@
 ### 0.6.2
 - moved the flashlight mode selector below the main power button
 - restyled Torch, Strobe, and SOS as a darker hardware-style segmented switch
+- repositioned Screen Light as a secondary Display Light control in the main control card
 
 ### 0.6.1
 - changed permission approval flow so controls are enabled without starting Torch mode
