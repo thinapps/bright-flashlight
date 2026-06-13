@@ -12,6 +12,7 @@
 - added an `Allow Camera Permission` button for users who deny or dismiss the first prompt
 - kept Torch, Strobe, SOS, brightness, speed, and Auto-off unavailable until Camera permission exists
 - kept Screen Light available without Camera permission
+- centralized the Strobe speed service extra so activity and service use the same constant
 - documented Camera permission behavior and testing expectations
 
 ### 0.5.9
