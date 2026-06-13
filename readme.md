@@ -7,6 +7,12 @@
 
 ### Changelog
 
+### 0.5.12
+- replaced the 1–10 Strobe speed slider with a 5-stop preset slider
+- mapped Strobe presets to Slow 1 Hz, Medium 2 Hz, Alert 3 Hz, Fast 4 Hz, and Max 6 Hz
+- changed the Strobe speed label to show the selected named preset and hertz value
+- updated saved Strobe speed behavior so the app stores the actual preset hertz value
+
 ### 0.5.11
 - kept the selected Screen Light preset button visually checked after tapping White, Warm, Red, or Blue
 - restored the selected Screen Light preset button when reopening Screen Light
