@@ -11,8 +11,8 @@ android {
         applicationId "top.thinapps.brightflashlight"
         minSdk 24
         targetSdk 35
-        versionCode 15
-        versionName "0.5.8"
+        versionCode 16
+        versionName "0.5.9"
 
         // forces the use of the support library for vector drawables
         vectorDrawables.useSupportLibrary = true
@@ -72,6 +72,9 @@ dependencies {
     implementation "androidx.core:core-ktx:1.15.0"
     implementation "androidx.appcompat:appcompat:1.7.0"
     implementation "com.google.android.material:material:1.13.0"
+
+    // local preferences
+    implementation "androidx.datastore:datastore-preferences:1.2.1"
 
     // ui components
     implementation "androidx.constraintlayout:constraintlayout:2.2.0"
