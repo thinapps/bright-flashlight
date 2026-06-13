@@ -12,7 +12,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <!-- CARD: Mode + Power -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -67,6 +66,29 @@
                     android:drawableStart="@drawable/ic_power"
                     android:text="@string/action_torch_on" />
 
+                <LinearLayout
+                    android:id="@+id/layoutAccessNotice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/txtAccessNotice"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/camera_permission_message"
+                        android:textColor="@color/md_text_dim" />
+
+                    <Button
+                        android:id="@+id/btnAccessNotice"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/camera_permission_button" />
+                </LinearLayout>
+
                 <TextView
                     android:id="@+id/txtNoFlash"
                     android:layout_width="match_parent"
@@ -79,7 +101,6 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- CARD: Brightness (torch strength if supported) -->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardBrightness"
             android:layout_width="match_parent"
@@ -112,7 +133,6 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- CARD: Strobe controls (speed) -->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardStrobe"
             android:layout_width="match_parent"
@@ -145,7 +165,6 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- CARD: Auto-off controls -->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardAutoOff"
             android:layout_width="match_parent"
@@ -218,7 +237,6 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- CARD: Screen light -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
