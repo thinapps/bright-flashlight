@@ -17,6 +17,7 @@
     <string name="mode_strobe">Strobe</string>
     <string name="mode_sos">SOS</string>
 
+    <string name="display_light_label">Display Light</string>
     <string name="strobe_speed">Strobe Speed</string>
     <string name="strobe_speed_value">Strobe Speed: %1$s</string>
     <string name="strobe_speed_slow">Slow</string>
