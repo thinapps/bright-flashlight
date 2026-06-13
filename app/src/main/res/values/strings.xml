@@ -17,6 +17,12 @@
     <string name="mode_sos">SOS</string>
 
     <string name="strobe_speed">Strobe Speed</string>
+    <string name="strobe_speed_value">Strobe Speed: %1$s</string>
+    <string name="strobe_speed_slow">Slow</string>
+    <string name="strobe_speed_medium">Medium</string>
+    <string name="strobe_speed_alert">Alert</string>
+    <string name="strobe_speed_fast">Fast</string>
+    <string name="strobe_speed_max">Max</string>
     <string name="torch_brightness">Brightness</string>
     <string name="timer_label">Auto-off</string>
     <string name="timer_off">Off</string>
