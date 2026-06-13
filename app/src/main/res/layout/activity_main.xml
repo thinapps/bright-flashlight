@@ -142,7 +142,7 @@
                     android:textStyle="bold"
                     app:backgroundTint="#FF22272D"
                     app:cornerRadius="18dp"
-                    app:icon="@drawable/ic_screen"
+                    app:icon="@drawable/ic_mobile"
                     app:iconGravity="textStart"
                     app:iconPadding="8dp"
                     app:iconTint="#FFFFFFFF"
