@@ -25,40 +25,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <com.google.android.material.button.MaterialButtonToggleGroup
-                    android:id="@+id/groupMode"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    app:singleSelection="true"
-                    app:selectionRequired="true"
-                    app:checkedButton="@id/btnModeTorch">
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnModeTorch"
-                        android:layout_width="0dp"
-                        android:layout_height="48dp"
-                        android:layout_weight="1"
-                        android:text="@string/mode_torch"
-                        android:checkable="true" />
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnModeStrobe"
-                        android:layout_width="0dp"
-                        android:layout_height="48dp"
-                        android:layout_weight="1"
-                        android:text="@string/mode_strobe"
-                        android:checkable="true" />
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnModeSos"
-                        android:layout_width="0dp"
-                        android:layout_height="48dp"
-                        android:layout_weight="1"
-                        android:text="@string/mode_sos"
-                        android:checkable="true" />
-                </com.google.android.material.button.MaterialButtonToggleGroup>
-
                 <Button
                     android:id="@+id/btnToggle"
                     android:layout_width="156dp"
@@ -80,6 +46,87 @@
                     android:textColor="#FFFFFFFF"
                     android:textSize="16sp"
                     android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="18dp"
+                    android:letterSpacing="0.14"
+                    android:text="@string/mode_label"
+                    android:textAllCaps="true"
+                    android:textColor="@color/md_text_dim"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <com.google.android.material.button.MaterialButtonToggleGroup
+                    android:id="@+id/groupMode"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/bg_mode_switch_rail"
+                    android:padding="4dp"
+                    app:singleSelection="true"
+                    app:selectionRequired="true"
+                    app:checkedButton="@id/btnModeTorch">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnModeTorch"
+                        android:layout_width="0dp"
+                        android:layout_height="44dp"
+                        android:layout_weight="1"
+                        android:checkable="true"
+                        android:insetTop="0dp"
+                        android:insetBottom="0dp"
+                        android:text="@string/mode_torch"
+                        android:textAllCaps="true"
+                        android:textColor="#FFFFFFFF"
+                        android:textSize="13sp"
+                        android:textStyle="bold"
+                        app:backgroundTint="@color/mode_switch_button_bg"
+                        app:cornerRadius="18dp"
+                        app:rippleColor="#33FFB36A"
+                        app:strokeColor="#44FFFFFF"
+                        app:strokeWidth="1dp" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnModeStrobe"
+                        android:layout_width="0dp"
+                        android:layout_height="44dp"
+                        android:layout_weight="1"
+                        android:checkable="true"
+                        android:insetTop="0dp"
+                        android:insetBottom="0dp"
+                        android:text="@string/mode_strobe"
+                        android:textAllCaps="true"
+                        android:textColor="#FFFFFFFF"
+                        android:textSize="13sp"
+                        android:textStyle="bold"
+                        app:backgroundTint="@color/mode_switch_button_bg"
+                        app:cornerRadius="18dp"
+                        app:rippleColor="#33FFB36A"
+                        app:strokeColor="#44FFFFFF"
+                        app:strokeWidth="1dp" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnModeSos"
+                        android:layout_width="0dp"
+                        android:layout_height="44dp"
+                        android:layout_weight="1"
+                        android:checkable="true"
+                        android:insetTop="0dp"
+                        android:insetBottom="0dp"
+                        android:text="@string/mode_sos"
+                        android:textAllCaps="true"
+                        android:textColor="#FFFFFFFF"
+                        android:textSize="13sp"
+                        android:textStyle="bold"
+                        app:backgroundTint="@color/mode_switch_button_bg"
+                        app:cornerRadius="18dp"
+                        app:rippleColor="#33FFB36A"
+                        app:strokeColor="#44FFFFFF"
+                        app:strokeWidth="1dp" />
+                </com.google.android.material.button.MaterialButtonToggleGroup>
 
                 <LinearLayout
                     android:id="@+id/layoutAccessNotice"
