@@ -28,10 +28,10 @@ class TorchService : Service() {
 
         const val EXTRA_TORCH_INTENSITY = "torchIntensity"
         const val EXTRA_AUTO_OFF_MINUTES = "autoOffMinutes"
+        const val EXTRA_STROBE_SPEED = "strobeSpeed"
 
         private const val CH_ID = "flashlight"
         private const val NOTIF_ID = 42
-        private const val EXTRA_STROBE_SPEED = "strobeSpeed"
         private const val PREFS = "torch_service_state"
         private const val KEY_ACTIVE = "active"
 
