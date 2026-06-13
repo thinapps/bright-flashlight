@@ -206,6 +206,14 @@
                         android:layout_weight="1"
                         android:text="@string/timer_15_min"
                         android:checkable="true" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnAutoOff30"
+                        android:layout_width="0dp"
+                        android:layout_height="48dp"
+                        android:layout_weight="1"
+                        android:text="@string/timer_30_min"
+                        android:checkable="true" />
                 </com.google.android.material.button.MaterialButtonToggleGroup>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
