@@ -128,6 +128,40 @@
                         app:strokeWidth="1dp" />
                 </com.google.android.material.button.MaterialButtonToggleGroup>
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="16dp"
+                    android:letterSpacing="0.14"
+                    android:text="@string/display_light_label"
+                    android:textAllCaps="true"
+                    android:textColor="@color/md_text_dim"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnScreenLight"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="8dp"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:text="@string/action_open_screen_light"
+                    android:textAllCaps="true"
+                    android:textColor="#FFFFFFFF"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    app:backgroundTint="#FF22272D"
+                    app:cornerRadius="18dp"
+                    app:icon="@drawable/ic_screen"
+                    app:iconGravity="textStart"
+                    app:iconPadding="8dp"
+                    app:iconTint="#FFFFFFFF"
+                    app:rippleColor="#33FFFFFF"
+                    app:strokeColor="#33FFFFFF"
+                    app:strokeWidth="1dp" />
+
                 <LinearLayout
                     android:id="@+id/layoutAccessNotice"
                     android:layout_width="match_parent"
@@ -297,27 +331,6 @@
                         android:text="@string/timer_30_min"
                         android:checkable="true" />
                 </com.google.android.material.button.MaterialButtonToggleGroup>
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
-
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardUseCompatPadding="true"
-            app:cardPreventCornerOverlap="true">
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:padding="16dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <Button
-                    android:id="@+id/btnScreenLight"
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:drawableStart="@drawable/ic_screen"
-                    android:text="@string/action_open_screen_light" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
