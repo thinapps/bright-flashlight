@@ -9,6 +9,7 @@
 
 ### 0.6.1
 - changed permission approval flow so controls are enabled without starting Torch mode
+- added haptic feedback when touching the main power button
 
 ### 0.6.0
 - kept the selected Screen Light preset button visually checked after tapping White, Warm, Red, or Blue
