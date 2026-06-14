@@ -48,6 +48,8 @@ class MainActivity : ComponentActivity() {
   private var torchAvailable = false
   private var strengthSupported = false
   private var maxStrength = 1
+  private var lastBrightnessHapticValue = -1
+  private var lastStrobeHapticValue = -1
 
   private val permLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
     if (granted) {
@@ -71,16 +73,21 @@ class MainActivity : ComponentActivity() {
     binding.btnToggle.setOnClickListener(::onPowerClicked)
     binding.btnToggle.setOnTouchListener { view, event ->
       if (event.actionMasked == MotionEvent.ACTION_DOWN && view.isEnabled) {
-        view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY)
+        performTapHaptic(view)
       }
       false
     }
-    binding.btnAccessNotice.setOnClickListener { requestCameraPermission() }
-    binding.btnScreenLight.setOnClickListener {
+    binding.btnAccessNotice.setOnClickListener { view ->
+      performTapHaptic(view)
+      requestCameraPermission()
+    }
+    binding.btnScreenLight.setOnClickListener { view ->
+      performTapHaptic(view)
       startActivity(Intent(this, ScreenLightActivity::class.java))
     }
     binding.groupMode.addOnButtonCheckedListener { _, checkedId, isChecked ->
       if (!isChecked) return@addOnButtonCheckedListener
+      if (!restoringPreferences) performTapHapticForId(checkedId)
       selectedMode = when (checkedId) {
         R.id.btnModeStrobe -> Mode.STROBE
         R.id.btnModeSos -> Mode.SOS
@@ -93,6 +100,7 @@ class MainActivity : ComponentActivity() {
     }
     binding.groupAutoOff.addOnButtonCheckedListener { _, checkedId, isChecked ->
       if (!isChecked) return@addOnButtonCheckedListener
+      if (!restoringPreferences) performTapHapticForId(checkedId)
       selectedAutoOffMinutes = when (checkedId) {
         R.id.btnAutoOff5 -> 5
         R.id.btnAutoOff15 -> 15
@@ -105,15 +113,25 @@ class MainActivity : ComponentActivity() {
         updateAutoOffIfRunning()
       }
     }
-    binding.sliderStrobe.addOnChangeListener { _, value, fromUser ->
-      val speedHz = StrobeSpeedPreset.hzForSliderValue(value.toInt())
+    binding.sliderStrobe.addOnChangeListener { slider, value, fromUser ->
+      val sliderValue = value.toInt()
+      if (fromUser && sliderValue != lastStrobeHapticValue) {
+        performTickHaptic(slider)
+        lastStrobeHapticValue = sliderValue
+      }
+      val speedHz = StrobeSpeedPreset.hzForSliderValue(sliderValue)
       updateStrobeSpeedLabel(speedHz)
       if (fromUser && !restoringPreferences) saveStrobeSpeedPreference(speedHz)
       if (fromUser && strobeRunning) sendToService(ACTION_STROBE_UPDATE, strobeSpeed = speedHz)
     }
-    sliderBrightness?.addOnChangeListener { _, value, fromUser ->
+    sliderBrightness?.addOnChangeListener { slider, value, fromUser ->
+      val sliderValue = value.toInt()
+      if (fromUser && sliderValue != lastBrightnessHapticValue) {
+        performTickHaptic(slider)
+        lastBrightnessHapticValue = sliderValue
+      }
       if (fromUser && torchOn && selectedMode == Mode.TORCH && strengthSupported) {
-        sendToService(ACTION_TORCH_UPDATE_INTENSITY, torchIntensity = value.toInt())
+        sendToService(ACTION_TORCH_UPDATE_INTENSITY, torchIntensity = sliderValue)
       }
     }
 
@@ -129,6 +147,18 @@ class MainActivity : ComponentActivity() {
       requestCameraPermission()
     }
     syncUiEnabledState(hasCam)
+  }
+
+  private fun performTapHaptic(view: View) {
+    view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY)
+  }
+
+  private fun performTickHaptic(view: View) {
+    view.performHapticFeedback(HapticFeedbackConstants.CLOCK_TICK)
+  }
+
+  private fun performTapHapticForId(viewId: Int) {
+    binding.root.findViewById<View>(viewId)?.let { performTapHaptic(it) }
   }
 
   private fun restorePreferences() {
