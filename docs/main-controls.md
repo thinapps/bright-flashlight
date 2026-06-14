@@ -23,7 +23,7 @@ Main control interactions should feel tactile:
 - Power button touch uses tap haptic feedback.
 - Screen shortcut click uses tap haptic feedback.
 - Mode and Auto-off changes use tap haptic feedback only for real user changes, not during saved-preference restore.
-- Brightness and Strobe Speed sliders use lighter tick haptic feedback on real user step changes.
+- Brightness and Strobe Speed sliders use the same tap haptic feedback as the other working controls on real user step changes.
 
 ## Control visibility
 
