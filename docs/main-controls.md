@@ -18,11 +18,11 @@ The effective horizontal screen gutter for the main controls is `24dp`, matching
 
 ## Power button
 
-The main power control uses a clickable circular layout, not a plain text `Button`, so the icon, future countdown timer, and ON/OFF label can be positioned independently.
+The main power control uses a clickable circular layout, not a plain text `Button`, so the icon, Auto-off countdown timer, and ON/OFF label can be positioned independently.
 
 The ON/OFF label should stay large and simple. The current label size is `18sp`.
 
-A reserved invisible countdown slot lives above the ON/OFF label. Keep this slot even before countdown behavior is wired, so a future Auto-off countdown can appear without shifting the power button layout.
+A reserved countdown slot lives above the ON/OFF label. It stays invisible when no Auto-off countdown is active so the power button layout does not shift. When a light mode is running and Auto-off is enabled, the slot shows a small white `MM:SS` countdown.
 
 ## Haptics
 
@@ -122,7 +122,9 @@ The supported options are:
 - 30 minutes
 - 1 hour
 
-Changing Auto-off while a light mode is running should update the running service state without changing the selected mode.
+Once a light mode is turned on, Auto-off controls are locked until the light mode is turned off. This prevents accidental timer changes while the flashlight is already running.
+
+When Auto-off is enabled before starting Torch, Strobe, or SOS, the power button shows a small white `MM:SS` countdown above the ON/OFF label. The countdown is Activity-side UI only; `TorchService` still owns the real shutdown timer.
 
 ## Testing checklist
 
@@ -134,7 +136,9 @@ Before shipping main-control changes, test:
 - Screen Light remains available without Camera permission
 - power, Screen, Mode, Auto-off, Brightness, and Strobe Speed provide haptic feedback on user interactions
 - power button ON/OFF label is clear at `18sp`
-- power button keeps an invisible reserved countdown slot above ON/OFF
+- power button keeps the countdown slot above ON/OFF without shifting the layout
+- Auto-off countdown appears as small white `MM:SS` text only when a light mode is active and Auto-off is enabled
+- Auto-off controls lock while Torch, Strobe, or SOS is active, then unlock when the light mode stops
 - Brightness value bubble starts at `1`, not `0`, on devices with torch strength support
 - Strobe Speed value bubble shows `1` through `5`, not `0` through `4`
 - Strobe Speed defaults to `Medium (2 Hz)`
