@@ -300,6 +300,7 @@
             android:orientation="vertical">
 
             <com.google.android.material.slider.Slider
+              android:id="@+id/sliderStrobePreview"
               android:layout_width="match_parent"
               android:layout_height="48dp"
               android:enabled="false"
