@@ -10,7 +10,7 @@
     <string name="action_strobe_stop">Stop Strobe</string>
     <string name="action_sos_start">Start SOS</string>
     <string name="action_sos_stop">Stop SOS</string>
-    <string name="action_open_screen_light">Screen Light</string>
+    <string name="action_open_screen_light">Screen</string>
 
     <string name="mode_label">Mode</string>
     <string name="mode_torch">Torch</string>
