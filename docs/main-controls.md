@@ -12,7 +12,9 @@ Expected behavior:
 - tiny screens, landscape, split-screen, large accessibility text, or OEM display scaling: the `ScrollView` remains available as a fallback
 - the old dynamic power button centering code should not be reintroduced
 
-The power button should be positioned by the XML layout, not by runtime spacer calculations in `MainActivity.kt`.
+The power button should be positioned by the layout, not by runtime spacer calculations in `MainActivity.kt`.
+
+The effective horizontal screen gutter for the main controls is `24dp`, matching the visual rhythm used by Recover Deleted Photos. Keep the full-width rails and buttons aligned to that gutter unless a future layout redesign intentionally changes the app-wide spacing.
 
 ## Control visibility
 
@@ -84,6 +86,7 @@ Changing Auto-off while a light mode is running should update the running servic
 Before shipping main-control changes, test:
 
 - normal portrait screen has little or no scrolling
+- full-width controls align to a `24dp` effective screen gutter
 - landscape or split-screen remains scrollable instead of clipping
 - large accessibility text remains scrollable instead of clipping
 - Torch mode shows Brightness only on devices with torch strength support
