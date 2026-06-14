@@ -10,6 +10,7 @@
 
 ### 0.6.7
 - matched the main control gutters to a `24dp` effective screen gutter
+- moved the `24dp` control gutter into XML and removed the runtime gutter normalizer
 - restyled the Brightness and Strobe Speed wells with a subtle recessed bevel that matches the power button's hardware feel
 - moved Screen Light to a real top-right `Screen` overlay pill so it no longer competes with the primary flashlight controls
 
