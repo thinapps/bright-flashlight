@@ -128,7 +128,7 @@
 ### 0.3.0
 - replaced separate strobe and SOS buttons with a single radio-style mode selector (Torch / Strobe / SOS)
 - unified all flashlight controls under one large Power button for simpler UX
-- made flashlight modes exclusive so activating one automatically disables them
+- made flashlight modes exclusive so activating one automatically disables the others
 - removed fake auto-off slider and timer UI (commented out for future use)
 - cleaned up main activity logic and strings for new mode-based layout
 
