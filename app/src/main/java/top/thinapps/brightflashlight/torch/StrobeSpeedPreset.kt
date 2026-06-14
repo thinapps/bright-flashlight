@@ -9,7 +9,7 @@ object StrobeSpeedPreset {
             1 -> 2
             2 -> 3
             3 -> 4
-            else -> 6
+            else -> 5
         }
     }
 
