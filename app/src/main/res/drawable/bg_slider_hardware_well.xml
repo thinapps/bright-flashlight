@@ -1,16 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <gradient
-        android:angle="270"
-        android:startColor="#FF2B3138"
-        android:endColor="#FF14191F" />
-    <stroke
-        android:width="1dp"
-        android:color="#33FFFFFF" />
-    <corners android:radius="24dp" />
-    <padding
-        android:left="10dp"
-        android:top="2dp"
-        android:right="10dp"
-        android:bottom="2dp" />
-</shape>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Soft underside shadow, matching the power button's physical lift without competing with it. -->
+    <item android:top="4dp" android:left="1dp" android:right="1dp">
+        <shape>
+            <solid android:color="#AA090C10" />
+            <corners android:radius="24dp" />
+        </shape>
+    </item>
+
+    <!-- Main recessed well with a warm edge so it belongs beside the orange power button. -->
+    <item android:bottom="3dp">
+        <shape>
+            <gradient
+                android:angle="270"
+                android:startColor="#FF343B43"
+                android:centerColor="#FF20262D"
+                android:endColor="#FF11161C" />
+            <stroke
+                android:width="1dp"
+                android:color="#66FF9A3D" />
+            <corners android:radius="24dp" />
+        </shape>
+    </item>
+
+    <!-- Inner groove: slightly inset and darker, like a shallow hardware slot. -->
+    <item android:left="6dp" android:top="7dp" android:right="6dp" android:bottom="10dp">
+        <shape>
+            <gradient
+                android:angle="270"
+                android:startColor="#FF11161C"
+                android:centerColor="#FF182028"
+                android:endColor="#FF2C333B" />
+            <stroke
+                android:width="1dp"
+                android:color="#33000000" />
+            <corners android:radius="19dp" />
+        </shape>
+    </item>
+
+    <!-- Beveled top catchlight, intentionally subtler than the power button highlight. -->
+    <item android:left="10dp" android:top="3dp" android:right="10dp" android:bottom="42dp">
+        <shape>
+            <gradient
+                android:angle="270"
+                android:startColor="#55FFFFFF"
+                android:endColor="#00FFFFFF" />
+            <corners android:radius="18dp" />
+        </shape>
+    </item>
+</layer-list>
