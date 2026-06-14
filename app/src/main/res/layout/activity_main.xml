@@ -1,540 +1,540 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/md_bg"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  android:background="@color/md_bg"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:fillViewport="true">
+
+  <LinearLayout
+    android:orientation="vertical"
+    android:gravity="bottom"
+    android:paddingStart="20dp"
+    android:paddingTop="20dp"
+    android:paddingEnd="20dp"
+    android:paddingBottom="20dp"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fillViewport="true">
+    android:layout_height="wrap_content">
 
     <LinearLayout
+      android:id="@+id/layoutMainControls"
+      android:orientation="vertical"
+      android:paddingStart="16dp"
+      android:paddingEnd="16dp"
+      android:paddingBottom="18dp"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content">
+
+      <Space
+        android:id="@+id/spacePowerTop"
+        android:layout_width="1dp"
+        android:layout_height="0dp"
+        android:visibility="gone" />
+
+      <Button
+        android:id="@+id/btnToggle"
+        android:layout_width="156dp"
+        android:layout_height="156dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/bg_power_button_off"
+        android:drawableTop="@drawable/ic_power"
+        android:drawablePadding="8dp"
+        android:elevation="8dp"
+        android:gravity="center"
+        android:minWidth="0dp"
+        android:minHeight="0dp"
+        android:paddingLeft="18dp"
+        android:paddingTop="26dp"
+        android:paddingRight="18dp"
+        android:paddingBottom="22dp"
+        android:text="@string/action_torch_on"
+        android:textAllCaps="true"
+        android:textColor="#FFFFFFFF"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+      <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="36dp"
+        android:letterSpacing="0.10"
+        android:text="@string/mode_label"
+        android:textAllCaps="true"
+        android:textColor="@color/md_text_dim"
+        android:textSize="12sp"
+        android:textStyle="bold" />
+
+      <com.google.android.material.button.MaterialButtonToggleGroup
+        android:id="@+id/groupMode"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/bg_mode_switch_rail"
+        android:padding="4dp"
+        app:singleSelection="true"
+        app:selectionRequired="true"
+        app:checkedButton="@id/btnModeTorch">
+
+        <com.google.android.material.button.MaterialButton
+          android:id="@+id/btnModeTorch"
+          android:layout_width="0dp"
+          android:layout_height="44dp"
+          android:layout_weight="1"
+          android:checkable="true"
+          android:insetTop="0dp"
+          android:insetBottom="0dp"
+          android:text="@string/mode_torch"
+          android:textAllCaps="true"
+          android:textColor="#FFFFFFFF"
+          android:textSize="13sp"
+          android:textStyle="bold"
+          app:backgroundTint="@color/mode_switch_button_bg"
+          app:cornerRadius="18dp"
+          app:rippleColor="#33FFB36A"
+          app:strokeColor="#44FFFFFF"
+          app:strokeWidth="1dp" />
+
+        <com.google.android.material.button.MaterialButton
+          android:id="@+id/btnModeStrobe"
+          android:layout_width="0dp"
+          android:layout_height="44dp"
+          android:layout_weight="1"
+          android:checkable="true"
+          android:insetTop="0dp"
+          android:insetBottom="0dp"
+          android:text="@string/mode_strobe"
+          android:textAllCaps="true"
+          android:textColor="#FFFFFFFF"
+          android:textSize="13sp"
+          android:textStyle="bold"
+          app:backgroundTint="@color/mode_switch_button_bg"
+          app:cornerRadius="18dp"
+          app:rippleColor="#33FFB36A"
+          app:strokeColor="#44FFFFFF"
+          app:strokeWidth="1dp" />
+
+        <com.google.android.material.button.MaterialButton
+          android:id="@+id/btnModeSos"
+          android:layout_width="0dp"
+          android:layout_height="44dp"
+          android:layout_weight="1"
+          android:checkable="true"
+          android:insetTop="0dp"
+          android:insetBottom="0dp"
+          android:text="@string/mode_sos"
+          android:textAllCaps="true"
+          android:textColor="#FFFFFFFF"
+          android:textSize="13sp"
+          android:textStyle="bold"
+          app:backgroundTint="@color/mode_switch_button_bg"
+          app:cornerRadius="18dp"
+          app:rippleColor="#33FFB36A"
+          app:strokeColor="#44FFFFFF"
+          app:strokeWidth="1dp" />
+      </com.google.android.material.button.MaterialButtonToggleGroup>
+
+      <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnScreenLight"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:layout_marginTop="18dp"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:text="@string/action_open_screen_light"
+        android:textAllCaps="true"
+        android:textColor="#FFFFFFFF"
+        android:textSize="13sp"
+        android:textStyle="bold"
+        app:backgroundTint="#FF22272D"
+        app:cornerRadius="22dp"
+        app:icon="@drawable/ic_mobile"
+        app:iconGravity="textStart"
+        app:iconPadding="8dp"
+        app:iconTint="#FFFFFFFF"
+        app:rippleColor="#33FFFFFF"
+        app:strokeColor="#33FFFFFF"
+        app:strokeWidth="1dp" />
+
+      <LinearLayout
+        android:id="@+id/layoutAccessNotice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
         android:orientation="vertical"
-        android:gravity="bottom"
-        android:paddingStart="20dp"
-        android:paddingTop="20dp"
-        android:paddingEnd="20dp"
-        android:paddingBottom="20dp"
+        android:visibility="gone">
+
+        <TextView
+          android:id="@+id/txtAccessNotice"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="@string/camera_permission_message"
+          android:textColor="@color/md_text_dim" />
+
+        <Button
+          android:id="@+id/btnAccessNotice"
+          android:layout_width="match_parent"
+          android:layout_height="48dp"
+          android:layout_marginTop="8dp"
+          android:text="@string/camera_permission_button" />
+      </LinearLayout>
+
+      <TextView
+        android:id="@+id/txtNoFlash"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="@string/no_flash_message"
+        android:textColor="@color/md_text_dim"
+        android:visibility="gone" />
+
+    </LinearLayout>
+
+    <FrameLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content">
+
+      <LinearLayout
+        android:orientation="vertical"
+        android:alpha="0.45"
+        android:paddingStart="16dp"
+        android:paddingTop="8dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="12dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <LinearLayout
-            android:id="@+id/layoutMainControls"
-            android:orientation="vertical"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:paddingBottom="18dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <Space
-                android:id="@+id/spacePowerTop"
-                android:layout_width="1dp"
-                android:layout_height="0dp"
-                android:visibility="gone" />
-
-            <Button
-                android:id="@+id/btnToggle"
-                android:layout_width="156dp"
-                android:layout_height="156dp"
-                android:layout_gravity="center_horizontal"
-                android:background="@drawable/bg_power_button_off"
-                android:drawableTop="@drawable/ic_power"
-                android:drawablePadding="8dp"
-                android:elevation="8dp"
-                android:gravity="center"
-                android:minWidth="0dp"
-                android:minHeight="0dp"
-                android:paddingLeft="18dp"
-                android:paddingTop="26dp"
-                android:paddingRight="18dp"
-                android:paddingBottom="22dp"
-                android:text="@string/action_torch_on"
-                android:textAllCaps="true"
-                android:textColor="#FFFFFFFF"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="36dp"
-                android:letterSpacing="0.10"
-                android:text="@string/mode_label"
-                android:textAllCaps="true"
-                android:textColor="@color/md_text_dim"
-                android:textSize="12sp"
-                android:textStyle="bold" />
-
-            <com.google.android.material.button.MaterialButtonToggleGroup
-                android:id="@+id/groupMode"
-                android:layout_width="match_parent"
-                android:layout_height="52dp"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/bg_mode_switch_rail"
-                android:padding="4dp"
-                app:singleSelection="true"
-                app:selectionRequired="true"
-                app:checkedButton="@id/btnModeTorch">
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnModeTorch"
-                    android:layout_width="0dp"
-                    android:layout_height="44dp"
-                    android:layout_weight="1"
-                    android:checkable="true"
-                    android:insetTop="0dp"
-                    android:insetBottom="0dp"
-                    android:text="@string/mode_torch"
-                    android:textAllCaps="true"
-                    android:textColor="#FFFFFFFF"
-                    android:textSize="13sp"
-                    android:textStyle="bold"
-                    app:backgroundTint="@color/mode_switch_button_bg"
-                    app:cornerRadius="18dp"
-                    app:rippleColor="#33FFB36A"
-                    app:strokeColor="#44FFFFFF"
-                    app:strokeWidth="1dp" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnModeStrobe"
-                    android:layout_width="0dp"
-                    android:layout_height="44dp"
-                    android:layout_weight="1"
-                    android:checkable="true"
-                    android:insetTop="0dp"
-                    android:insetBottom="0dp"
-                    android:text="@string/mode_strobe"
-                    android:textAllCaps="true"
-                    android:textColor="#FFFFFFFF"
-                    android:textSize="13sp"
-                    android:textStyle="bold"
-                    app:backgroundTint="@color/mode_switch_button_bg"
-                    app:cornerRadius="18dp"
-                    app:rippleColor="#33FFB36A"
-                    app:strokeColor="#44FFFFFF"
-                    app:strokeWidth="1dp" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnModeSos"
-                    android:layout_width="0dp"
-                    android:layout_height="44dp"
-                    android:layout_weight="1"
-                    android:checkable="true"
-                    android:insetTop="0dp"
-                    android:insetBottom="0dp"
-                    android:text="@string/mode_sos"
-                    android:textAllCaps="true"
-                    android:textColor="#FFFFFFFF"
-                    android:textSize="13sp"
-                    android:textStyle="bold"
-                    app:backgroundTint="@color/mode_switch_button_bg"
-                    app:cornerRadius="18dp"
-                    app:rippleColor="#33FFB36A"
-                    app:strokeColor="#44FFFFFF"
-                    app:strokeWidth="1dp" />
-            </com.google.android.material.button.MaterialButtonToggleGroup>
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnScreenLight"
-                android:layout_width="match_parent"
-                android:layout_height="52dp"
-                android:layout_marginTop="18dp"
-                android:insetTop="0dp"
-                android:insetBottom="0dp"
-                android:text="@string/action_open_screen_light"
-                android:textAllCaps="true"
-                android:textColor="#FFFFFFFF"
-                android:textSize="13sp"
-                android:textStyle="bold"
-                app:backgroundTint="#FF22272D"
-                app:cornerRadius="22dp"
-                app:icon="@drawable/ic_mobile"
-                app:iconGravity="textStart"
-                app:iconPadding="8dp"
-                app:iconTint="#FFFFFFFF"
-                app:rippleColor="#33FFFFFF"
-                app:strokeColor="#33FFFFFF"
-                app:strokeWidth="1dp" />
-
-            <LinearLayout
-                android:id="@+id/layoutAccessNotice"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="18dp"
-                android:orientation="vertical"
-                android:visibility="gone">
-
-                <TextView
-                    android:id="@+id/txtAccessNotice"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/camera_permission_message"
-                    android:textColor="@color/md_text_dim" />
-
-                <Button
-                    android:id="@+id/btnAccessNotice"
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:layout_marginTop="8dp"
-                    android:text="@string/camera_permission_button" />
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/txtNoFlash"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:text="@string/no_flash_message"
-                android:textColor="@color/md_text_dim"
-                android:visibility="gone" />
-
-        </LinearLayout>
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:alpha="0.45"
-                android:paddingStart="16dp"
-                android:paddingTop="8dp"
-                android:paddingEnd="16dp"
-                android:paddingBottom="12dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:text="@string/torch_brightness"
-                    android:textAllCaps="true"
-                    android:textColor="@color/md_text_dim"
-                    android:textSize="12sp"
-                    android:textStyle="bold"
-                    android:letterSpacing="0.08"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/bg_slider_hardware_well"
-                    android:gravity="center_vertical"
-                    android:orientation="vertical">
-
-                    <com.google.android.material.slider.Slider
-                        android:layout_width="match_parent"
-                        android:layout_height="48dp"
-                        android:enabled="false"
-                        android:valueFrom="1"
-                        android:valueTo="10"
-                        android:stepSize="1"
-                        android:value="10"
-                        app:haloColor="#33FF8A3D"
-                        app:haloRadius="22dp"
-                        app:thumbColor="#FFFF8A3D"
-                        app:thumbElevation="6dp"
-                        app:thumbRadius="15dp"
-                        app:tickVisible="false"
-                        app:trackColorActive="#FFFF6A2A"
-                        app:trackColorInactive="#FF2C343C"
-                        app:trackHeight="12dp" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/cardBrightness"
-                android:orientation="vertical"
-                android:background="@color/md_bg"
-                android:paddingStart="16dp"
-                android:paddingTop="8dp"
-                android:paddingEnd="16dp"
-                android:paddingBottom="12dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:text="@string/torch_brightness"
-                    android:textAllCaps="true"
-                    android:textColor="@color/md_text_dim"
-                    android:textSize="12sp"
-                    android:textStyle="bold"
-                    android:letterSpacing="0.08"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/bg_slider_hardware_well"
-                    android:gravity="center_vertical"
-                    android:orientation="vertical">
-
-                    <com.google.android.material.slider.Slider
-                        android:id="@+id/sliderBrightness"
-                        android:layout_width="match_parent"
-                        android:layout_height="48dp"
-                        android:valueFrom="1"
-                        android:valueTo="10"
-                        android:stepSize="1"
-                        android:value="10"
-                        app:haloColor="#33FF8A3D"
-                        app:haloRadius="22dp"
-                        app:thumbColor="#FFFF8A3D"
-                        app:thumbElevation="6dp"
-                        app:thumbRadius="15dp"
-                        app:tickVisible="false"
-                        app:trackColorActive="#FFFF6A2A"
-                        app:trackColorInactive="#FF2C343C"
-                        app:trackHeight="12dp" />
-                </LinearLayout>
-            </LinearLayout>
-        </FrameLayout>
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:alpha="0.45"
-                android:paddingStart="16dp"
-                android:paddingTop="8dp"
-                android:paddingEnd="16dp"
-                android:paddingBottom="12dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:text="@string/strobe_speed"
-                    android:textAllCaps="true"
-                    android:textColor="@color/md_text_dim"
-                    android:textSize="12sp"
-                    android:textStyle="bold"
-                    android:letterSpacing="0.08"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/bg_slider_hardware_well"
-                    android:gravity="center_vertical"
-                    android:orientation="vertical">
-
-                    <com.google.android.material.slider.Slider
-                        android:layout_width="match_parent"
-                        android:layout_height="48dp"
-                        android:enabled="false"
-                        android:valueFrom="0"
-                        android:valueTo="4"
-                        android:stepSize="1"
-                        android:value="1"
-                        app:haloColor="#33FF8A3D"
-                        app:haloRadius="22dp"
-                        app:thumbColor="#FFFF8A3D"
-                        app:thumbElevation="6dp"
-                        app:thumbRadius="15dp"
-                        app:tickVisible="false"
-                        app:trackColorActive="#FFFF6A2A"
-                        app:trackColorInactive="#FF2C343C"
-                        app:trackHeight="12dp" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/cardStrobe"
-                android:orientation="vertical"
-                android:background="@color/md_bg"
-                android:paddingStart="16dp"
-                android:paddingTop="8dp"
-                android:paddingEnd="16dp"
-                android:paddingBottom="12dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:id="@+id/txtStrobeSpeed"
-                    android:text="@string/strobe_speed"
-                    android:textAllCaps="true"
-                    android:textColor="@color/md_text_dim"
-                    android:textSize="12sp"
-                    android:textStyle="bold"
-                    android:letterSpacing="0.08"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/bg_slider_hardware_well"
-                    android:gravity="center_vertical"
-                    android:orientation="vertical">
-
-                    <com.google.android.material.slider.Slider
-                        android:id="@+id/sliderStrobe"
-                        android:layout_width="match_parent"
-                        android:layout_height="48dp"
-                        android:valueFrom="0"
-                        android:valueTo="4"
-                        android:stepSize="1"
-                        android:value="1"
-                        app:haloColor="#33FF8A3D"
-                        app:haloRadius="22dp"
-                        app:thumbColor="#FFFF8A3D"
-                        app:thumbElevation="6dp"
-                        app:thumbRadius="15dp"
-                        app:tickVisible="false"
-                        app:trackColorActive="#FFFF6A2A"
-                        app:trackColorInactive="#FF2C343C"
-                        app:trackHeight="12dp" />
-                </LinearLayout>
-            </LinearLayout>
-        </FrameLayout>
+        <TextView
+          android:text="@string/torch_brightness"
+          android:textAllCaps="true"
+          android:textColor="@color/md_text_dim"
+          android:textSize="12sp"
+          android:textStyle="bold"
+          android:letterSpacing="0.08"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content" />
 
         <LinearLayout
-            android:id="@+id/cardAutoOff"
-            android:orientation="vertical"
-            android:paddingStart="16dp"
-            android:paddingTop="8dp"
-            android:paddingEnd="16dp"
-            android:paddingBottom="12dp"
+          android:layout_width="match_parent"
+          android:layout_height="56dp"
+          android:layout_marginTop="10dp"
+          android:background="@drawable/bg_slider_hardware_well"
+          android:gravity="center_vertical"
+          android:orientation="vertical">
+
+          <com.google.android.material.slider.Slider
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:text="@string/timer_label"
-                android:textAllCaps="true"
-                android:textColor="@color/md_text_dim"
-                android:textSize="12sp"
-                android:textStyle="bold"
-                android:letterSpacing="0.08"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <com.google.android.material.button.MaterialButtonToggleGroup
-                android:id="@+id/groupAutoOff"
-                android:layout_width="match_parent"
-                android:layout_height="52dp"
-                android:layout_marginTop="12dp"
-                android:background="@drawable/bg_mode_switch_rail"
-                android:padding="4dp"
-                app:singleSelection="true"
-                app:selectionRequired="true"
-                app:checkedButton="@id/btnAutoOffOff">
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnAutoOffOff"
-                    android:layout_width="0dp"
-                    android:layout_height="44dp"
-                    android:layout_weight="1"
-                    android:checkable="true"
-                    android:insetTop="0dp"
-                    android:insetBottom="0dp"
-                    android:text="@string/timer_off"
-                    android:textAllCaps="true"
-                    android:textColor="#FFFFFFFF"
-                    android:textSize="12sp"
-                    android:textStyle="bold"
-                    app:backgroundTint="@color/mode_switch_button_bg"
-                    app:cornerRadius="16dp"
-                    app:rippleColor="#33FFB36A"
-                    app:strokeColor="#44FFFFFF"
-                    app:strokeWidth="1dp" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnAutoOff1"
-                    android:layout_width="0dp"
-                    android:layout_height="44dp"
-                    android:layout_weight="1"
-                    android:checkable="true"
-                    android:insetTop="0dp"
-                    android:insetBottom="0dp"
-                    android:text="@string/timer_1_min"
-                    android:textAllCaps="true"
-                    android:textColor="#FFFFFFFF"
-                    android:textSize="12sp"
-                    android:textStyle="bold"
-                    app:backgroundTint="@color/mode_switch_button_bg"
-                    app:cornerRadius="16dp"
-                    app:rippleColor="#33FFB36A"
-                    app:strokeColor="#44FFFFFF"
-                    app:strokeWidth="1dp" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnAutoOff5"
-                    android:layout_width="0dp"
-                    android:layout_height="44dp"
-                    android:layout_weight="1"
-                    android:checkable="true"
-                    android:insetTop="0dp"
-                    android:insetBottom="0dp"
-                    android:text="@string/timer_5_min"
-                    android:textAllCaps="true"
-                    android:textColor="#FFFFFFFF"
-                    android:textSize="12sp"
-                    android:textStyle="bold"
-                    app:backgroundTint="@color/mode_switch_button_bg"
-                    app:cornerRadius="16dp"
-                    app:rippleColor="#33FFB36A"
-                    app:strokeColor="#44FFFFFF"
-                    app:strokeWidth="1dp" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnAutoOff15"
-                    android:layout_width="0dp"
-                    android:layout_height="44dp"
-                    android:layout_weight="1"
-                    android:checkable="true"
-                    android:insetTop="0dp"
-                    android:insetBottom="0dp"
-                    android:text="@string/timer_15_min"
-                    android:textAllCaps="true"
-                    android:textColor="#FFFFFFFF"
-                    android:textSize="12sp"
-                    android:textStyle="bold"
-                    app:backgroundTint="@color/mode_switch_button_bg"
-                    app:cornerRadius="16dp"
-                    app:rippleColor="#33FFB36A"
-                    app:strokeColor="#44FFFFFF"
-                    app:strokeWidth="1dp" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnAutoOff30"
-                    android:layout_width="0dp"
-                    android:layout_height="44dp"
-                    android:layout_weight="1"
-                    android:checkable="true"
-                    android:insetTop="0dp"
-                    android:insetBottom="0dp"
-                    android:text="@string/timer_30_min"
-                    android:textAllCaps="true"
-                    android:textColor="#FFFFFFFF"
-                    android:textSize="12sp"
-                    android:textStyle="bold"
-                    app:backgroundTint="@color/mode_switch_button_bg"
-                    app:cornerRadius="16dp"
-                    app:rippleColor="#33FFB36A"
-                    app:strokeColor="#44FFFFFF"
-                    app:strokeWidth="1dp" />
-            </com.google.android.material.button.MaterialButtonToggleGroup>
+            android:layout_height="48dp"
+            android:enabled="false"
+            android:valueFrom="1"
+            android:valueTo="10"
+            android:stepSize="1"
+            android:value="10"
+            app:haloColor="#33FF8A3D"
+            app:haloRadius="22dp"
+            app:thumbColor="#FFFF8A3D"
+            app:thumbElevation="6dp"
+            app:thumbRadius="15dp"
+            app:tickVisible="false"
+            app:trackColorActive="#FFFF6A2A"
+            app:trackColorInactive="#FF2C343C"
+            app:trackHeight="12dp" />
         </LinearLayout>
+      </LinearLayout>
+
+      <LinearLayout
+        android:id="@+id/cardBrightness"
+        android:orientation="vertical"
+        android:background="@color/md_bg"
+        android:paddingStart="16dp"
+        android:paddingTop="8dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="12dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
         <TextView
-            android:id="@+id/txtHomeFooterMessage"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:gravity="center"
-            android:lineSpacingExtra="2dp"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:text="@string/home_footer_message"
-            android:textColor="@color/md_text_dim"
-            android:textSize="12sp" />
+          android:text="@string/torch_brightness"
+          android:textAllCaps="true"
+          android:textColor="@color/md_text_dim"
+          android:textSize="12sp"
+          android:textStyle="bold"
+          android:letterSpacing="0.08"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content" />
 
+        <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="56dp"
+          android:layout_marginTop="10dp"
+          android:background="@drawable/bg_slider_hardware_well"
+          android:gravity="center_vertical"
+          android:orientation="vertical">
+
+          <com.google.android.material.slider.Slider
+            android:id="@+id/sliderBrightness"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:valueFrom="1"
+            android:valueTo="10"
+            android:stepSize="1"
+            android:value="10"
+            app:haloColor="#33FF8A3D"
+            app:haloRadius="22dp"
+            app:thumbColor="#FFFF8A3D"
+            app:thumbElevation="6dp"
+            app:thumbRadius="15dp"
+            app:tickVisible="false"
+            app:trackColorActive="#FFFF6A2A"
+            app:trackColorInactive="#FF2C343C"
+            app:trackHeight="12dp" />
+        </LinearLayout>
+      </LinearLayout>
+    </FrameLayout>
+
+    <FrameLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content">
+
+      <LinearLayout
+        android:orientation="vertical"
+        android:alpha="0.45"
+        android:paddingStart="16dp"
+        android:paddingTop="8dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="12dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+          android:text="@string/strobe_speed"
+          android:textAllCaps="true"
+          android:textColor="@color/md_text_dim"
+          android:textSize="12sp"
+          android:textStyle="bold"
+          android:letterSpacing="0.08"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content" />
+
+        <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="56dp"
+          android:layout_marginTop="10dp"
+          android:background="@drawable/bg_slider_hardware_well"
+          android:gravity="center_vertical"
+          android:orientation="vertical">
+
+          <com.google.android.material.slider.Slider
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:enabled="false"
+            android:valueFrom="0"
+            android:valueTo="4"
+            android:stepSize="1"
+            android:value="1"
+            app:haloColor="#33FF8A3D"
+            app:haloRadius="22dp"
+            app:thumbColor="#FFFF8A3D"
+            app:thumbElevation="6dp"
+            app:thumbRadius="15dp"
+            app:tickVisible="false"
+            app:trackColorActive="#FFFF6A2A"
+            app:trackColorInactive="#FF2C343C"
+            app:trackHeight="12dp" />
+        </LinearLayout>
+      </LinearLayout>
+
+      <LinearLayout
+        android:id="@+id/cardStrobe"
+        android:orientation="vertical"
+        android:background="@color/md_bg"
+        android:paddingStart="16dp"
+        android:paddingTop="8dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="12dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+          android:id="@+id/txtStrobeSpeed"
+          android:text="@string/strobe_speed"
+          android:textAllCaps="true"
+          android:textColor="@color/md_text_dim"
+          android:textSize="12sp"
+          android:textStyle="bold"
+          android:letterSpacing="0.08"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content" />
+
+        <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="56dp"
+          android:layout_marginTop="10dp"
+          android:background="@drawable/bg_slider_hardware_well"
+          android:gravity="center_vertical"
+          android:orientation="vertical">
+
+          <com.google.android.material.slider.Slider
+            android:id="@+id/sliderStrobe"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:valueFrom="0"
+            android:valueTo="4"
+            android:stepSize="1"
+            android:value="1"
+            app:haloColor="#33FF8A3D"
+            app:haloRadius="22dp"
+            app:thumbColor="#FFFF8A3D"
+            app:thumbElevation="6dp"
+            app:thumbRadius="15dp"
+            app:tickVisible="false"
+            app:trackColorActive="#FFFF6A2A"
+            app:trackColorInactive="#FF2C343C"
+            app:trackHeight="12dp" />
+        </LinearLayout>
+      </LinearLayout>
+    </FrameLayout>
+
+    <LinearLayout
+      android:id="@+id/cardAutoOff"
+      android:orientation="vertical"
+      android:paddingStart="16dp"
+      android:paddingTop="8dp"
+      android:paddingEnd="16dp"
+      android:paddingBottom="12dp"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content">
+
+      <TextView
+        android:text="@string/timer_label"
+        android:textAllCaps="true"
+        android:textColor="@color/md_text_dim"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        android:letterSpacing="0.08"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+      <com.google.android.material.button.MaterialButtonToggleGroup
+        android:id="@+id/groupAutoOff"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/bg_mode_switch_rail"
+        android:padding="4dp"
+        app:singleSelection="true"
+        app:selectionRequired="true"
+        app:checkedButton="@id/btnAutoOffOff">
+
+        <com.google.android.material.button.MaterialButton
+          android:id="@+id/btnAutoOffOff"
+          android:layout_width="0dp"
+          android:layout_height="44dp"
+          android:layout_weight="1"
+          android:checkable="true"
+          android:insetTop="0dp"
+          android:insetBottom="0dp"
+          android:text="@string/timer_off"
+          android:textAllCaps="true"
+          android:textColor="#FFFFFFFF"
+          android:textSize="12sp"
+          android:textStyle="bold"
+          app:backgroundTint="@color/mode_switch_button_bg"
+          app:cornerRadius="16dp"
+          app:rippleColor="#33FFB36A"
+          app:strokeColor="#44FFFFFF"
+          app:strokeWidth="1dp" />
+
+        <com.google.android.material.button.MaterialButton
+          android:id="@+id/btnAutoOff5"
+          android:layout_width="0dp"
+          android:layout_height="44dp"
+          android:layout_weight="1"
+          android:checkable="true"
+          android:insetTop="0dp"
+          android:insetBottom="0dp"
+          android:text="@string/timer_5_min"
+          android:textAllCaps="true"
+          android:textColor="#FFFFFFFF"
+          android:textSize="12sp"
+          android:textStyle="bold"
+          app:backgroundTint="@color/mode_switch_button_bg"
+          app:cornerRadius="16dp"
+          app:rippleColor="#33FFB36A"
+          app:strokeColor="#44FFFFFF"
+          app:strokeWidth="1dp" />
+
+        <com.google.android.material.button.MaterialButton
+          android:id="@+id/btnAutoOff15"
+          android:layout_width="0dp"
+          android:layout_height="44dp"
+          android:layout_weight="1"
+          android:checkable="true"
+          android:insetTop="0dp"
+          android:insetBottom="0dp"
+          android:text="@string/timer_15_min"
+          android:textAllCaps="true"
+          android:textColor="#FFFFFFFF"
+          android:textSize="12sp"
+          android:textStyle="bold"
+          app:backgroundTint="@color/mode_switch_button_bg"
+          app:cornerRadius="16dp"
+          app:rippleColor="#33FFB36A"
+          app:strokeColor="#44FFFFFF"
+          app:strokeWidth="1dp" />
+
+        <com.google.android.material.button.MaterialButton
+          android:id="@+id/btnAutoOff30"
+          android:layout_width="0dp"
+          android:layout_height="44dp"
+          android:layout_weight="1"
+          android:checkable="true"
+          android:insetTop="0dp"
+          android:insetBottom="0dp"
+          android:text="@string/timer_30_min"
+          android:textAllCaps="true"
+          android:textColor="#FFFFFFFF"
+          android:textSize="12sp"
+          android:textStyle="bold"
+          app:backgroundTint="@color/mode_switch_button_bg"
+          app:cornerRadius="16dp"
+          app:rippleColor="#33FFB36A"
+          app:strokeColor="#44FFFFFF"
+          app:strokeWidth="1dp" />
+
+        <com.google.android.material.button.MaterialButton
+          android:id="@+id/btnAutoOff60"
+          android:layout_width="0dp"
+          android:layout_height="44dp"
+          android:layout_weight="1"
+          android:checkable="true"
+          android:insetTop="0dp"
+          android:insetBottom="0dp"
+          android:text="@string/timer_1_hour"
+          android:textAllCaps="true"
+          android:textColor="#FFFFFFFF"
+          android:textSize="12sp"
+          android:textStyle="bold"
+          app:backgroundTint="@color/mode_switch_button_bg"
+          app:cornerRadius="16dp"
+          app:rippleColor="#33FFB36A"
+          app:strokeColor="#44FFFFFF"
+          app:strokeWidth="1dp" />
+      </com.google.android.material.button.MaterialButtonToggleGroup>
     </LinearLayout>
+
+    <TextView
+      android:id="@+id/txtHomeFooterMessage"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="24dp"
+      android:gravity="center"
+      android:lineSpacingExtra="2dp"
+      android:paddingStart="16dp"
+      android:paddingEnd="16dp"
+      android:text="@string/home_footer_message"
+      android:textColor="@color/md_text_dim"
+      android:textSize="12sp" />
+
+  </LinearLayout>
 </ScrollView>
