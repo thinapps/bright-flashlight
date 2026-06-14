@@ -7,6 +7,9 @@
 
 ### Changelog
 
+### 0.6.5
+- added a home screen footer noting that lighting effects run locally, no internet connection is required, and the app is open source on GitHub
+
 ### 0.6.4
 - forced the main power button center to align with the visible screen midpoint on every device
 - kept lower controls scrollable below the centered power button when needed
