@@ -14,6 +14,7 @@
 - disabled the old dynamic centering spacer so it no longer pushes the power button toward the middle
 - removed obsolete dynamic power button centering code from `MainActivity.kt`
 - centralized Strobe speed preset mapping so the activity, preferences, and service use the same values
+- changed Auto-off presets from `1m`, `5m`, `15m`, and `30m` to `5m`, `15m`, `30m`, and `1h`
 - fixed Torch brightness updates so the service uses real device strength levels instead of remapping them through an old 1-10 scale
 
 ### 0.6.5
