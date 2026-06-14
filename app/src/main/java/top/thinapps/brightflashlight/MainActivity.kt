@@ -106,10 +106,10 @@ class MainActivity : ComponentActivity() {
         binding.groupAutoOff.addOnButtonCheckedListener { _, checkedId, isChecked ->
             if (!isChecked) return@addOnButtonCheckedListener
             selectedAutoOffMinutes = when (checkedId) {
-                R.id.btnAutoOff1 -> 1
-                R.id.btnAutoOff5 -> 5
-                R.id.btnAutoOff15 -> 15
-                R.id.btnAutoOff30 -> 30
+                R.id.btnAutoOff1 -> 5
+                R.id.btnAutoOff5 -> 15
+                R.id.btnAutoOff15 -> 30
+                R.id.btnAutoOff30 -> 60
                 else -> 0
             }
             if (!restoringPreferences) {
@@ -186,10 +186,10 @@ class MainActivity : ComponentActivity() {
         )
         binding.groupAutoOff.check(
             when (selectedAutoOffMinutes) {
-                1 -> R.id.btnAutoOff1
-                5 -> R.id.btnAutoOff5
-                15 -> R.id.btnAutoOff15
-                30 -> R.id.btnAutoOff30
+                5 -> R.id.btnAutoOff1
+                15 -> R.id.btnAutoOff5
+                30 -> R.id.btnAutoOff15
+                60 -> R.id.btnAutoOff30
                 else -> R.id.btnAutoOffOff
             }
         )
