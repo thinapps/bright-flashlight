@@ -469,11 +469,13 @@ class MainActivity : ComponentActivity() {
   private fun syncUiEnabledState(enabled: Boolean) {
     val torchControlsEnabled = enabled && torchAvailable
     val lightActive = isAnyLightActive()
+    val autoOffLocked = torchControlsEnabled && lightActive
     binding.btnToggle.isEnabled = torchControlsEnabled
     binding.sliderStrobe.isEnabled = torchControlsEnabled
     sliderBrightness?.isEnabled = torchControlsEnabled && strengthSupported && selectedMode == Mode.TORCH
     setEnabledRecursive(binding.groupMode, torchControlsEnabled)
-    setEnabledRecursive(binding.groupAutoOff, torchControlsEnabled && !lightActive)
+    setEnabledRecursive(binding.groupAutoOff, torchControlsEnabled && !autoOffLocked)
+    binding.cardAutoOff.alpha = if (autoOffLocked) 0.45f else 1f
     binding.btnScreenLight.isEnabled = true
     if (!torchControlsEnabled) {
       stopAutoOffCountdown()
