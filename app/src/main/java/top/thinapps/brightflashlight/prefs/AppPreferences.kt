@@ -7,11 +7,12 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import top.thinapps.brightflashlight.torch.StrobeSpeedPreset
 
 data class SavedPreferences(
     val lastMode: String = "TORCH",
     val autoOffMinutes: Int = 0,
-    val strobeSpeed: Int = 2,
+    val strobeSpeed: Int = StrobeSpeedPreset.DEFAULT_HZ,
     val screenLightR: Int = 255,
     val screenLightG: Int = 255,
     val screenLightB: Int = 255,
@@ -38,7 +39,7 @@ class AppPreferences(private val context: Context) {
         SavedPreferences(
             lastMode = prefs[Keys.LAST_MODE] ?: "TORCH",
             autoOffMinutes = (prefs[Keys.AUTO_OFF_MINUTES] ?: 0).coerceIn(0, 30),
-            strobeSpeed = normalizeStrobeSpeed(prefs[Keys.STROBE_SPEED] ?: 2),
+            strobeSpeed = StrobeSpeedPreset.normalizeHz(prefs[Keys.STROBE_SPEED] ?: StrobeSpeedPreset.DEFAULT_HZ),
             screenLightR = (prefs[Keys.SCREEN_LIGHT_R] ?: 255).coerceIn(0, 255),
             screenLightG = (prefs[Keys.SCREEN_LIGHT_G] ?: 255).coerceIn(0, 255),
             screenLightB = (prefs[Keys.SCREEN_LIGHT_B] ?: 255).coerceIn(0, 255),
@@ -60,7 +61,7 @@ class AppPreferences(private val context: Context) {
 
     suspend fun saveStrobeSpeed(speed: Int) {
         context.brightFlashlightDataStore.edit { prefs ->
-            prefs[Keys.STROBE_SPEED] = normalizeStrobeSpeed(speed)
+            prefs[Keys.STROBE_SPEED] = StrobeSpeedPreset.normalizeHz(speed)
         }
     }
 
@@ -74,16 +75,6 @@ class AppPreferences(private val context: Context) {
             } else {
                 prefs[Keys.SCREEN_LIGHT_PRESET] = preset
             }
-        }
-    }
-
-    private fun normalizeStrobeSpeed(speed: Int): Int {
-        return when {
-            speed <= 1 -> 1
-            speed == 2 -> 2
-            speed == 3 -> 3
-            speed == 4 -> 4
-            else -> 6
         }
     }
 }
