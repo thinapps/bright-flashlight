@@ -64,6 +64,8 @@ Do not remap brightness through an old generic UI scale in the service.
 
 Strobe Speed uses five linear preset values. Its visible slider value label should show `1` through `5`, because `0` implies off even though the slowest preset is still active.
 
+The default Strobe Speed is `Medium (2 Hz)`. Keep this default because it is safety-conscious: it is clearly noticeable, slower and less aggressive than the Alert/Fast/Max presets, and avoids starting users at the most intense flashing rate.
+
 | Visible slider label | Label | Hertz |
 | --- | --- | --- |
 | `1` | Slow | `1 Hz` |
@@ -123,6 +125,7 @@ Before shipping main-control changes, test:
 - power, Screen, Mode, Auto-off, Brightness, and Strobe Speed provide haptic feedback on user interactions
 - Brightness value bubble starts at `1`, not `0`, on devices with torch strength support
 - Strobe Speed value bubble shows `1` through `5`, not `0` through `4`
+- Strobe Speed defaults to `Medium (2 Hz)`
 - Strobe Speed presets map linearly to `1 Hz`, `2 Hz`, `3 Hz`, `4 Hz`, and `5 Hz`
 - slider wells look slightly recessed/beveled without overpowering the power button
 - slider wells and the Screen pill do not use visible strokes
