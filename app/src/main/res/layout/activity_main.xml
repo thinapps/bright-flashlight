@@ -533,7 +533,5 @@
     app:iconGravity="textStart"
     app:iconPadding="6dp"
     app:iconTint="#FFFFFFFF"
-    app:rippleColor="#33FFFFFF"
-    app:strokeColor="#55606A73"
-    app:strokeWidth="1dp" />
+    app:rippleColor="#33FFFFFF" />
 </FrameLayout>
