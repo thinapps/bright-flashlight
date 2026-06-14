@@ -72,10 +72,10 @@ Auto-off applies to Torch, Strobe, and SOS modes.
 The supported options are:
 
 - Off
-- 1 minute
 - 5 minutes
 - 15 minutes
 - 30 minutes
+- 1 hour
 
 Changing Auto-off while a light mode is running should update the running service state without changing the selected mode.
 
@@ -90,4 +90,5 @@ Before shipping main-control changes, test:
 - Strobe mode shows Strobe Speed and updates while running
 - SOS mode hides Brightness and Strobe Speed but keeps Auto-off available
 - Auto-off remains a single normal section, not a duplicate placeholder section
+- Auto-off options show `Off`, `5m`, `15m`, `30m`, and `1h`
 - Screen Light remains available without Camera permission
