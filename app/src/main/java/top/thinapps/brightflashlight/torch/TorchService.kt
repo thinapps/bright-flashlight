@@ -47,7 +47,7 @@ class TorchService : Service() {
 
     private var strobeRunning = false
     private var sosRunning = false
-    private var strobeSpeed = 5
+    private var strobeSpeed = StrobeSpeedPreset.DEFAULT_HZ
     private var curIntensity = 1
     private var curIntervalMs: Long = 100L
     private var autoOffAtMs: Long = 0L
@@ -56,7 +56,7 @@ class TorchService : Service() {
     override fun onCreate() {
         super.onCreate()
         controller = TorchController(applicationContext)
-        curIntervalMs = strobeIntervalMs(strobeSpeed)
+        curIntervalMs = StrobeSpeedPreset.intervalMsForHz(strobeSpeed)
         val maxApi = controller.getMaxIntensity()
         curIntensity = if (maxApi > 1) maxApi else 1
         startForeground(NOTIF_ID, buildNotification())
@@ -73,14 +73,14 @@ class TorchService : Service() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         intent?.getIntExtra(EXTRA_STROBE_SPEED, -1)?.let {
             if (it >= 0) {
-                strobeSpeed = it
-                curIntervalMs = strobeIntervalMs(strobeSpeed)
+                strobeSpeed = StrobeSpeedPreset.normalizeHz(it)
+                curIntervalMs = StrobeSpeedPreset.intervalMsForHz(strobeSpeed)
             }
         }
 
-        intent?.getIntExtra(EXTRA_TORCH_INTENSITY, -1)?.let { uiVal ->
-            if (uiVal >= 0) {
-                curIntensity = mapUiToDeviceIntensity(uiVal, controller.getMaxIntensity())
+        intent?.getIntExtra(EXTRA_TORCH_INTENSITY, -1)?.let { level ->
+            if (level >= 0) {
+                curIntensity = normalizeTorchIntensity(level)
             }
         }
 
@@ -122,7 +122,7 @@ class TorchService : Service() {
                 }
             }
             ACTION_STROBE_UPDATE -> {
-                curIntervalMs = strobeIntervalMs(strobeSpeed)
+                curIntervalMs = StrobeSpeedPreset.intervalMsForHz(strobeSpeed)
                 if (strobeRunning) restartStrobe()
             }
             ACTION_STROBE_STOP -> {
@@ -222,12 +222,9 @@ class TorchService : Service() {
         handler.removeCallbacksAndMessages(null)
     }
 
-    private fun strobeIntervalMs(speed: Int): Long {
-        val s = speed.coerceIn(1, 10)
-        val hz = s.toDouble()
-        val period = (1000.0 / hz).toLong()
-        val min = 30L
-        return period.coerceAtLeast(min)
+    private fun normalizeTorchIntensity(level: Int): Int {
+        val maxLevel = controller.getMaxIntensity().coerceAtLeast(1)
+        return level.coerceIn(0, maxLevel)
     }
 
     private fun startStrobe() {
@@ -292,13 +289,5 @@ class TorchService : Service() {
                 }
             }
         }, 1000L)
-    }
-
-    private fun mapUiToDeviceIntensity(uiVal: Int, maxApi: Int): Int {
-        val u = uiVal.coerceIn(0, 10)
-        if (u == 0) return 0
-        if (maxApi <= 1) return 1
-        val mapped = ((u - 1).toFloat() / 9f) * (maxApi - 1) + 1f
-        return mapped.toInt().coerceIn(1, maxApi)
     }
 }
