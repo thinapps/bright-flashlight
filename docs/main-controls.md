@@ -61,6 +61,18 @@ app/src/main/java/top/thinapps/brightflashlight/torch/StrobeSpeedPreset.kt
 
 Use this helper when adding or changing strobe behavior so the activity, preferences, and service stay in sync.
 
+## Hardware-style slider wells
+
+Brightness and Strobe Speed use a shared recessed well drawable:
+
+```text
+app/src/main/res/drawable/bg_slider_hardware_well.xml
+```
+
+The well should feel related to the main power button, but less visually dominant. Keep its 3D effect subtle: dark recessed slot, soft underside shadow, warm orange edge, and faint top highlight.
+
+Do not make the slider wells brighter or more raised than the power button.
+
 ## Stable lower controls
 
 Brightness and Strobe Speed intentionally reserve their layout areas with dim placeholder controls underneath the active overlay. This keeps the lower half of the screen stable when switching modes or when a control is unsupported.
@@ -87,6 +99,7 @@ Before shipping main-control changes, test:
 
 - normal portrait screen has little or no scrolling
 - full-width controls align to a `24dp` effective screen gutter
+- slider wells look slightly recessed/beveled without overpowering the power button
 - landscape or split-screen remains scrollable instead of clipping
 - large accessibility text remains scrollable instead of clipping
 - Torch mode shows Brightness only on devices with torch strength support
