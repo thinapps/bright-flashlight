@@ -60,17 +60,17 @@ Do not remap brightness through an old generic UI scale in the service.
 
 ## Strobe Speed
 
-Strobe Speed uses five preset values:
+Strobe Speed uses five preset values. Its visible slider value label should show `1` through `5`, because `0` implies off even though the slowest preset is still active.
 
-| Slider value | Label | Hertz |
+| Visible slider label | Label | Hertz |
 | --- | --- | --- |
-| `0` | Slow | `1 Hz` |
-| `1` | Medium | `2 Hz` |
-| `2` | Alert | `3 Hz` |
-| `3` | Fast | `4 Hz` |
-| `4` | Max | `6 Hz` |
+| `1` | Slow | `1 Hz` |
+| `2` | Medium | `2 Hz` |
+| `3` | Alert | `3 Hz` |
+| `4` | Fast | `4 Hz` |
+| `5` | Max | `6 Hz` |
 
-The canonical mapping lives in:
+The canonical speed mapping lives in:
 
 ```text
 app/src/main/java/top/thinapps/brightflashlight/torch/StrobeSpeedPreset.kt
@@ -119,6 +119,7 @@ Before shipping main-control changes, test:
 - Screen Light appears as a real top-right `Screen` overlay pill, not a full-width primary button or part of the bottom stack
 - Screen Light remains available without Camera permission
 - power, Screen, Mode, Auto-off, Brightness, and Strobe Speed provide haptic feedback on user interactions
+- Strobe Speed value bubble shows `1` through `5`, not `0` through `4`
 - slider wells look slightly recessed/beveled without overpowering the power button
 - slider wells and the Screen pill do not use visible strokes
 - landscape or split-screen remains scrollable instead of clipping
