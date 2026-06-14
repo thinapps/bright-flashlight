@@ -1,6 +1,7 @@
 package top.thinapps.brightflashlight
 
 import android.Manifest
+import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
@@ -112,6 +113,10 @@ class MainActivity : ComponentActivity() {
     binding.btnScreenLight.setOnClickListener { view ->
       performTapHaptic(view)
       startActivity(Intent(this, ScreenLightActivity::class.java))
+    }
+    binding.btnStrobeWarning.setOnClickListener { view ->
+      performTapHaptic(view)
+      showStrobeWarningDialog()
     }
     binding.groupMode.addOnButtonCheckedListener { _, checkedId, isChecked ->
       if (!isChecked) return@addOnButtonCheckedListener
@@ -300,6 +305,14 @@ class MainActivity : ComponentActivity() {
 
   private fun showAccessNotice(show: Boolean) {
     binding.layoutAccessNotice.visibility = if (show) View.VISIBLE else View.GONE
+  }
+
+  private fun showStrobeWarningDialog() {
+    AlertDialog.Builder(this)
+      .setTitle(R.string.strobe_warning_title)
+      .setMessage(R.string.strobe_warning_message)
+      .setPositiveButton(android.R.string.ok, null)
+      .show()
   }
 
   @Suppress("UNUSED_PARAMETER")
