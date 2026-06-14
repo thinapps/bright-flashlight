@@ -66,6 +66,7 @@ class MainActivity : ComponentActivity() {
     appPreferences = AppPreferences(applicationContext)
     binding = ActivityMainBinding.inflate(layoutInflater)
     setContentView(binding.root)
+    applyStandardGutter()
     sliderBrightness = binding.root.findViewById(R.id.sliderBrightness)
 
     binding.btnToggle.setOnClickListener(::onPowerClicked)
@@ -129,6 +130,26 @@ class MainActivity : ComponentActivity() {
       requestCameraPermission()
     }
     syncUiEnabledState(hasCam)
+  }
+
+  private fun applyStandardGutter() {
+    val content = binding.root.getChildAt(0)
+    content.setPaddingRelative(dp(24), dp(20), dp(24), dp(20))
+    clearNestedHorizontalPadding(content)
+  }
+
+  private fun clearNestedHorizontalPadding(view: View) {
+    val oldInner = dp(16)
+    if (view.paddingStart == oldInner && view.paddingEnd == oldInner) {
+      view.setPaddingRelative(0, view.paddingTop, 0, view.paddingBottom)
+    }
+    if (view is ViewGroup) {
+      for (i in 0 until view.childCount) clearNestedHorizontalPadding(view.getChildAt(i))
+    }
+  }
+
+  private fun dp(value: Int): Int {
+    return (value * resources.displayMetrics.density + 0.5f).toInt()
   }
 
   private fun restorePreferences() {
