@@ -7,6 +7,10 @@
 
 ### Changelog
 
+### 0.6.4
+- flattened card backgrounds to match the main screen background
+- removed default card elevation and shadow padding for a more uniform dark screen
+
 ### 0.6.3
 - lowered the main control area slightly for easier one-handed power button reach
 - restyled Auto-off as a darker segmented switch matching the Mode control
