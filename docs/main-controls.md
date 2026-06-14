@@ -56,6 +56,8 @@ Brightness values are real device torch strength levels from Camera2, not a fake
 
 The activity sets the slider range to the device-supported strength range and sends the selected strength level to `TorchService`. The service should clamp that value to the current device max strength and pass it through to `TorchController`.
 
+The visible Brightness slider labels start at `1` and end at the device-reported max strength. `0` should never be shown because it implies off, not low brightness.
+
 Do not remap brightness through an old generic UI scale in the service.
 
 ## Strobe Speed
@@ -119,6 +121,7 @@ Before shipping main-control changes, test:
 - Screen Light appears as a real top-right `Screen` overlay pill, not a full-width primary button or part of the bottom stack
 - Screen Light remains available without Camera permission
 - power, Screen, Mode, Auto-off, Brightness, and Strobe Speed provide haptic feedback on user interactions
+- Brightness value bubble starts at `1`, not `0`, on devices with torch strength support
 - Strobe Speed value bubble shows `1` through `5`, not `0` through `4`
 - slider wells look slightly recessed/beveled without overpowering the power button
 - slider wells and the Screen pill do not use visible strokes
