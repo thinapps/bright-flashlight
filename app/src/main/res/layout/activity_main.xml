@@ -25,6 +25,33 @@
       android:layout_width="match_parent"
       android:layout_height="wrap_content">
 
+      <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnScreenLight"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_gravity="end"
+        android:layout_marginBottom="16dp"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:minWidth="0dp"
+        android:minHeight="0dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="18dp"
+        android:text="@string/action_open_screen_light"
+        android:textAllCaps="true"
+        android:textColor="#FFFFFFFF"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:backgroundTint="#FF22272D"
+        app:cornerRadius="24dp"
+        app:icon="@drawable/ic_mobile"
+        app:iconGravity="textStart"
+        app:iconPadding="6dp"
+        app:iconTint="#FFFFFFFF"
+        app:rippleColor="#33FFFFFF"
+        app:strokeColor="#44FF9A3D"
+        app:strokeWidth="1dp" />
+
       <Space
         android:id="@+id/spacePowerTop"
         android:layout_width="1dp"
@@ -133,28 +160,6 @@
           app:strokeColor="#44FFFFFF"
           app:strokeWidth="1dp" />
       </com.google.android.material.button.MaterialButtonToggleGroup>
-
-      <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnScreenLight"
-        android:layout_width="match_parent"
-        android:layout_height="52dp"
-        android:layout_marginTop="18dp"
-        android:insetTop="0dp"
-        android:insetBottom="0dp"
-        android:text="@string/action_open_screen_light"
-        android:textAllCaps="true"
-        android:textColor="#FFFFFFFF"
-        android:textSize="13sp"
-        android:textStyle="bold"
-        app:backgroundTint="#FF22272D"
-        app:cornerRadius="22dp"
-        app:icon="@drawable/ic_mobile"
-        app:iconGravity="textStart"
-        app:iconPadding="8dp"
-        app:iconTint="#FFFFFFFF"
-        app:rippleColor="#33FFFFFF"
-        app:strokeColor="#33FFFFFF"
-        app:strokeWidth="1dp" />
 
       <LinearLayout
         android:id="@+id/layoutAccessNotice"
