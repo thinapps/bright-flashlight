@@ -14,6 +14,7 @@
 - removed default card elevation and shadow padding for a more uniform dark screen
 - removed the outer stroke from segmented control rails to avoid a double-border look
 - matched the outer height and radius of the segmented rails and Screen Light button
+- removed the remaining card wrappers so secondary controls sit directly on the dark screen
 
 ### 0.6.3
 - lowered the main control area slightly for easier one-handed power button reach
