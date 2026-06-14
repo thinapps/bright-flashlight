@@ -38,7 +38,7 @@ class AppPreferences(private val context: Context) {
     val preferences: Flow<SavedPreferences> = context.brightFlashlightDataStore.data.map { prefs ->
         SavedPreferences(
             lastMode = prefs[Keys.LAST_MODE] ?: "TORCH",
-            autoOffMinutes = (prefs[Keys.AUTO_OFF_MINUTES] ?: 0).coerceIn(0, 30),
+            autoOffMinutes = (prefs[Keys.AUTO_OFF_MINUTES] ?: 0).coerceIn(0, 60),
             strobeSpeed = StrobeSpeedPreset.normalizeHz(prefs[Keys.STROBE_SPEED] ?: StrobeSpeedPreset.DEFAULT_HZ),
             screenLightR = (prefs[Keys.SCREEN_LIGHT_R] ?: 255).coerceIn(0, 255),
             screenLightG = (prefs[Keys.SCREEN_LIGHT_G] ?: 255).coerceIn(0, 255),
@@ -55,7 +55,7 @@ class AppPreferences(private val context: Context) {
 
     suspend fun saveAutoOffMinutes(minutes: Int) {
         context.brightFlashlightDataStore.edit { prefs ->
-            prefs[Keys.AUTO_OFF_MINUTES] = minutes.coerceIn(0, 30)
+            prefs[Keys.AUTO_OFF_MINUTES] = minutes.coerceIn(0, 60)
         }
     }
 
