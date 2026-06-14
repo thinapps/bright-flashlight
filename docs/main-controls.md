@@ -16,6 +16,14 @@ The power button should be positioned by the layout, not by runtime spacer calcu
 
 The effective horizontal screen gutter for the main controls is `24dp`, matching the visual rhythm used by Recover Deleted Photos. This gutter is owned by `activity_main.xml`; do not recreate it with runtime Kotlin padding helpers.
 
+## Power button
+
+The main power control uses a clickable circular layout, not a plain text `Button`, so the icon, future countdown timer, and ON/OFF label can be positioned independently.
+
+The ON/OFF label should stay large and simple. The current label size is `18sp`.
+
+A reserved invisible countdown slot lives above the ON/OFF label. Keep this slot even before countdown behavior is wired, so a future Auto-off countdown can appear without shifting the power button layout.
+
 ## Haptics
 
 Main control interactions should feel tactile:
@@ -125,6 +133,8 @@ Before shipping main-control changes, test:
 - Screen Light appears as a real top-right `Screen` overlay pill, not a full-width primary button or part of the bottom stack
 - Screen Light remains available without Camera permission
 - power, Screen, Mode, Auto-off, Brightness, and Strobe Speed provide haptic feedback on user interactions
+- power button ON/OFF label is clear at `18sp`
+- power button keeps an invisible reserved countdown slot above ON/OFF
 - Brightness value bubble starts at `1`, not `0`, on devices with torch strength support
 - Strobe Speed value bubble shows `1` through `5`, not `0` through `4`
 - Strobe Speed defaults to `Medium (2 Hz)`
