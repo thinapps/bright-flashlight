@@ -11,6 +11,7 @@
 - added a home screen footer noting that lighting effects run locally, no internet connection is required, and the app is open source on GitHub
 - kept Brightness and Strobe Speed layout areas stable so switching modes no longer rearranges the screen
 - restyled Brightness and Strobe Speed as matching chunky hardware-style slider controls
+- kept Auto-off layout space stable with a dim disabled placeholder when torch controls are unavailable
 
 ### 0.6.4
 - forced the main power button center to align with the visible screen midpoint on every device
@@ -127,7 +128,7 @@
 ### 0.3.0
 - replaced separate strobe and SOS buttons with a single radio-style mode selector (Torch / Strobe / SOS)
 - unified all flashlight controls under one large Power button for simpler UX
-- made flashlight modes exclusive so activating one automatically disables the others
+- made flashlight modes exclusive so activating one automatically disables them
 - removed fake auto-off slider and timer UI (commented out for future use)
 - cleaned up main activity logic and strings for new mode-based layout
 
