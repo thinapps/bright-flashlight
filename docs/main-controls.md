@@ -16,6 +16,15 @@ The power button should be positioned by the layout, not by runtime spacer calcu
 
 The effective horizontal screen gutter for the main controls is `24dp`, matching the visual rhythm used by Recover Deleted Photos. This gutter is owned by `activity_main.xml`; do not recreate it with runtime Kotlin padding helpers.
 
+## Haptics
+
+Main control interactions should feel tactile:
+
+- Power button touch uses tap haptic feedback.
+- Screen shortcut click uses tap haptic feedback.
+- Mode and Auto-off changes use tap haptic feedback only for real user changes, not during saved-preference restore.
+- Brightness and Strobe Speed sliders use lighter tick haptic feedback on real user step changes.
+
 ## Control visibility
 
 Torch-related controls require Camera permission and a usable device flash.
@@ -77,7 +86,7 @@ Brightness and Strobe Speed use a shared recessed well drawable:
 app/src/main/res/drawable/bg_slider_hardware_well.xml
 ```
 
-The well should feel related to the main power button, but less visually dominant. Keep its 3D effect subtle: dark recessed slot, soft underside shadow, neutral outer stroke, and faint top highlight.
+The well should feel related to the main power button, but less visually dominant. Keep its 3D effect subtle: dark recessed slot, soft underside shadow, and faint top highlight.
 
 Do not make the slider wells brighter or more raised than the power button. Keep orange on the active slider fill and thumb, not on the well outline.
 
@@ -109,8 +118,9 @@ Before shipping main-control changes, test:
 - full-width controls align to a `24dp` effective screen gutter
 - Screen Light appears as a real top-right `Screen` overlay pill, not a full-width primary button or part of the bottom stack
 - Screen Light remains available without Camera permission
+- power, Screen, Mode, Auto-off, Brightness, and Strobe Speed provide haptic feedback on user interactions
 - slider wells look slightly recessed/beveled without overpowering the power button
-- slider wells and the Screen pill use neutral outlines, not orange outlines
+- slider wells and the Screen pill do not use visible strokes
 - landscape or split-screen remains scrollable instead of clipping
 - large accessibility text remains scrollable instead of clipping
 - Torch mode shows Brightness only on devices with torch strength support
