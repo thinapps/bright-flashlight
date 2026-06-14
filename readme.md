@@ -12,6 +12,7 @@
 - moved the `24dp` control gutter into XML and removed the runtime gutter normalizer
 - removed secondary orange/neutral outlines from the Screen pill and slider wells so orange is reserved for active controls
 - added haptic feedback to Screen, Mode, Auto-off, Brightness, and Strobe Speed interactions
+- replaced the power button icon with a cleaner rounded power symbol
 
 ### 0.6.7
 - matched the main control gutters to a `24dp` effective screen gutter
