@@ -8,6 +8,9 @@
 
 ### Changelog
 
+### 0.6.9
+- changed Brightness and Strobe Speed slider haptics to use the same tap feedback as the other working controls
+
 ### 0.6.8
 - moved the `24dp` control gutter into XML and removed the runtime gutter normalizer
 - removed secondary orange/neutral outlines from the Screen pill and slider wells so orange is reserved for active controls
@@ -148,7 +151,7 @@
 ### 0.3.0
 - replaced separate strobe and SOS buttons with a single radio-style mode selector (Torch / Strobe / SOS)
 - unified all flashlight controls under one large Power button for simpler UX
-- made flashlight modes exclusive so activating one automatically disables the others
+- made flashlight modes exclusive so activating one automatically disables them
 - removed fake auto-off slider and timer UI (commented out for future use)
 - cleaned up main activity logic and strings for new mode-based layout
 
