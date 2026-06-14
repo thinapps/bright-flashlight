@@ -11,6 +11,9 @@
 - bottom-anchored the home controls so the app feels more like a fixed flashlight tool on normal phone screens
 - kept the ScrollView as an emergency fallback for small screens, landscape, split-screen, and large accessibility text
 - disabled the old dynamic centering spacer so it no longer pushes the power button toward the middle
+- removed obsolete dynamic power button centering code from `MainActivity.kt`
+- centralized Strobe speed preset mapping so the activity, preferences, and service use the same values
+- fixed Torch brightness updates so the service uses real device strength levels instead of remapping them through an old 1-10 scale
 
 ### 0.6.5
 - added a home screen footer noting that lighting effects run locally, no internet connection is required, and the app is open source on GitHub
