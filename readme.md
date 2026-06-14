@@ -14,6 +14,7 @@
 - changed the Max Strobe Speed preset from `6 Hz` to `5 Hz` so the five presets are linear and safety-conscious
 - documented `Medium (2 Hz)` as the safety-conscious default Strobe Speed
 - synced the dimmed Strobe Speed preview slider with the saved/current Strobe Speed value
+- increased the ON/OFF label size and reserved an invisible countdown slot above it inside the power button
 
 ### 0.6.8
 - moved the `24dp` control gutter into XML and removed the runtime gutter normalizer
