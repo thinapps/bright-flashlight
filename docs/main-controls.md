@@ -14,7 +14,7 @@ Expected behavior:
 
 The power button should be positioned by the layout, not by runtime spacer calculations in `MainActivity.kt`.
 
-The effective horizontal screen gutter for the main controls is `24dp`, matching the visual rhythm used by Recover Deleted Photos. Keep the full-width rails and buttons aligned to that gutter unless a future layout redesign intentionally changes the app-wide spacing.
+The effective horizontal screen gutter for the main controls is `24dp`, matching the visual rhythm used by Recover Deleted Photos. This gutter is owned by `activity_main.xml`; do not recreate it with runtime Kotlin padding helpers.
 
 ## Control visibility
 
