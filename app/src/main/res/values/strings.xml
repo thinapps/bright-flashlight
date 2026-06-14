@@ -27,10 +27,10 @@
     <string name="torch_brightness">Brightness</string>
     <string name="timer_label">Auto-off</string>
     <string name="timer_off">Off</string>
-    <string name="timer_1_min">5m</string>
-    <string name="timer_5_min">15m</string>
-    <string name="timer_15_min">30m</string>
-    <string name="timer_30_min">1h</string>
+    <string name="timer_5_min">5m</string>
+    <string name="timer_15_min">15m</string>
+    <string name="timer_30_min">30m</string>
+    <string name="timer_1_hour">1h</string>
     <string name="no_flash_message">Camera flash not available. Screen Light is still available.</string>
     <string name="home_footer_message">All lighting effects happen locally on your device, with no internet connection required. This app is entirely open source, and the code is available for inspection on GitHub.</string>
 
