@@ -29,7 +29,7 @@ When Camera permission or flash support is missing:
 
 Screen Light is intentionally secondary to the main flashlight controls.
 
-On the main screen, it should appear as a small top-right pill labeled `Screen`, not as a full-width primary button. Keep the existing `btnScreenLight` behavior, but avoid placing it in the main control stack where it can compete with Torch, Strobe, SOS, Auto-off, Brightness, or Strobe Speed.
+On the main screen, it should appear as a real top-right overlay pill labeled `Screen`, not as a full-width primary button and not as a child of the bottom-anchored control stack. Keep the existing `btnScreenLight` behavior, but avoid placing it where it can compete with Torch, Strobe, SOS, Auto-off, Brightness, or Strobe Speed.
 
 The Screen Light destination can keep the full `Screen Light` title.
 
@@ -107,7 +107,7 @@ Before shipping main-control changes, test:
 
 - normal portrait screen has little or no scrolling
 - full-width controls align to a `24dp` effective screen gutter
-- Screen Light appears as a smaller top-right `Screen` pill, not a full-width primary button
+- Screen Light appears as a real top-right `Screen` overlay pill, not a full-width primary button or part of the bottom stack
 - Screen Light remains available without Camera permission
 - slider wells look slightly recessed/beveled without overpowering the power button
 - landscape or split-screen remains scrollable instead of clipping
