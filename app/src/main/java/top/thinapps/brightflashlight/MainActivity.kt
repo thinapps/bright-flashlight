@@ -70,6 +70,8 @@ class MainActivity : ComponentActivity() {
     setContentView(binding.root)
     sliderBrightness = binding.root.findViewById(R.id.sliderBrightness)
     binding.sliderStrobe.setLabelFormatter { value -> (value.toInt() + 1).toString() }
+    binding.sliderStrobePreview.setLabelFormatter { value -> (value.toInt() + 1).toString() }
+    syncStrobePreview()
 
     binding.btnToggle.setOnClickListener(::onPowerClicked)
     binding.btnToggle.setOnTouchListener { view, event ->
@@ -116,6 +118,7 @@ class MainActivity : ComponentActivity() {
     }
     binding.sliderStrobe.addOnChangeListener { slider, value, fromUser ->
       val sliderValue = value.toInt()
+      syncStrobePreview(sliderValue)
       if (fromUser && sliderValue != lastStrobeHapticValue) {
         performTapHaptic(slider)
         lastStrobeHapticValue = sliderValue
@@ -156,6 +159,10 @@ class MainActivity : ComponentActivity() {
 
   private fun performTapHapticForId(viewId: Int) {
     binding.root.findViewById<View>(viewId)?.let { performTapHaptic(it) }
+  }
+
+  private fun syncStrobePreview(sliderValue: Int = binding.sliderStrobe.value.toInt()) {
+    binding.sliderStrobePreview.value = sliderValue.coerceIn(0, 4).toFloat()
   }
 
   private fun restorePreferences() {
@@ -200,6 +207,7 @@ class MainActivity : ComponentActivity() {
       }
     )
     binding.sliderStrobe.value = StrobeSpeedPreset.sliderValueForHz(saved.strobeSpeed).toFloat()
+    syncStrobePreview()
     updateStrobeSpeedLabel(saved.strobeSpeed)
   }
 
