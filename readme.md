@@ -12,6 +12,7 @@
 - changed Brightness and Strobe Speed slider haptics to use the same tap feedback as the other working controls
 - changed the Strobe Speed value bubble to show `1` through `5` instead of `0` through `4`
 - changed the Max Strobe Speed preset from `6 Hz` to `5 Hz` so the five presets are linear and safety-conscious
+- documented `Medium (2 Hz)` as the safety-conscious default Strobe Speed
 
 ### 0.6.8
 - moved the `24dp` control gutter into XML and removed the runtime gutter normalizer
