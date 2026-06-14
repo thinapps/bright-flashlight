@@ -10,6 +10,7 @@
 
 ### 0.6.7
 - matched the main control gutters to a `24dp` effective screen gutter
+- restyled the Brightness and Strobe Speed wells with a subtle recessed bevel that matches the power button's hardware feel
 
 ### 0.6.6
 - bottom-anchored the home controls so the app feels more like a fixed flashlight tool on normal phone screens
