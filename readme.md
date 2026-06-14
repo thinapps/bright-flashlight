@@ -8,6 +8,12 @@
 
 ### Changelog
 
+### 0.7.0
+- added a small white Auto-off countdown above the ON/OFF label on the main power button while a light mode is active
+- kept the countdown slot invisible when inactive so the power button layout does not shift
+- locked Auto-off controls while Torch, Strobe, or SOS is active to prevent accidental timer changes
+- bumped the app version to `0.7.0`
+
 ### 0.6.9
 - changed Brightness and Strobe Speed slider haptics to use the same tap feedback as the other working controls
 - changed the Strobe Speed value bubble to show `1` through `5` instead of `0` through `4`
