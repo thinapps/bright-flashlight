@@ -18,6 +18,7 @@ import kotlinx.coroutines.launch
 import top.thinapps.brightflashlight.databinding.ActivityMainBinding
 import top.thinapps.brightflashlight.prefs.AppPreferences
 import top.thinapps.brightflashlight.prefs.SavedPreferences
+import top.thinapps.brightflashlight.torch.StrobeSpeedPreset
 import top.thinapps.brightflashlight.torch.TorchController
 import top.thinapps.brightflashlight.torch.TorchService
 import top.thinapps.brightflashlight.torch.TorchService.Companion.ACTION_SOS_START
@@ -75,8 +76,6 @@ class MainActivity : ComponentActivity() {
         setContentView(binding.root)
 
         sliderBrightness = binding.root.findViewById(R.id.sliderBrightness)
-        binding.root.addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ -> centerPowerButtonInViewport() }
-        centerPowerButtonInViewport()
 
         binding.btnToggle.setOnClickListener(::onPowerClicked)
         binding.btnToggle.setOnTouchListener { view, event ->
@@ -120,7 +119,7 @@ class MainActivity : ComponentActivity() {
         }
 
         binding.sliderStrobe.addOnChangeListener { _, value, fromUser ->
-            val speedHz = strobeSpeedForSlider(value.toInt())
+            val speedHz = StrobeSpeedPreset.hzForSliderValue(value.toInt())
             updateStrobeSpeedLabel(speedHz)
             if (fromUser && !restoringPreferences) {
                 saveStrobeSpeedPreference(speedHz)
@@ -149,21 +148,6 @@ class MainActivity : ComponentActivity() {
             requestCameraPermission()
         }
         syncUiEnabledState(hasCam)
-    }
-
-    private fun centerPowerButtonInViewport() {
-        binding.root.post {
-            val viewportHeight = binding.root.height
-            val buttonHeight = binding.btnToggle.height
-            if (viewportHeight <= 0 || buttonHeight <= 0) return@post
-
-            val targetHeight = ((viewportHeight - buttonHeight) / 2).coerceAtLeast(0)
-            val params = binding.spacePowerTop.layoutParams
-            if (params.height != targetHeight) {
-                params.height = targetHeight
-                binding.spacePowerTop.layoutParams = params
-            }
-        }
     }
 
     private fun restorePreferences() {
@@ -209,7 +193,7 @@ class MainActivity : ComponentActivity() {
                 else -> R.id.btnAutoOffOff
             }
         )
-        binding.sliderStrobe.value = sliderValueForStrobeSpeed(saved.strobeSpeed).toFloat()
+        binding.sliderStrobe.value = StrobeSpeedPreset.sliderValueForHz(saved.strobeSpeed).toFloat()
         updateStrobeSpeedLabel(saved.strobeSpeed)
     }
 
@@ -393,27 +377,7 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun selectedStrobeSpeed(): Int {
-        return strobeSpeedForSlider(binding.sliderStrobe.value.toInt())
-    }
-
-    private fun strobeSpeedForSlider(value: Int): Int {
-        return when (value.coerceIn(0, 4)) {
-            0 -> 1
-            1 -> 2
-            2 -> 3
-            3 -> 4
-            else -> 6
-        }
-    }
-
-    private fun sliderValueForStrobeSpeed(speed: Int): Int {
-        return when {
-            speed <= 1 -> 0
-            speed == 2 -> 1
-            speed == 3 -> 2
-            speed == 4 -> 3
-            else -> 4
-        }
+        return StrobeSpeedPreset.hzForSliderValue(binding.sliderStrobe.value.toInt())
     }
 
     private fun updateStrobeSpeedLabel(speed: Int = selectedStrobeSpeed()) {
@@ -431,7 +395,7 @@ class MainActivity : ComponentActivity() {
             speed == 4 -> getString(R.string.strobe_speed_fast)
             else -> getString(R.string.strobe_speed_max)
         }
-        return "$label (${strobeSpeedForSlider(sliderValueForStrobeSpeed(speed))} Hz)"
+        return "$label (${StrobeSpeedPreset.normalizeHz(speed)} Hz)"
     }
 
     private fun saveModePreference() {
