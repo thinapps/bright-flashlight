@@ -75,6 +75,8 @@ class MainActivity : ComponentActivity() {
         setContentView(binding.root)
 
         sliderBrightness = binding.root.findViewById(R.id.sliderBrightness)
+        binding.root.addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ -> centerPowerButtonInViewport() }
+        centerPowerButtonInViewport()
 
         binding.btnToggle.setOnClickListener(::onPowerClicked)
         binding.btnToggle.setOnTouchListener { view, event ->
@@ -147,6 +149,21 @@ class MainActivity : ComponentActivity() {
             requestCameraPermission()
         }
         syncUiEnabledState(hasCam)
+    }
+
+    private fun centerPowerButtonInViewport() {
+        binding.root.post {
+            val viewportHeight = binding.root.height
+            val buttonHeight = binding.btnToggle.height
+            if (viewportHeight <= 0 || buttonHeight <= 0) return@post
+
+            val targetHeight = ((viewportHeight - buttonHeight) / 2).coerceAtLeast(0)
+            val params = binding.spacePowerTop.layoutParams
+            if (params.height != targetHeight) {
+                params.height = targetHeight
+                binding.spacePowerTop.layoutParams = params
+            }
+        }
     }
 
     private fun restorePreferences() {
