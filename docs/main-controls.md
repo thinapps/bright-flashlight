@@ -74,6 +74,8 @@ The default Strobe Speed is `Medium (2 Hz)`. Keep this default because it is saf
 | `4` | Fast | `4 Hz` |
 | `5` | Max | `5 Hz` |
 
+The dimmed Strobe Speed preview should always mirror the saved/current Strobe Speed value. Do not leave it hardcoded to the default, because that can surprise users when they switch into Strobe mode.
+
 The canonical speed mapping lives in:
 
 ```text
@@ -127,6 +129,7 @@ Before shipping main-control changes, test:
 - Strobe Speed value bubble shows `1` through `5`, not `0` through `4`
 - Strobe Speed defaults to `Medium (2 Hz)`
 - Strobe Speed presets map linearly to `1 Hz`, `2 Hz`, `3 Hz`, `4 Hz`, and `5 Hz`
+- dimmed Strobe Speed preview mirrors the saved/current Strobe Speed value before Strobe mode is enabled
 - slider wells look slightly recessed/beveled without overpowering the power button
 - slider wells and the Screen pill do not use visible strokes
 - landscape or split-screen remains scrollable instead of clipping
