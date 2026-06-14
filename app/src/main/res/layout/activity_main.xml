@@ -534,6 +534,6 @@
     app:iconPadding="6dp"
     app:iconTint="#FFFFFFFF"
     app:rippleColor="#33FFFFFF"
-    app:strokeColor="#44FF9A3D"
+    app:strokeColor="#55606A73"
     app:strokeWidth="1dp" />
 </FrameLayout>
