@@ -13,6 +13,7 @@
 - changed the Strobe Speed value bubble to show `1` through `5` instead of `0` through `4`
 - changed the Max Strobe Speed preset from `6 Hz` to `5 Hz` so the five presets are linear and safety-conscious
 - documented `Medium (2 Hz)` as the safety-conscious default Strobe Speed
+- synced the dimmed Strobe Speed preview slider with the saved/current Strobe Speed value
 
 ### 0.6.8
 - moved the `24dp` control gutter into XML and removed the runtime gutter normalizer
@@ -126,7 +127,7 @@
 ### 0.5.1
 - fixed app crash caused by unguarded access to `sliderBrightness` during activity startup
 - made brightness slider nullable and safely initialized to prevent null pointer exceptions
-- updated `activity_main.xml` to use explicit `Material3.Slider` style for consistent rendering across Android 12–14
+- updated `activity_main.xml` to use explicit Material3.Slider style for consistent rendering across Android 12–14
 - cleaned `AndroidManifest.xml` by removing deprecated `android.permission.FLASHLIGHT`
 
 ### 0.5.0
