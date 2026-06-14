@@ -10,6 +10,7 @@
 ### 0.6.5
 - added a home screen footer noting that lighting effects run locally, no internet connection is required, and the app is open source on GitHub
 - kept Brightness and Strobe Speed layout areas stable so switching modes no longer rearranges the screen
+- restyled Brightness and Strobe Speed as matching chunky hardware-style slider controls
 
 ### 0.6.4
 - forced the main power button center to align with the visible screen midpoint on every device
