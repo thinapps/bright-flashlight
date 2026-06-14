@@ -10,6 +10,7 @@
 
 ### 0.6.8
 - moved the `24dp` control gutter into XML and removed the runtime gutter normalizer
+- removed secondary orange/neutral outlines from the Screen pill and slider wells so orange is reserved for active controls
 
 ### 0.6.7
 - matched the main control gutters to a `24dp` effective screen gutter
