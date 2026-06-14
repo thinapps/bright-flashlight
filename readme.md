@@ -7,6 +7,11 @@
 
 ### Changelog
 
+### 0.6.6
+- bottom-anchored the home controls so the app feels more like a fixed flashlight tool on normal phone screens
+- kept the ScrollView as an emergency fallback for small screens, landscape, split-screen, and large accessibility text
+- disabled the old dynamic centering spacer so it no longer pushes the power button toward the middle
+
 ### 0.6.5
 - added a home screen footer noting that lighting effects run locally, no internet connection is required, and the app is open source on GitHub
 - kept Brightness and Strobe Speed layout areas stable so switching modes no longer rearranges the screen
