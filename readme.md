@@ -2,6 +2,7 @@
 
 ### Documentation
 
+- [Main Controls](docs/main-controls.md)
 - [App Preferences](docs/app-preferences.md)
 - [Permissions](docs/permissions.md)
 
