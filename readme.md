@@ -8,6 +8,9 @@
 
 ### Changelog
 
+### 0.6.7
+- matched the main control gutters to a `24dp` effective screen gutter
+
 ### 0.6.6
 - bottom-anchored the home controls so the app feels more like a fixed flashlight tool on normal phone screens
 - kept the ScrollView as an emergency fallback for small screens, landscape, split-screen, and large accessibility text
@@ -15,7 +18,6 @@
 - removed obsolete dynamic power button centering code from `MainActivity.kt`
 - centralized Strobe speed preset mapping so the activity, preferences, and service use the same values
 - changed Auto-off presets from `1m`, `5m`, `15m`, and `30m` to `5m`, `15m`, `30m`, and `1h`
-- matched the main control gutters to a `24dp` effective screen gutter
 - fixed Torch brightness updates so the service uses real device strength levels instead of remapping them through an old 1-10 scale
 
 ### 0.6.5
@@ -105,7 +107,7 @@
 
 ### 0.5.2
 - fixed app crash caused by unguarded access to `sliderBrightness` during activity startup (again)
-- ensured the brightness slider is safely initialized (nullable, safe-call operator) to prevent Null Pointer Exceptions
+- ensured the brightness slider is safely initialized to prevent Null Pointer Exceptions
 
 ### 0.5.1
 - fixed app crash caused by unguarded access to `sliderBrightness` during activity startup
