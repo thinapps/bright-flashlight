@@ -77,9 +77,9 @@ Brightness and Strobe Speed use a shared recessed well drawable:
 app/src/main/res/drawable/bg_slider_hardware_well.xml
 ```
 
-The well should feel related to the main power button, but less visually dominant. Keep its 3D effect subtle: dark recessed slot, soft underside shadow, warm orange edge, and faint top highlight.
+The well should feel related to the main power button, but less visually dominant. Keep its 3D effect subtle: dark recessed slot, soft underside shadow, neutral outer stroke, and faint top highlight.
 
-Do not make the slider wells brighter or more raised than the power button.
+Do not make the slider wells brighter or more raised than the power button. Keep orange on the active slider fill and thumb, not on the well outline.
 
 ## Stable lower controls
 
@@ -110,6 +110,7 @@ Before shipping main-control changes, test:
 - Screen Light appears as a real top-right `Screen` overlay pill, not a full-width primary button or part of the bottom stack
 - Screen Light remains available without Camera permission
 - slider wells look slightly recessed/beveled without overpowering the power button
+- slider wells and the Screen pill use neutral outlines, not orange outlines
 - landscape or split-screen remains scrollable instead of clipping
 - large accessibility text remains scrollable instead of clipping
 - Torch mode shows Brightness only on devices with torch strength support
