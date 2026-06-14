@@ -84,6 +84,8 @@ The default Strobe Speed is `Medium (2 Hz)`. Keep this default because it is saf
 
 The dimmed Strobe Speed preview should always mirror the saved/current Strobe Speed value. Do not leave it hardcoded to the default, because that can surprise users when they switch into Strobe mode.
 
+The active Strobe Speed header includes a small warning icon on the far right. Tapping it opens a simple modal warning about flashing light sensitivity and photosensitive epilepsy. Do not replace this with an onboarding notice, persistent banner, or stored dismissal state.
+
 The canonical speed mapping lives in:
 
 ```text
@@ -139,6 +141,7 @@ Before shipping main-control changes, test:
 - power button keeps the countdown slot above ON/OFF without shifting the layout
 - Auto-off countdown appears as small white `MM:SS` text only when a light mode is active and Auto-off is enabled
 - Auto-off controls lock while Torch, Strobe, or SOS is active, then unlock when the light mode stops
+- Strobe Speed warning icon appears far right above the active Strobe Speed slider and opens a simple warning modal when tapped
 - Brightness value bubble starts at `1`, not `0`, on devices with torch strength support
 - Strobe Speed value bubble shows `1` through `5`, not `0` through `4`
 - Strobe Speed defaults to `Medium (2 Hz)`
