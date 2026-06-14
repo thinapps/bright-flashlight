@@ -126,6 +126,8 @@ The supported options are:
 
 Once a light mode is turned on, Auto-off controls are locked until the light mode is turned off. This prevents accidental timer changes while the flashlight is already running.
 
+When locked, the whole Auto-off section dims to `0.45` alpha so it matches the visual language used by the disabled Brightness and Strobe Speed placeholder controls.
+
 When Auto-off is enabled before starting Torch, Strobe, or SOS, the power button shows a small white `MM:SS` countdown above the ON/OFF label. The countdown is Activity-side UI only; `TorchService` still owns the real shutdown timer.
 
 ## Testing checklist
@@ -140,7 +142,7 @@ Before shipping main-control changes, test:
 - power button ON/OFF label is clear at `18sp`
 - power button keeps the countdown slot above ON/OFF without shifting the layout
 - Auto-off countdown appears as small white `MM:SS` text only when a light mode is active and Auto-off is enabled
-- Auto-off controls lock while Torch, Strobe, or SOS is active, then unlock when the light mode stops
+- Auto-off controls lock while Torch, Strobe, or SOS is active, dim to match the disabled slider placeholders, then unlock and return to full opacity when the light mode stops
 - Strobe Speed warning icon appears far right above the active Strobe Speed slider and opens a simple warning modal when tapped
 - Brightness value bubble starts at `1`, not `0`, on devices with torch strength support
 - Strobe Speed value bubble shows `1` through `5`, not `0` through `4`
