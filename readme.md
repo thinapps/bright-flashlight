@@ -11,6 +11,7 @@
 ### 0.7.1
 - added a Strobe Speed warning icon that opens a simple flashing-light sensitivity warning modal
 - added local warning title and message strings for the modal
+- dimmed the locked Auto-off section while a light mode is active so disabled controls match the slider placeholder style
 - bumped the app version to `0.7.1`
 
 ### 0.7.0
