@@ -69,6 +69,7 @@ class MainActivity : ComponentActivity() {
     binding = ActivityMainBinding.inflate(layoutInflater)
     setContentView(binding.root)
     sliderBrightness = binding.root.findViewById(R.id.sliderBrightness)
+    binding.sliderStrobe.setLabelFormatter { value -> (value.toInt() + 1).toString() }
 
     binding.btnToggle.setOnClickListener(::onPowerClicked)
     binding.btnToggle.setOnTouchListener { view, event ->
