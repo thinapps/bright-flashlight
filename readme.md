@@ -8,6 +8,11 @@
 
 ### Changelog
 
+### 0.7.1
+- added a Strobe Speed warning icon that opens a simple flashing-light sensitivity warning modal
+- added local warning title and message strings for the modal
+- bumped the app version to `0.7.1`
+
 ### 0.7.0
 - added a small white Auto-off countdown above the ON/OFF label on the main power button while a light mode is active
 - kept the countdown slot invisible when inactive so the power button layout does not shift
