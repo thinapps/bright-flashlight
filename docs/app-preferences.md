@@ -51,6 +51,31 @@ Current saved values:
 | `screen_light_b` | Int | `255` | Restores the blue channel for Screen Light. |
 | `screen_light_preset` | String | none | Restores the selected Screen Light preset button when a preset was tapped. |
 
+## Strobe speed presets
+
+`strobe_speed` stores the selected preset as the actual hertz value, not the slider index.
+
+Supported values:
+
+```text
+1, 2, 3, 4, 6
+```
+
+The canonical strobe preset mapping lives in:
+
+```text
+app/src/main/java/top/thinapps/brightflashlight/torch/StrobeSpeedPreset.kt
+```
+
+Use `StrobeSpeedPreset` for:
+
+- slider value to hertz mapping
+- hertz to slider value mapping
+- saved preference normalization
+- service interval calculation
+
+This keeps `MainActivity`, `AppPreferences`, and `TorchService` aligned when strobe behavior changes.
+
 ## Intentionally not saved
 
 The app should **not** save active flashlight state.
