@@ -44,12 +44,32 @@ Current saved values:
 | Key | Type | Default | Purpose |
 | --- | --- | --- | --- |
 | `last_mode` | String | `TORCH` | Restores the last selected flashlight mode. |
-| `auto_off_minutes` | Int | `0` | Restores the selected Auto-off option. |
+| `auto_off_minutes` | Int | `0` | Restores the selected Auto-off option. Supported values are `0`, `5`, `15`, `30`, and `60`. |
 | `strobe_speed` | Int | `2` | Restores the selected Strobe speed in hertz. Supported preset values are `1`, `2`, `3`, `4`, and `6`. |
 | `screen_light_r` | Int | `255` | Restores the red channel for Screen Light. |
 | `screen_light_g` | Int | `255` | Restores the green channel for Screen Light. |
 | `screen_light_b` | Int | `255` | Restores the blue channel for Screen Light. |
 | `screen_light_preset` | String | none | Restores the selected Screen Light preset button when a preset was tapped. |
+
+## Auto-off presets
+
+`auto_off_minutes` stores the selected Auto-off duration in minutes.
+
+Supported values:
+
+```text
+0, 5, 15, 30, 60
+```
+
+These represent:
+
+- `0`: Off
+- `5`: 5 minutes
+- `15`: 15 minutes
+- `30`: 30 minutes
+- `60`: 1 hour
+
+Do not save arbitrary Auto-off durations unless the UI intentionally changes away from fixed presets.
 
 ## Strobe speed presets
 
@@ -131,6 +151,7 @@ Before shipping preference changes, test:
 
 - change mode, close app, reopen app
 - change Auto-off, close app, reopen app
+- confirm Auto-off restores to the same selected duration, including `1h`
 - change Strobe speed, close app, reopen app
 - confirm Strobe speed restores to the same named preset
 - change Screen Light preset, close Screen Light, reopen Screen Light
