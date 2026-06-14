@@ -393,258 +393,133 @@
             </LinearLayout>
         </FrameLayout>
 
-        <FrameLayout
+        <LinearLayout
+            android:id="@+id/cardAutoOff"
+            android:orientation="vertical"
+            android:paddingStart="16dp"
+            android:paddingTop="8dp"
+            android:paddingEnd="16dp"
+            android:paddingBottom="12dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <LinearLayout
-                android:orientation="vertical"
-                android:alpha="0.45"
-                android:paddingStart="16dp"
-                android:paddingTop="8dp"
-                android:paddingEnd="16dp"
-                android:paddingBottom="12dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+            <TextView
+                android:text="@string/timer_label"
+                android:textAllCaps="true"
+                android:textColor="@color/md_text_dim"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:letterSpacing="0.08"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
-                <TextView
-                    android:text="@string/timer_label"
+            <com.google.android.material.button.MaterialButtonToggleGroup
+                android:id="@+id/groupAutoOff"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/bg_mode_switch_rail"
+                android:padding="4dp"
+                app:singleSelection="true"
+                app:selectionRequired="true"
+                app:checkedButton="@id/btnAutoOffOff">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnAutoOffOff"
+                    android:layout_width="0dp"
+                    android:layout_height="44dp"
+                    android:layout_weight="1"
+                    android:checkable="true"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:text="@string/timer_off"
                     android:textAllCaps="true"
-                    android:textColor="@color/md_text_dim"
+                    android:textColor="#FFFFFFFF"
                     android:textSize="12sp"
                     android:textStyle="bold"
-                    android:letterSpacing="0.08"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    app:backgroundTint="@color/mode_switch_button_bg"
+                    app:cornerRadius="16dp"
+                    app:rippleColor="#33FFB36A"
+                    app:strokeColor="#44FFFFFF"
+                    app:strokeWidth="1dp" />
 
-                <com.google.android.material.button.MaterialButtonToggleGroup
-                    android:layout_width="match_parent"
-                    android:layout_height="52dp"
-                    android:layout_marginTop="12dp"
-                    android:background="@drawable/bg_mode_switch_rail"
-                    android:padding="4dp">
-
-                    <com.google.android.material.button.MaterialButton
-                        android:layout_width="0dp"
-                        android:layout_height="44dp"
-                        android:layout_weight="1"
-                        android:enabled="false"
-                        android:insetTop="0dp"
-                        android:insetBottom="0dp"
-                        android:text="@string/timer_off"
-                        android:textAllCaps="true"
-                        android:textColor="#FFFFFFFF"
-                        android:textSize="12sp"
-                        android:textStyle="bold"
-                        app:backgroundTint="@color/mode_switch_button_bg"
-                        app:cornerRadius="16dp"
-                        app:rippleColor="#33FFB36A"
-                        app:strokeColor="#44FFFFFF"
-                        app:strokeWidth="1dp" />
-
-                    <com.google.android.material.button.MaterialButton
-                        android:layout_width="0dp"
-                        android:layout_height="44dp"
-                        android:layout_weight="1"
-                        android:enabled="false"
-                        android:insetTop="0dp"
-                        android:insetBottom="0dp"
-                        android:text="@string/timer_1_min"
-                        android:textAllCaps="true"
-                        android:textColor="#FFFFFFFF"
-                        android:textSize="12sp"
-                        android:textStyle="bold"
-                        app:backgroundTint="@color/mode_switch_button_bg"
-                        app:cornerRadius="16dp"
-                        app:rippleColor="#33FFB36A"
-                        app:strokeColor="#44FFFFFF"
-                        app:strokeWidth="1dp" />
-
-                    <com.google.android.material.button.MaterialButton
-                        android:layout_width="0dp"
-                        android:layout_height="44dp"
-                        android:layout_weight="1"
-                        android:enabled="false"
-                        android:insetTop="0dp"
-                        android:insetBottom="0dp"
-                        android:text="@string/timer_5_min"
-                        android:textAllCaps="true"
-                        android:textColor="#FFFFFFFF"
-                        android:textSize="12sp"
-                        android:textStyle="bold"
-                        app:backgroundTint="@color/mode_switch_button_bg"
-                        app:cornerRadius="16dp"
-                        app:rippleColor="#33FFB36A"
-                        app:strokeColor="#44FFFFFF"
-                        app:strokeWidth="1dp" />
-
-                    <com.google.android.material.button.MaterialButton
-                        android:layout_width="0dp"
-                        android:layout_height="44dp"
-                        android:layout_weight="1"
-                        android:enabled="false"
-                        android:insetTop="0dp"
-                        android:insetBottom="0dp"
-                        android:text="@string/timer_15_min"
-                        android:textAllCaps="true"
-                        android:textColor="#FFFFFFFF"
-                        android:textSize="12sp"
-                        android:textStyle="bold"
-                        app:backgroundTint="@color/mode_switch_button_bg"
-                        app:cornerRadius="16dp"
-                        app:rippleColor="#33FFB36A"
-                        app:strokeColor="#44FFFFFF"
-                        app:strokeWidth="1dp" />
-
-                    <com.google.android.material.button.MaterialButton
-                        android:layout_width="0dp"
-                        android:layout_height="44dp"
-                        android:layout_weight="1"
-                        android:enabled="false"
-                        android:insetTop="0dp"
-                        android:insetBottom="0dp"
-                        android:text="@string/timer_30_min"
-                        android:textAllCaps="true"
-                        android:textColor="#FFFFFFFF"
-                        android:textSize="12sp"
-                        android:textStyle="bold"
-                        app:backgroundTint="@color/mode_switch_button_bg"
-                        app:cornerRadius="16dp"
-                        app:rippleColor="#33FFB36A"
-                        app:strokeColor="#44FFFFFF"
-                        app:strokeWidth="1dp" />
-                </com.google.android.material.button.MaterialButtonToggleGroup>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/cardAutoOff"
-                android:orientation="vertical"
-                android:background="@color/md_bg"
-                android:paddingStart="16dp"
-                android:paddingTop="8dp"
-                android:paddingEnd="16dp"
-                android:paddingBottom="12dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:text="@string/timer_label"
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnAutoOff1"
+                    android:layout_width="0dp"
+                    android:layout_height="44dp"
+                    android:layout_weight="1"
+                    android:checkable="true"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:text="@string/timer_1_min"
                     android:textAllCaps="true"
-                    android:textColor="@color/md_text_dim"
+                    android:textColor="#FFFFFFFF"
                     android:textSize="12sp"
                     android:textStyle="bold"
-                    android:letterSpacing="0.08"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    app:backgroundTint="@color/mode_switch_button_bg"
+                    app:cornerRadius="16dp"
+                    app:rippleColor="#33FFB36A"
+                    app:strokeColor="#44FFFFFF"
+                    app:strokeWidth="1dp" />
 
-                <com.google.android.material.button.MaterialButtonToggleGroup
-                    android:id="@+id/groupAutoOff"
-                    android:layout_width="match_parent"
-                    android:layout_height="52dp"
-                    android:layout_marginTop="12dp"
-                    android:background="@drawable/bg_mode_switch_rail"
-                    android:padding="4dp"
-                    app:singleSelection="true"
-                    app:selectionRequired="true"
-                    app:checkedButton="@id/btnAutoOffOff">
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnAutoOff5"
+                    android:layout_width="0dp"
+                    android:layout_height="44dp"
+                    android:layout_weight="1"
+                    android:checkable="true"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:text="@string/timer_5_min"
+                    android:textAllCaps="true"
+                    android:textColor="#FFFFFFFF"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    app:backgroundTint="@color/mode_switch_button_bg"
+                    app:cornerRadius="16dp"
+                    app:rippleColor="#33FFB36A"
+                    app:strokeColor="#44FFFFFF"
+                    app:strokeWidth="1dp" />
 
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnAutoOffOff"
-                        android:layout_width="0dp"
-                        android:layout_height="44dp"
-                        android:layout_weight="1"
-                        android:checkable="true"
-                        android:insetTop="0dp"
-                        android:insetBottom="0dp"
-                        android:text="@string/timer_off"
-                        android:textAllCaps="true"
-                        android:textColor="#FFFFFFFF"
-                        android:textSize="12sp"
-                        android:textStyle="bold"
-                        app:backgroundTint="@color/mode_switch_button_bg"
-                        app:cornerRadius="16dp"
-                        app:rippleColor="#33FFB36A"
-                        app:strokeColor="#44FFFFFF"
-                        app:strokeWidth="1dp" />
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnAutoOff15"
+                    android:layout_width="0dp"
+                    android:layout_height="44dp"
+                    android:layout_weight="1"
+                    android:checkable="true"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:text="@string/timer_15_min"
+                    android:textAllCaps="true"
+                    android:textColor="#FFFFFFFF"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    app:backgroundTint="@color/mode_switch_button_bg"
+                    app:cornerRadius="16dp"
+                    app:rippleColor="#33FFB36A"
+                    app:strokeColor="#44FFFFFF"
+                    app:strokeWidth="1dp" />
 
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnAutoOff1"
-                        android:layout_width="0dp"
-                        android:layout_height="44dp"
-                        android:layout_weight="1"
-                        android:checkable="true"
-                        android:insetTop="0dp"
-                        android:insetBottom="0dp"
-                        android:text="@string/timer_1_min"
-                        android:textAllCaps="true"
-                        android:textColor="#FFFFFFFF"
-                        android:textSize="12sp"
-                        android:textStyle="bold"
-                        app:backgroundTint="@color/mode_switch_button_bg"
-                        app:cornerRadius="16dp"
-                        app:rippleColor="#33FFB36A"
-                        app:strokeColor="#44FFFFFF"
-                        app:strokeWidth="1dp" />
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnAutoOff5"
-                        android:layout_width="0dp"
-                        android:layout_height="44dp"
-                        android:layout_weight="1"
-                        android:checkable="true"
-                        android:insetTop="0dp"
-                        android:insetBottom="0dp"
-                        android:text="@string/timer_5_min"
-                        android:textAllCaps="true"
-                        android:textColor="#FFFFFFFF"
-                        android:textSize="12sp"
-                        android:textStyle="bold"
-                        app:backgroundTint="@color/mode_switch_button_bg"
-                        app:cornerRadius="16dp"
-                        app:rippleColor="#33FFB36A"
-                        app:strokeColor="#44FFFFFF"
-                        app:strokeWidth="1dp" />
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnAutoOff15"
-                        android:layout_width="0dp"
-                        android:layout_height="44dp"
-                        android:layout_weight="1"
-                        android:checkable="true"
-                        android:insetTop="0dp"
-                        android:insetBottom="0dp"
-                        android:text="@string/timer_15_min"
-                        android:textAllCaps="true"
-                        android:textColor="#FFFFFFFF"
-                        android:textSize="12sp"
-                        android:textStyle="bold"
-                        app:backgroundTint="@color/mode_switch_button_bg"
-                        app:cornerRadius="16dp"
-                        app:rippleColor="#33FFB36A"
-                        app:strokeColor="#44FFFFFF"
-                        app:strokeWidth="1dp" />
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnAutoOff30"
-                        android:layout_width="0dp"
-                        android:layout_height="44dp"
-                        android:layout_weight="1"
-                        android:checkable="true"
-                        android:insetTop="0dp"
-                        android:insetBottom="0dp"
-                        android:text="@string/timer_30_min"
-                        android:textAllCaps="true"
-                        android:textColor="#FFFFFFFF"
-                        android:textSize="12sp"
-                        android:textStyle="bold"
-                        app:backgroundTint="@color/mode_switch_button_bg"
-                        app:cornerRadius="16dp"
-                        app:rippleColor="#33FFB36A"
-                        app:strokeColor="#44FFFFFF"
-                        app:strokeWidth="1dp" />
-                </com.google.android.material.button.MaterialButtonToggleGroup>
-            </LinearLayout>
-        </FrameLayout>
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnAutoOff30"
+                    android:layout_width="0dp"
+                    android:layout_height="44dp"
+                    android:layout_weight="1"
+                    android:checkable="true"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:text="@string/timer_30_min"
+                    android:textAllCaps="true"
+                    android:textColor="#FFFFFFFF"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    app:backgroundTint="@color/mode_switch_button_bg"
+                    app:cornerRadius="16dp"
+                    app:rippleColor="#33FFB36A"
+                    app:strokeColor="#44FFFFFF"
+                    app:strokeWidth="1dp" />
+            </com.google.android.material.button.MaterialButtonToggleGroup>
+        </LinearLayout>
 
         <TextView
             android:id="@+id/txtHomeFooterMessage"
