@@ -133,8 +133,9 @@ class MainActivity : ComponentActivity() {
   }
 
   private fun applyStandardGutter() {
-    val content = binding.root.getChildAt(0)
-    content.setPaddingRelative(dp(24), dp(20), dp(24), dp(20))
+    val scroll = binding.root.getChildAt(0) as? ViewGroup ?: return
+    val content = scroll.getChildAt(0) ?: return
+    content.setPaddingRelative(dp(24), content.paddingTop, dp(24), dp(20))
     clearNestedHorizontalPadding(content)
   }
 
