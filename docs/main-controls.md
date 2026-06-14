@@ -25,6 +25,14 @@ When Camera permission or flash support is missing:
 - Torch, Strobe, SOS, Brightness, Strobe Speed, and Auto-off stay disabled or hidden
 - Screen Light remains available because it does not require Camera permission
 
+## Secondary Screen shortcut
+
+Screen Light is intentionally secondary to the main flashlight controls.
+
+On the main screen, it should appear as a small top-right pill labeled `Screen`, not as a full-width primary button. Keep the existing `btnScreenLight` behavior, but avoid placing it in the main control stack where it can compete with Torch, Strobe, SOS, Auto-off, Brightness, or Strobe Speed.
+
+The Screen Light destination can keep the full `Screen Light` title.
+
 ## Brightness
 
 Brightness is only shown when:
@@ -99,6 +107,8 @@ Before shipping main-control changes, test:
 
 - normal portrait screen has little or no scrolling
 - full-width controls align to a `24dp` effective screen gutter
+- Screen Light appears as a smaller top-right `Screen` pill, not a full-width primary button
+- Screen Light remains available without Camera permission
 - slider wells look slightly recessed/beveled without overpowering the power button
 - landscape or split-screen remains scrollable instead of clipping
 - large accessibility text remains scrollable instead of clipping
@@ -107,4 +117,3 @@ Before shipping main-control changes, test:
 - SOS mode hides Brightness and Strobe Speed but keeps Auto-off available
 - Auto-off remains a single normal section, not a duplicate placeholder section
 - Auto-off options show `Off`, `5m`, `15m`, `30m`, and `1h`
-- Screen Light remains available without Camera permission
