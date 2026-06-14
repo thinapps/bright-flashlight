@@ -9,187 +9,184 @@
     <LinearLayout
         android:orientation="vertical"
         android:paddingStart="20dp"
-        android:paddingTop="26dp"
+        android:paddingTop="0dp"
         android:paddingEnd="20dp"
         android:paddingBottom="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.google.android.material.card.MaterialCardView
+        <LinearLayout
+            android:id="@+id/layoutMainControls"
+            android:orientation="vertical"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingBottom="18dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            app:cardUseCompatPadding="true"
-            app:cardPreventCornerOverlap="true">
+            android:layout_height="wrap_content">
 
-            <LinearLayout
-                android:orientation="vertical"
-                android:paddingStart="16dp"
-                android:paddingTop="30dp"
-                android:paddingEnd="16dp"
-                android:paddingBottom="18dp"
+            <Space
+                android:id="@+id/spacePowerTop"
+                android:layout_width="1dp"
+                android:layout_height="120dp" />
+
+            <Button
+                android:id="@+id/btnToggle"
+                android:layout_width="156dp"
+                android:layout_height="156dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/bg_power_button_off"
+                android:drawableTop="@drawable/ic_power"
+                android:drawablePadding="8dp"
+                android:elevation="8dp"
+                android:gravity="center"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:paddingLeft="18dp"
+                android:paddingTop="26dp"
+                android:paddingRight="18dp"
+                android:paddingBottom="22dp"
+                android:text="@string/action_torch_on"
+                android:textAllCaps="true"
+                android:textColor="#FFFFFFFF"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="24dp"
+                android:letterSpacing="0.10"
+                android:text="@string/mode_label"
+                android:textAllCaps="true"
+                android:textColor="@color/md_text_dim"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <com.google.android.material.button.MaterialButtonToggleGroup
+                android:id="@+id/groupMode"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <Button
-                    android:id="@+id/btnToggle"
-                    android:layout_width="156dp"
-                    android:layout_height="156dp"
-                    android:layout_gravity="center_horizontal"
-                    android:background="@drawable/bg_power_button_off"
-                    android:drawableTop="@drawable/ic_power"
-                    android:drawablePadding="8dp"
-                    android:elevation="8dp"
-                    android:gravity="center"
-                    android:minWidth="0dp"
-                    android:minHeight="0dp"
-                    android:paddingLeft="18dp"
-                    android:paddingTop="26dp"
-                    android:paddingRight="18dp"
-                    android:paddingBottom="22dp"
-                    android:text="@string/action_torch_on"
-                    android:textAllCaps="true"
-                    android:textColor="#FFFFFFFF"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="24dp"
-                    android:letterSpacing="0.10"
-                    android:text="@string/mode_label"
-                    android:textAllCaps="true"
-                    android:textColor="@color/md_text_dim"
-                    android:textSize="12sp"
-                    android:textStyle="bold" />
-
-                <com.google.android.material.button.MaterialButtonToggleGroup
-                    android:id="@+id/groupMode"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:background="@drawable/bg_mode_switch_rail"
-                    android:padding="4dp"
-                    app:singleSelection="true"
-                    app:selectionRequired="true"
-                    app:checkedButton="@id/btnModeTorch">
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnModeTorch"
-                        android:layout_width="0dp"
-                        android:layout_height="44dp"
-                        android:layout_weight="1"
-                        android:checkable="true"
-                        android:insetTop="0dp"
-                        android:insetBottom="0dp"
-                        android:text="@string/mode_torch"
-                        android:textAllCaps="true"
-                        android:textColor="#FFFFFFFF"
-                        android:textSize="13sp"
-                        android:textStyle="bold"
-                        app:backgroundTint="@color/mode_switch_button_bg"
-                        app:cornerRadius="18dp"
-                        app:rippleColor="#33FFB36A"
-                        app:strokeColor="#44FFFFFF"
-                        app:strokeWidth="1dp" />
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnModeStrobe"
-                        android:layout_width="0dp"
-                        android:layout_height="44dp"
-                        android:layout_weight="1"
-                        android:checkable="true"
-                        android:insetTop="0dp"
-                        android:insetBottom="0dp"
-                        android:text="@string/mode_strobe"
-                        android:textAllCaps="true"
-                        android:textColor="#FFFFFFFF"
-                        android:textSize="13sp"
-                        android:textStyle="bold"
-                        app:backgroundTint="@color/mode_switch_button_bg"
-                        app:cornerRadius="18dp"
-                        app:rippleColor="#33FFB36A"
-                        app:strokeColor="#44FFFFFF"
-                        app:strokeWidth="1dp" />
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnModeSos"
-                        android:layout_width="0dp"
-                        android:layout_height="44dp"
-                        android:layout_weight="1"
-                        android:checkable="true"
-                        android:insetTop="0dp"
-                        android:insetBottom="0dp"
-                        android:text="@string/mode_sos"
-                        android:textAllCaps="true"
-                        android:textColor="#FFFFFFFF"
-                        android:textSize="13sp"
-                        android:textStyle="bold"
-                        app:backgroundTint="@color/mode_switch_button_bg"
-                        app:cornerRadius="18dp"
-                        app:rippleColor="#33FFB36A"
-                        app:strokeColor="#44FFFFFF"
-                        app:strokeWidth="1dp" />
-                </com.google.android.material.button.MaterialButtonToggleGroup>
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_mode_switch_rail"
+                android:padding="4dp"
+                app:singleSelection="true"
+                app:selectionRequired="true"
+                app:checkedButton="@id/btnModeTorch">
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnScreenLight"
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:layout_marginTop="18dp"
+                    android:id="@+id/btnModeTorch"
+                    android:layout_width="0dp"
+                    android:layout_height="44dp"
+                    android:layout_weight="1"
+                    android:checkable="true"
                     android:insetTop="0dp"
                     android:insetBottom="0dp"
-                    android:text="@string/action_open_screen_light"
+                    android:text="@string/mode_torch"
                     android:textAllCaps="true"
                     android:textColor="#FFFFFFFF"
                     android:textSize="13sp"
                     android:textStyle="bold"
-                    app:backgroundTint="#FF22272D"
+                    app:backgroundTint="@color/mode_switch_button_bg"
                     app:cornerRadius="18dp"
-                    app:icon="@drawable/ic_mobile"
-                    app:iconGravity="textStart"
-                    app:iconPadding="8dp"
-                    app:iconTint="#FFFFFFFF"
-                    app:rippleColor="#33FFFFFF"
-                    app:strokeColor="#33FFFFFF"
+                    app:rippleColor="#33FFB36A"
+                    app:strokeColor="#44FFFFFF"
                     app:strokeWidth="1dp" />
 
-                <LinearLayout
-                    android:id="@+id/layoutAccessNotice"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="18dp"
-                    android:orientation="vertical"
-                    android:visibility="gone">
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnModeStrobe"
+                    android:layout_width="0dp"
+                    android:layout_height="44dp"
+                    android:layout_weight="1"
+                    android:checkable="true"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:text="@string/mode_strobe"
+                    android:textAllCaps="true"
+                    android:textColor="#FFFFFFFF"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    app:backgroundTint="@color/mode_switch_button_bg"
+                    app:cornerRadius="18dp"
+                    app:rippleColor="#33FFB36A"
+                    app:strokeColor="#44FFFFFF"
+                    app:strokeWidth="1dp" />
 
-                    <TextView
-                        android:id="@+id/txtAccessNotice"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/camera_permission_message"
-                        android:textColor="@color/md_text_dim" />
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnModeSos"
+                    android:layout_width="0dp"
+                    android:layout_height="44dp"
+                    android:layout_weight="1"
+                    android:checkable="true"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:text="@string/mode_sos"
+                    android:textAllCaps="true"
+                    android:textColor="#FFFFFFFF"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    app:backgroundTint="@color/mode_switch_button_bg"
+                    app:cornerRadius="18dp"
+                    app:rippleColor="#33FFB36A"
+                    app:strokeColor="#44FFFFFF"
+                    app:strokeWidth="1dp" />
+            </com.google.android.material.button.MaterialButtonToggleGroup>
 
-                    <Button
-                        android:id="@+id/btnAccessNotice"
-                        android:layout_width="match_parent"
-                        android:layout_height="48dp"
-                        android:layout_marginTop="8dp"
-                        android:text="@string/camera_permission_button" />
-                </LinearLayout>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnScreenLight"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="18dp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:text="@string/action_open_screen_light"
+                android:textAllCaps="true"
+                android:textColor="#FFFFFFFF"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                app:backgroundTint="#FF22272D"
+                app:cornerRadius="18dp"
+                app:icon="@drawable/ic_mobile"
+                app:iconGravity="textStart"
+                app:iconPadding="8dp"
+                app:iconTint="#FFFFFFFF"
+                app:rippleColor="#33FFFFFF"
+                app:strokeColor="#33FFFFFF"
+                app:strokeWidth="1dp" />
+
+            <LinearLayout
+                android:id="@+id/layoutAccessNotice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <TextView
-                    android:id="@+id/txtNoFlash"
+                    android:id="@+id/txtAccessNotice"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:text="@string/no_flash_message"
-                    android:textColor="@color/md_text_dim"
-                    android:visibility="gone" />
+                    android:text="@string/camera_permission_message"
+                    android:textColor="@color/md_text_dim" />
 
+                <Button
+                    android:id="@+id/btnAccessNotice"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/camera_permission_button" />
             </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:id="@+id/txtNoFlash"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="@string/no_flash_message"
+                android:textColor="@color/md_text_dim"
+                android:visibility="gone" />
+
+        </LinearLayout>
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardBrightness"
