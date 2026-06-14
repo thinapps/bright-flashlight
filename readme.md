@@ -8,6 +8,8 @@
 ### Changelog
 
 ### 0.6.4
+- forced the main power button center to align with the visible screen midpoint on every device
+- kept lower controls scrollable below the centered power button when needed
 - flattened card backgrounds to match the main screen background
 - removed default card elevation and shadow padding for a more uniform dark screen
 
