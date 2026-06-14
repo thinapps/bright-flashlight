@@ -116,7 +116,7 @@ class MainActivity : ComponentActivity() {
     binding.sliderStrobe.addOnChangeListener { slider, value, fromUser ->
       val sliderValue = value.toInt()
       if (fromUser && sliderValue != lastStrobeHapticValue) {
-        performTickHaptic(slider)
+        performTapHaptic(slider)
         lastStrobeHapticValue = sliderValue
       }
       val speedHz = StrobeSpeedPreset.hzForSliderValue(sliderValue)
@@ -127,7 +127,7 @@ class MainActivity : ComponentActivity() {
     sliderBrightness?.addOnChangeListener { slider, value, fromUser ->
       val sliderValue = value.toInt()
       if (fromUser && sliderValue != lastBrightnessHapticValue) {
-        performTickHaptic(slider)
+        performTapHaptic(slider)
         lastBrightnessHapticValue = sliderValue
       }
       if (fromUser && torchOn && selectedMode == Mode.TORCH && strengthSupported) {
@@ -151,10 +151,6 @@ class MainActivity : ComponentActivity() {
 
   private fun performTapHaptic(view: View) {
     view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY)
-  }
-
-  private fun performTickHaptic(view: View) {
-    view.performHapticFeedback(HapticFeedbackConstants.CLOCK_TICK)
   }
 
   private fun performTapHapticForId(viewId: Int) {
