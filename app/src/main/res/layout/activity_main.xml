@@ -204,19 +204,40 @@
 
                 <TextView
                     android:text="@string/torch_brightness"
-                    android:textColor="@color/md_text"
+                    android:textAllCaps="true"
+                    android:textColor="@color/md_text_dim"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:letterSpacing="0.08"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
-                <com.google.android.material.slider.Slider
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:enabled="false"
-                    android:valueFrom="1"
-                    android:valueTo="10"
-                    android:stepSize="1"
-                    android:value="10" />
+                    android:layout_height="56dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/bg_slider_hardware_well"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.slider.Slider
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:enabled="false"
+                        android:valueFrom="1"
+                        android:valueTo="10"
+                        android:stepSize="1"
+                        android:value="10"
+                        app:haloColor="#33FF8A3D"
+                        app:haloRadius="22dp"
+                        app:thumbColor="#FFFF8A3D"
+                        app:thumbElevation="6dp"
+                        app:thumbRadius="15dp"
+                        app:tickVisible="false"
+                        app:trackColorActive="#FFFF6A2A"
+                        app:trackColorInactive="#FF2C343C"
+                        app:trackHeight="12dp" />
+                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
@@ -232,19 +253,40 @@
 
                 <TextView
                     android:text="@string/torch_brightness"
-                    android:textColor="@color/md_text"
+                    android:textAllCaps="true"
+                    android:textColor="@color/md_text_dim"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:letterSpacing="0.08"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
-                <com.google.android.material.slider.Slider
-                    android:id="@+id/sliderBrightness"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:valueFrom="1"
-                    android:valueTo="10"
-                    android:stepSize="1"
-                    android:value="10" />
+                    android:layout_height="56dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/bg_slider_hardware_well"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.slider.Slider
+                        android:id="@+id/sliderBrightness"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:valueFrom="1"
+                        android:valueTo="10"
+                        android:stepSize="1"
+                        android:value="10"
+                        app:haloColor="#33FF8A3D"
+                        app:haloRadius="22dp"
+                        app:thumbColor="#FFFF8A3D"
+                        app:thumbElevation="6dp"
+                        app:thumbRadius="15dp"
+                        app:tickVisible="false"
+                        app:trackColorActive="#FFFF6A2A"
+                        app:trackColorInactive="#FF2C343C"
+                        app:trackHeight="12dp" />
+                </LinearLayout>
             </LinearLayout>
         </FrameLayout>
 
@@ -264,19 +306,40 @@
 
                 <TextView
                     android:text="@string/strobe_speed"
-                    android:textColor="@color/md_text"
+                    android:textAllCaps="true"
+                    android:textColor="@color/md_text_dim"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:letterSpacing="0.08"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
-                <com.google.android.material.slider.Slider
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:enabled="false"
-                    android:valueFrom="0"
-                    android:valueTo="4"
-                    android:stepSize="1"
-                    android:value="1" />
+                    android:layout_height="56dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/bg_slider_hardware_well"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.slider.Slider
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:enabled="false"
+                        android:valueFrom="0"
+                        android:valueTo="4"
+                        android:stepSize="1"
+                        android:value="1"
+                        app:haloColor="#33FF8A3D"
+                        app:haloRadius="22dp"
+                        app:thumbColor="#FFFF8A3D"
+                        app:thumbElevation="6dp"
+                        app:thumbRadius="15dp"
+                        app:tickVisible="false"
+                        app:trackColorActive="#FFFF6A2A"
+                        app:trackColorInactive="#FF2C343C"
+                        app:trackHeight="12dp" />
+                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
@@ -293,19 +356,40 @@
                 <TextView
                     android:id="@+id/txtStrobeSpeed"
                     android:text="@string/strobe_speed"
-                    android:textColor="@color/md_text"
+                    android:textAllCaps="true"
+                    android:textColor="@color/md_text_dim"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:letterSpacing="0.08"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
-                <com.google.android.material.slider.Slider
-                    android:id="@+id/sliderStrobe"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:valueFrom="0"
-                    android:valueTo="4"
-                    android:stepSize="1"
-                    android:value="1" />
+                    android:layout_height="56dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/bg_slider_hardware_well"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.slider.Slider
+                        android:id="@+id/sliderStrobe"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:valueFrom="0"
+                        android:valueTo="4"
+                        android:stepSize="1"
+                        android:value="1"
+                        app:haloColor="#33FF8A3D"
+                        app:haloRadius="22dp"
+                        app:thumbColor="#FFFF8A3D"
+                        app:thumbElevation="6dp"
+                        app:thumbRadius="15dp"
+                        app:tickVisible="false"
+                        app:trackColorActive="#FFFF6A2A"
+                        app:trackColorInactive="#FF2C343C"
+                        app:trackHeight="12dp" />
+                </LinearLayout>
             </LinearLayout>
         </FrameLayout>
 
