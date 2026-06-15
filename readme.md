@@ -13,6 +13,7 @@
 ### 0.7.2
 - restored the Strobe Speed warning modal title so the dialog shows both a bold title and content paragraph
 - updated the warning title and message strings for clearer flashing-light sensitivity guidance
+- reduced the visible Strobe Speed warning icon size while keeping the same tap area
 
 ### 0.7.1
 - added a Strobe Speed warning icon that opens a simple flashing-light sensitivity warning modal
@@ -53,7 +54,7 @@
 - fixed Torch brightness updates so the service uses real device strength levels instead of remapping them through an old 1-10 scale
 
 ### 0.6.5
-- added a home screen footer noting that lighting effects run locally, no internet connection is required, and the app is open source on GitHub
+- added a home screen footer noting that lighting effects happen locally on your device, with no internet connection required, and the app is open source on GitHub
 - kept Brightness and Strobe Speed layout areas stable so switching modes no longer rearranges the screen
 - restyled Brightness and Strobe Speed as matching chunky hardware-style slider controls
 
