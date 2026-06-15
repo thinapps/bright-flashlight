@@ -475,7 +475,7 @@ class MainActivity : ComponentActivity() {
     binding.sliderStrobe.isEnabled = torchControlsEnabled && strobeSelected
     sliderBrightness?.isEnabled = torchControlsEnabled && strengthSupported && selectedMode == Mode.TORCH
     setEnabledRecursive(binding.groupMode, torchControlsEnabled)
-    setEnabledRecursive(binding.groupAutoOff, torchControlsEnabled && !autoOffLocked)
+    setAutoOffControlsEnabled(torchControlsEnabled, autoOffLocked)
     binding.cardStrobe.alpha = if (strobeSelected) 1f else 0.45f
     binding.cardAutoOff.alpha = if (autoOffLocked) 0.45f else 1f
     binding.btnScreenLight.isEnabled = true
@@ -486,6 +486,13 @@ class MainActivity : ComponentActivity() {
       binding.btnToggle.setBackgroundResource(R.drawable.bg_power_button_disabled)
     } else {
       setPowerLabel(off = !lightActive)
+    }
+  }
+
+  private fun setAutoOffControlsEnabled(torchControlsEnabled: Boolean, autoOffLocked: Boolean) {
+    binding.groupAutoOff.isEnabled = torchControlsEnabled && !autoOffLocked
+    for (i in 0 until binding.groupAutoOff.childCount) {
+      binding.groupAutoOff.getChildAt(i).isEnabled = torchControlsEnabled
     }
   }
 
