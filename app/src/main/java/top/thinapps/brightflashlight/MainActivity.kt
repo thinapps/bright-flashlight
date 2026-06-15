@@ -118,6 +118,10 @@ class MainActivity : ComponentActivity() {
       performTapHaptic(view)
       showStrobeWarningDialog()
     }
+    binding.btnStrobeWarningPreview.setOnClickListener { view ->
+      performTapHaptic(view)
+      showStrobeWarningDialog()
+    }
     binding.groupMode.addOnButtonCheckedListener { _, checkedId, isChecked ->
       if (!isChecked) return@addOnButtonCheckedListener
       if (!restoringPreferences) performTapHapticForId(checkedId)
@@ -507,7 +511,9 @@ class MainActivity : ComponentActivity() {
   }
 
   private fun updateStrobeSpeedLabel(speed: Int = selectedStrobeSpeed()) {
-    binding.txtStrobeSpeedValue.text = strobeSpeedDisplayName(speed)
+    val displayName = strobeSpeedDisplayName(speed)
+    binding.txtStrobeSpeedValue.text = displayName
+    binding.txtStrobeSpeedPreviewValue.text = displayName
   }
 
   private fun strobeSpeedDisplayName(speed: Int): String {
