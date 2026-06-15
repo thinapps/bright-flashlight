@@ -387,7 +387,7 @@
               android:id="@+id/btnStrobeWarning"
               android:layout_width="32dp"
               android:layout_height="32dp"
-                android:layout_marginEnd="16dp"
+              android:layout_marginEnd="16dp"
               android:background="?attr/selectableItemBackgroundBorderless"
               android:contentDescription="@string/strobe_warning_title"
               android:padding="6dp"
