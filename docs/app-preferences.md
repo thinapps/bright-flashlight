@@ -45,7 +45,7 @@ Current saved values:
 | --- | --- | --- | --- |
 | `last_mode` | String | `TORCH` | Restores the last selected flashlight mode. |
 | `auto_off_minutes` | Int | `0` | Restores the selected Auto-off option. Supported values are `0`, `5`, `15`, `30`, and `60`. |
-| `strobe_speed` | Int | `2` | Restores the selected Strobe speed in hertz. Supported preset values are `1`, `2`, `3`, `4`, and `6`. |
+| `strobe_speed` | Int | `2` | Restores the selected Strobe speed in hertz. Supported preset values are `1`, `2`, `3`, `4`, and `5`. |
 | `screen_light_r` | Int | `255` | Restores the red channel for Screen Light. |
 | `screen_light_g` | Int | `255` | Restores the green channel for Screen Light. |
 | `screen_light_b` | Int | `255` | Restores the blue channel for Screen Light. |
@@ -78,7 +78,7 @@ Do not save arbitrary Auto-off durations unless the UI intentionally changes awa
 Supported values:
 
 ```text
-1, 2, 3, 4, 6
+1, 2, 3, 4, 5
 ```
 
 The canonical strobe preset mapping lives in:
