@@ -10,6 +10,11 @@
 
 ## Changelog
 
+### 0.7.3
+- fixed the Strobe Speed warning modal title so it reliably appears on devices where the default dialog title was suppressed
+- kept the Strobe Speed warning row visible across modes so switching modes no longer causes the layout to jump
+- dimmed and disabled Strobe Speed controls when Strobe mode is not selected
+
 ### 0.7.2
 - restored the Strobe Speed warning modal title so the dialog shows both a bold title and content paragraph
 - updated the warning title and message strings for clearer flashing-light sensitivity guidance
