@@ -14,8 +14,6 @@
 - reduced the visible Strobe Speed warning icon size while keeping its tap area stable
 - fixed blurry dimmed Strobe Speed rendering by preventing the active slider from overlapping the preview slider
 - moved the changing Strobe Speed value to the right side of the header immediately before the warning icon
-- restored the warning icon's right-side breathing room after moving it beside the value
-- removed the unused colon-style Strobe Speed value string after splitting the title and value
 
 ### 0.7.3
 - fixed the Strobe Speed warning modal title so it reliably appears on devices where the default dialog title was suppressed
