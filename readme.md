@@ -20,30 +20,30 @@
 
 ### 0.6.9
 - changed Brightness and Strobe Speed slider haptics to use the same tap feedback as the other working controls
-- changed the Strobe Speed value bubble to show `1` through `5` instead of `0` through `4`
-- changed the Max Strobe Speed preset from `6 Hz` to `5 Hz` so the five presets are linear and safety-conscious
-- documented `Medium (2 Hz)` as the safety-conscious default Strobe Speed
+- changed the Strobe Speed value bubble to show 1 through 5 instead of 0 through 4
+- changed the Max Strobe Speed preset from 6 Hz to 5 Hz so the five presets are linear and safety-conscious
+- documented Medium 2 Hz as the safety-conscious default Strobe Speed
 - synced the dimmed Strobe Speed preview slider with the saved/current Strobe Speed value
 - increased the ON/OFF label size and reserved an invisible countdown slot above it inside the power button
 
 ### 0.6.8
-- moved the `24dp` control gutter into XML and removed the runtime gutter normalizer
+- moved the 24dp control gutter into XML and removed the runtime gutter normalizer
 - removed secondary orange/neutral outlines from the Screen pill and slider wells so orange is reserved for active controls
 - added haptic feedback to Screen, Mode, Auto-off, Brightness, and Strobe Speed interactions
 - replaced the power button icon with a cleaner rounded power symbol
 
 ### 0.6.7
-- matched the main control gutters to a `24dp` effective screen gutter
+- matched the main control gutters to a 24dp effective screen gutter
 - restyled the Brightness and Strobe Speed wells with a subtle recessed bevel that matches the power button's hardware feel
-- moved Screen Light to a real top-right `Screen` overlay pill so it no longer competes with the primary flashlight controls
+- moved Screen Light to a real top-right Screen overlay pill so it no longer competes with the primary flashlight controls
 
 ### 0.6.6
 - bottom-anchored the home controls so the app feels more like a fixed flashlight tool on normal phone screens
 - kept the ScrollView as an emergency fallback for small screens, landscape, split-screen, and large accessibility text
 - disabled the old dynamic centering spacer so it no longer pushes the power button toward the middle
-- removed obsolete dynamic power button centering code from `MainActivity.kt`
+- removed obsolete dynamic power button centering code from MainActivity.kt
 - centralized Strobe speed preset mapping so the activity, preferences, and service use the same values
-- changed Auto-off presets from `1m`, `5m`, `15m`, and `30m` to `5m`, `15m`, `30m`, and `1h`
+- changed Auto-off presets from 1m, 5m, 15m, and 30m to 5m, 15m, 30m, and 1h
 - fixed Torch brightness updates so the service uses real device strength levels instead of remapping them through an old 1-10 scale
 
 ### 0.6.5
@@ -80,7 +80,7 @@
 - kept the selected Screen Light preset button visually checked after tapping White, Warm, Red, or Blue
 - restored the selected Screen Light preset button when reopening Screen Light
 - cleared the selected Screen Light preset when RGB sliders are manually adjusted
-- replaced the 1–10 Strobe speed slider with a 5-stop preset slider
+- replaced the 1 to 10 Strobe speed slider with a 5-stop preset slider
 - mapped Strobe presets to Slow 1 Hz, Medium 2 Hz, Alert 3 Hz, Fast 4 Hz, and Max 6 Hz
 - changed the Strobe speed label to show the selected named preset and hertz value
 - updated saved Strobe speed behavior so the app stores the actual preset hertz value
@@ -88,7 +88,7 @@
 
 ### 0.5.10
 - kept Camera permission request on app launch while adding a clearer inline recovery message when permission is missing
-- added an `Allow Camera Permission` button for users who deny or dismiss the first prompt
+- added an Allow Camera Permission button for users who deny or dismiss the first prompt
 - kept Torch, Strobe, SOS, brightness, speed, and Auto-off unavailable until Camera permission exists
 - kept Screen Light available without Camera permission
 - centralized the Strobe speed service extra so activity and service use the same constant
@@ -115,68 +115,68 @@
 - added clearer no-flash-device handling while keeping Screen Light available
 
 ### 0.5.6
-- fixed startup crash on devices without torch strength support by hiding the brightness slider instead of setting an invalid `1..1` slider range
+- fixed startup crash on devices without torch strength support by hiding the brightness slider instead of setting an invalid one-to-one slider range
 - corrected Camera runtime permission handling across the activity, torch controller, service, and Quick Settings tile paths
 
 ### 0.5.5  
-- fixed app crash on startup caused by `lateinit` UI binding and Camera2 vendor issues  
-- migrated `MainActivity` to View Binding for safer and cleaner UI access  
+- fixed app crash on startup caused by UI binding and Camera2 vendor issues  
+- migrated MainActivity to View Binding for safer and cleaner UI access  
 - ensured Camera permission check runs reliably before any torch actions on Android 13+  
-- updated `TorchController` with lazy camera initialization, safe strength detection, and fallback to on/off when vendors misbehave  
+- updated TorchController with lazy camera initialization, safe strength detection, and fallback to on/off when vendors misbehave  
 - refactored brightness slider setup to be null-safe and stable on all devices  
 
 ### 0.5.4
-- hardened Camera2 flash detection in `TorchController.kt` with safe fallbacks for devices that throw errors during camera characteristic reads
+- hardened Camera2 flash detection in TorchController with safe fallbacks for devices that throw errors during camera characteristic reads
 
 ### 0.5.3
-- removed explicit Material3 style references from `activity_main.xml` to ensure compatibility with the current app theme and prevent potential layout inflation crashes during startup
+- removed explicit Material3 style references from the activity layout to ensure compatibility with the current app theme and prevent potential layout inflation crashes during startup
 
 ### 0.5.2
-- fixed app crash caused by unguarded access to `sliderBrightness` during activity startup (again)
+- fixed app crash caused by unguarded access to sliderBrightness during activity startup again
 - ensured the brightness slider is safely initialized to prevent Null Pointer Exceptions
 
 ### 0.5.1
-- fixed app crash caused by unguarded access to `sliderBrightness` during activity startup
+- fixed app crash caused by unguarded access to sliderBrightness during activity startup
 - made brightness slider nullable and safely initialized to prevent null pointer exceptions
-- updated `activity_main.xml` to use explicit Material3.Slider style for consistent rendering across Android 12–14
-- cleaned `AndroidManifest.xml` by removing deprecated `android.permission.FLASHLIGHT`
+- updated the activity layout to use explicit Material3 Slider style for consistent rendering across Android 12 to 14
+- cleaned AndroidManifest by removing deprecated flashlight permission
 
 ### 0.5.0
-- rebuilt torch brightness control using reflection-safe shim to `setTorchStrengthLevel()` on Android 13+ (API 33+) while maintaining compatibility with older devices
-- refactored `TorchController.kt` for consistent brightness handling and reliable fallback behavior
-- added logic in `MainActivity.kt` to auto-lock slider at max brightness on unsupported devices
+- rebuilt torch brightness control using reflection-safe shim to setTorchStrengthLevel on Android 13+ while maintaining compatibility with older devices
+- refactored TorchController for consistent brightness handling and reliable fallback behavior
+- added logic in MainActivity to auto-lock slider at max brightness on unsupported devices
 
 ### 0.4.0
-- correctly mapped `colorSurface` and `colorOnSurface` in the application theme
+- correctly mapped colorSurface and colorOnSurface in the application theme
 - fixed visual bugs where unselected mode buttons displayed with poor contrast
 - implemented Variable Brightness Control for all modes (Torch, Strobe, SOS) via a new slider
-- UI brightness setting maps to the device's Camera2 API intensity levels (API 33+)
+- UI brightness setting maps to the device's Camera2 API intensity levels
 
 ### 0.3.2
 - adjusted the Strobe speed slider range from 5-20 Hz to a slower 1-10 Hz
-- this provides slower, more distinct flashing speeds at the low end (down to 1 flash per second)
+- this provides slower, more distinct flashing speeds at the low end, down to 1 flash per second
 
 ### 0.3.1
-- improved strobe mode with real-time speed adjustment from the slider  
-- added `ACTION_STROBE_UPDATE` intent to TorchService for live interval changes  
-- fixed timing logic to ensure smoother, consistent flash rhythm across all speeds  
-- maintained 50/50 duty cycle (equal on/off time) for stable brightness perception  
-- minor cleanup in handler scheduling and interval mapping for better accuracy  
+- improved strobe mode with real-time speed adjustment from the slider
+- added ACTION_STROBE_UPDATE intent to TorchService for live interval changes
+- fixed timing logic to ensure smoother, consistent flash rhythm across all speeds
+- maintained 50/50 duty cycle for stable brightness perception
+- minor cleanup in handler scheduling and interval mapping for better accuracy
 
 ### 0.3.0
-- replaced separate strobe and SOS buttons with a single radio-style mode selector (Torch / Strobe / SOS)
+- replaced separate strobe and SOS buttons with a single radio-style mode selector Torch / Strobe / SOS
 - unified all flashlight controls under one large Power button for simpler UX
 - made flashlight modes exclusive so activating one automatically disables them
-- removed fake auto-off slider and timer UI (commented out for future use)
+- removed fake auto-off slider and timer UI
 - cleaned up main activity logic and strings for new mode-based layout
 
 ### 0.2.0
-- fixed crash on startup caused by manifest and `MainActivity.kt` package mismatch  
+- fixed crash on startup caused by manifest and MainActivity package mismatch
 - gated all torch actions behind runtime camera permission
-- verified all UI element IDs and bindings for `activity_main.xml`
+- verified all UI element IDs and bindings for the activity layout
 
 ### 0.1.0
-- initial test release (signed)
+- initial test release signed
 - general project structure with GitHub Actions support
 - includes full LED flashlight functionality with on/off toggle
 - supports strobe mode with adjustable flashing speed
@@ -184,5 +184,5 @@
 - includes auto-off timer to save battery
 - adds color screen light mode with RGB sliders
 - uses Foreground Service for stable background operation
-- adds Quick Settings tile for fast torch control (Android 7.0+)
-- XML-based Material UI (no Jetpack Compose)
+- adds Quick Settings tile for fast torch control
+- XML-based Material UI no Jetpack Compose
