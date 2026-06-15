@@ -14,6 +14,7 @@
 - fixed the Strobe Speed warning modal title so it reliably appears on devices where the default dialog title was suppressed
 - kept the Strobe Speed warning icon space stable across modes so switching modes no longer causes the layout to jump
 - moved the Strobe Speed warning icon inward from the right edge so it has more breathing room near the slider
+- kept the selected Auto-off value highlighted while the locked Auto-off section is dimmed
 
 ### 0.7.2
 - restored the Strobe Speed warning modal title so the dialog shows both a bold title and content paragraph
