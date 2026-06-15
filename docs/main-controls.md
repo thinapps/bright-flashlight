@@ -112,6 +112,19 @@ Brightness and Strobe Speed intentionally reserve their layout areas with dim pl
 
 Auto-off is different. It is a normal always-relevant flashlight setting once torch controls are available, so it should remain a single normal section without a duplicate dim placeholder.
 
+## Dimmed-state policy
+
+All intentional dimmed control sections should use the same visual treatment: apply `0.45` alpha to the whole section. Do not mix different alpha values for different dimmed sections unless there is a deliberate accessibility or hierarchy reason documented here.
+
+The current intentional dimmed sections are:
+
+- Brightness placeholder controls in `activity_main.xml`
+- Strobe Speed placeholder controls in `activity_main.xml`
+- inactive Strobe Speed controls in `MainActivity.kt`
+- locked Auto-off controls in `MainActivity.kt`
+
+Dimmed controls should preserve their internal selected/current value whenever possible. For Auto-off, the selected option should stay highlighted while the whole section dims, instead of falling into a fully disabled color state that hides the selected value.
+
 ## Auto-off
 
 Auto-off applies to Torch, Strobe, and SOS modes.
@@ -126,7 +139,7 @@ The supported options are:
 
 Once a light mode is turned on, Auto-off controls are locked until the light mode is turned off. This prevents accidental timer changes while the flashlight is already running.
 
-When locked, the whole Auto-off section dims to `0.45` alpha so it matches the visual language used by the disabled Brightness and Strobe Speed placeholder controls.
+When locked, the whole Auto-off section dims to `0.45` alpha so it matches the visual language used by the disabled Brightness and Strobe Speed placeholder controls. The selected Auto-off value should remain highlighted inside the dimmed section so users can still see the active timer choice.
 
 When Auto-off is enabled before starting Torch, Strobe, or SOS, the power button shows a small white `MM:SS` countdown above the ON/OFF label. The countdown is Activity-side UI only; `TorchService` still owns the real shutdown timer.
 
@@ -142,7 +155,8 @@ Before shipping main-control changes, test:
 - power button ON/OFF label is clear at `18sp`
 - power button keeps the countdown slot above ON/OFF without shifting the layout
 - Auto-off countdown appears as small white `MM:SS` text only when a light mode is active and Auto-off is enabled
-- Auto-off controls lock while Torch, Strobe, or SOS is active, dim to match the disabled slider placeholders, then unlock and return to full opacity when the light mode stops
+- Auto-off controls lock while Torch, Strobe, or SOS is active, dim to match the disabled slider placeholders, keep the selected Auto-off value highlighted, then unlock and return to full opacity when the light mode stops
+- all intentional dimmed sections use `0.45` alpha unless a documented reason says otherwise
 - Strobe Speed warning icon appears far right above the active Strobe Speed slider and opens a simple warning modal with a bold title and content paragraph when tapped
 - Brightness value bubble starts at `1`, not `0`, on devices with torch strength support
 - Strobe Speed value bubble shows `1` through `5`, not `0` through `4`
