@@ -1,12 +1,14 @@
 # Bright Flashlight
 
-### Documentation
+## Documentation
 
-- [Main Controls](docs/main-controls.md)
-- [App Preferences](docs/app-preferences.md)
-- [Permissions](docs/permissions.md)
+| Document | Description |
+| --- | --- |
+| [Main Controls](docs/main-controls.md) | Explains the main flashlight, screen light, mode, slider, and auto-off controls. |
+| [App Preferences](docs/app-preferences.md) | Documents saved app preferences and how user choices persist locally. |
+| [Permissions](docs/permissions.md) | Explains Camera permission behavior, fallback states, and recovery prompts. |
 
-### Changelog
+## Changelog
 
 ### 0.7.1
 - added a Strobe Speed warning icon that opens a simple flashing-light sensitivity warning modal
