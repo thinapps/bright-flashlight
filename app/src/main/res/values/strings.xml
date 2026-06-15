@@ -25,7 +25,7 @@
     <string name="strobe_speed_alert">Alert</string>
     <string name="strobe_speed_fast">Fast</string>
     <string name="strobe_speed_max">Max</string>
-    <string name="strobe_warning_title">Strobe warning</string>
+    <string name="strobe_warning_icon_description">Strobe warning</string>
     <string name="strobe_warning_message">Strobe mode uses flashing light and may bother people sensitive to flashing lights or photosensitive epilepsy. Use with caution.</string>
     <string name="torch_brightness">Brightness</string>
     <string name="timer_label">Auto-off</string>
