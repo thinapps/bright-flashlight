@@ -10,6 +10,10 @@
 
 ## Changelog
 
+### 0.7.4
+- reduced the visible Strobe Speed warning icon size while keeping its tap area stable
+- fixed blurry dimmed Strobe Speed rendering by preventing the active slider from overlapping the preview slider
+
 ### 0.7.3
 - fixed the Strobe Speed warning modal title so it reliably appears on devices where the default dialog title was suppressed
 - kept the Strobe Speed warning icon space stable across modes so switching modes no longer causes the layout to jump
