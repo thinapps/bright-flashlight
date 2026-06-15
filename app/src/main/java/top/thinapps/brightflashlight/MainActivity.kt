@@ -276,7 +276,7 @@ class MainActivity : ComponentActivity() {
     }
     binding.txtNoFlash.visibility = View.GONE
     binding.cardAutoOff.visibility = View.VISIBLE
-    binding.cardStrobe.visibility = if (selectedMode == Mode.STROBE) View.VISIBLE else View.GONE
+    binding.cardStrobe.visibility = View.VISIBLE
     setupBrightnessUi()
   }
 
@@ -470,11 +470,13 @@ class MainActivity : ComponentActivity() {
     val torchControlsEnabled = enabled && torchAvailable
     val lightActive = isAnyLightActive()
     val autoOffLocked = torchControlsEnabled && lightActive
+    val strobeSelected = selectedMode == Mode.STROBE
     binding.btnToggle.isEnabled = torchControlsEnabled
-    binding.sliderStrobe.isEnabled = torchControlsEnabled
+    binding.sliderStrobe.isEnabled = torchControlsEnabled && strobeSelected
     sliderBrightness?.isEnabled = torchControlsEnabled && strengthSupported && selectedMode == Mode.TORCH
     setEnabledRecursive(binding.groupMode, torchControlsEnabled)
     setEnabledRecursive(binding.groupAutoOff, torchControlsEnabled && !autoOffLocked)
+    binding.cardStrobe.alpha = if (strobeSelected) 1f else 0.45f
     binding.cardAutoOff.alpha = if (autoOffLocked) 0.45f else 1f
     binding.btnScreenLight.isEnabled = true
     if (!torchControlsEnabled) {
