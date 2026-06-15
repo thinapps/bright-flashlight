@@ -309,7 +309,7 @@ class MainActivity : ComponentActivity() {
 
   private fun showStrobeWarningDialog() {
     AlertDialog.Builder(this)
-      .setTitle(R.string.strobe_warning_title)
+      .setCustomTitle(layoutInflater.inflate(R.layout.dialog_strobe_warning_title, null))
       .setMessage(R.string.strobe_warning_message)
       .setPositiveButton(android.R.string.ok, null)
       .show()
