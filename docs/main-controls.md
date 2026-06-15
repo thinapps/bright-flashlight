@@ -112,18 +112,18 @@ Brightness and Strobe Speed intentionally reserve their layout areas with dim pl
 
 Auto-off is different. It is a normal always-relevant flashlight setting once torch controls are available, so it should remain a single normal section without a duplicate dim placeholder.
 
-## Dimmed-state policy
+## Dimmed controls
 
-All intentional dimmed control sections should use the same visual treatment: apply `0.45` alpha to the whole section. Do not mix different alpha values for different dimmed sections unless there is a deliberate accessibility or hierarchy reason documented here.
+Intentional dimmed sections should all use `0.45` alpha on the whole section. Do not mix different dim amounts unless there is a clear accessibility or hierarchy reason.
 
-The current intentional dimmed sections are:
+This currently applies to:
 
 - Brightness placeholder controls in `activity_main.xml`
 - Strobe Speed placeholder controls in `activity_main.xml`
 - inactive Strobe Speed controls in `MainActivity.kt`
 - locked Auto-off controls in `MainActivity.kt`
 
-Dimmed controls should preserve their internal selected/current value whenever possible. For Auto-off, the selected option should stay highlighted while the whole section dims, instead of falling into a fully disabled color state that hides the selected value.
+Dimmed controls should preserve their selected or current value when possible. For Auto-off, the selected option should stay highlighted while the whole section dims, instead of falling into a fully disabled color state that hides the selected value.
 
 ## Auto-off
 
