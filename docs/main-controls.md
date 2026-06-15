@@ -84,7 +84,7 @@ The default Strobe Speed is `Medium (2 Hz)`. Keep this default because it is saf
 
 The dimmed Strobe Speed preview should always mirror the saved/current Strobe Speed value. Do not leave it hardcoded to the default, because that can surprise users when they switch into Strobe mode.
 
-The active Strobe Speed header includes a small warning icon on the far right. Tapping it opens a simple title-free modal warning about flashing light sensitivity and photosensitive epilepsy. Do not replace this with an onboarding notice, persistent banner, or stored dismissal state.
+The active Strobe Speed header includes a small warning icon on the far right. Tapping it opens a simple title-free modal warning about flashing light sensitivity and photosensitive epilepsy. Keep the short `Strobe warning` text as the icon accessibility label, not as a visible modal title. Do not replace this with an onboarding notice, persistent banner, or stored dismissal state.
 
 The canonical speed mapping lives in:
 
