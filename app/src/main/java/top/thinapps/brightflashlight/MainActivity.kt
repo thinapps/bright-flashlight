@@ -507,7 +507,7 @@ class MainActivity : ComponentActivity() {
   }
 
   private fun updateStrobeSpeedLabel(speed: Int = selectedStrobeSpeed()) {
-    binding.txtStrobeSpeed.text = getString(R.string.strobe_speed_value, strobeSpeedDisplayName(speed))
+    binding.txtStrobeSpeedValue.text = strobeSpeedDisplayName(speed)
   }
 
   private fun strobeSpeedDisplayName(speed: Int): String {
