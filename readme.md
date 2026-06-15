@@ -13,7 +13,6 @@
 ### 0.7.2
 - restored the Strobe Speed warning modal title so the dialog shows both a bold title and content paragraph
 - updated the warning title and message strings for clearer flashing-light sensitivity guidance
-- bumped the Android version to 0.7.2
 
 ### 0.7.1
 - added a Strobe Speed warning icon that opens a simple flashing-light sensitivity warning modal
