@@ -476,7 +476,8 @@ class MainActivity : ComponentActivity() {
     sliderBrightness?.isEnabled = torchControlsEnabled && strengthSupported && selectedMode == Mode.TORCH
     setEnabledRecursive(binding.groupMode, torchControlsEnabled)
     setAutoOffControlsEnabled(torchControlsEnabled, autoOffLocked)
-    binding.cardStrobe.alpha = if (strobeSelected) 1f else 0.45f
+    binding.cardStrobe.visibility = if (torchControlsEnabled && strobeSelected) View.VISIBLE else View.INVISIBLE
+    binding.cardStrobe.alpha = 1f
     binding.cardAutoOff.alpha = if (autoOffLocked) 0.45f else 1f
     binding.btnScreenLight.isEnabled = true
     if (!torchControlsEnabled) {
