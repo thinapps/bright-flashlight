@@ -10,6 +10,13 @@
 
 ## Changelog
 
+### 0.7.5
+- moved the Strobe Speed warning icon immediately after the Strobe Speed title so it reads as part of the label
+- kept the Strobe Speed value flush right in the header with no trailing right gap
+- mirrored the warning icon and speed value in the dimmed Strobe Speed preview state
+- kept the dimmed warning icon wired to the same flashing-light warning modal
+- synced the dimmed Strobe Speed value with the selected/current Strobe Speed value
+
 ### 0.7.4
 - reduced the visible Strobe Speed warning icon size while keeping its tap area stable
 - fixed blurry dimmed Strobe Speed rendering by preventing the active slider from overlapping the preview slider
