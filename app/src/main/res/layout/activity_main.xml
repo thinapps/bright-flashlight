@@ -389,7 +389,7 @@
               android:layout_height="32dp"
               android:background="?attr/selectableItemBackgroundBorderless"
               android:contentDescription="@string/strobe_warning_title"
-              android:padding="4dp"
+              android:padding="6dp"
               android:src="@drawable/ic_strobe_warning"
               android:tint="@color/md_text_dim" />
           </LinearLayout>
