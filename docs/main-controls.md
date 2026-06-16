@@ -66,6 +66,21 @@ The activity sets the slider range to the device-supported strength range and se
 
 The visible Brightness slider labels start at `1` and end at the device-reported max strength. `0` should never be shown because it implies off, not low brightness.
 
+The Brightness header should mirror the Strobe Speed header pattern by keeping the title on the left and the current value label flush right. Use friendly relative words instead of raw device strength numbers.
+
+Brightness value labels should adapt to the current device max strength:
+
+| Device max strength | Labels |
+| --- | --- |
+| `1` or unsupported | `Max` |
+| `2` | `Low`, `Max` |
+| `3` | `Low`, `Medium`, `Max` |
+| `4+` | `Low`, `Medium`, `High`, `Max` |
+
+For `4+` strength levels, `Max` is reserved for the exact maximum value. Other values should be bucketed relative to the device's own supported range, so the words describe the current value honestly without implying every phone has the same hardware levels.
+
+The dimmed Brightness placeholder should always show `Max`. This keeps the inactive placeholder simple and avoids presenting a stale or fake adjustable value when Brightness is unavailable or not active.
+
 Do not remap brightness through an old generic UI scale in the service.
 
 ## Strobe Speed
@@ -166,6 +181,8 @@ Before shipping main-control changes, test:
 - Auto-off controls lock while Torch, Strobe, or SOS is active, dim to match the disabled slider placeholders, keep the selected Auto-off value highlighted, reject all touches while locked, then unlock and return to full opacity when the light mode stops
 - Auto-off always has exactly one selected option; no interaction should leave the Auto-off bar with nothing highlighted
 - all intentional dimmed sections use `0.45` alpha unless a documented reason says otherwise
+- Brightness value is flush right in the header and updates as Low, Medium, High, or Max based on device-supported strength levels
+- dimmed or unsupported Brightness placeholder shows `Max`
 - Strobe Speed warning icon appears immediately after the Strobe Speed title and opens a simple warning modal with a bold title and content paragraph when tapped
 - Strobe Speed value is flush right in the header with no trailing right gap
 - dimmed Strobe Speed preview mirrors the warning icon and saved/current speed value before Strobe mode is enabled
