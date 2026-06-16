@@ -1,7 +1,7 @@
 package top.thinapps.brightflashlight.torch
 
 object StrobeSpeedPreset {
-    const val DEFAULT_HZ = 2
+    const val DEFAULT_HZ = 3
 
     fun hzForSliderValue(value: Int): Int {
         return when (value.coerceIn(0, 4)) {
