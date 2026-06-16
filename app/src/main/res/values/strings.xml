@@ -24,6 +24,10 @@
     <string name="strobe_speed_alert">Medium</string>
     <string name="strobe_speed_fast">Fast</string>
     <string name="strobe_speed_max">Very Fast</string>
+    <string name="brightness_level_low">Low</string>
+    <string name="brightness_level_medium">Medium</string>
+    <string name="brightness_level_high">High</string>
+    <string name="brightness_level_max">Max</string>
     <string name="strobe_warning_title">Strobe Light Warning</string>
     <string name="strobe_warning_message">Strobe mode flashes the light repeatedly and may bother people sensitive to flashing lights or photosensitive epilepsy. Use with caution and avoid pointing it at anyone unexpectedly.</string>
     <string name="torch_brightness">Brightness</string>
