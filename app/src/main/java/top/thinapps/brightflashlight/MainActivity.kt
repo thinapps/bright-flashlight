@@ -135,6 +135,7 @@ class MainActivity : ComponentActivity() {
       stopAllModes()
       setPowerLabel(off = true)
       refreshTorchUi()
+      syncUiEnabledState(hasCameraPermission())
       if (!restoringPreferences) saveModePreference()
     }
     binding.groupAutoOff.addOnButtonCheckedListener { _, checkedId, isChecked ->
