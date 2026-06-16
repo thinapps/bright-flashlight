@@ -66,7 +66,7 @@
     android:layout_marginEnd="24dp"
     app:backgroundTint="@color/md_panel"
     app:cornerRadius="20dp"
-    app:icon="@drawable/ic_screen_light"
+    app:icon="@drawable/ic_mobile"
     app:iconGravity="textStart"
     app:iconPadding="6dp"
     app:iconSize="18dp"
