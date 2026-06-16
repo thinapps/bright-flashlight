@@ -11,6 +11,8 @@ import android.view.HapticFeedbackConstants
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
+import android.widget.TextView
 import androidx.activity.ComponentActivity
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
@@ -53,6 +55,7 @@ class MainActivity : ComponentActivity() {
   private var strengthSupported = false
   private var maxStrength = 1
   private var autoOffControlsLocked = false
+  private var brightnessValueLabel: TextView? = null
   private var lastBrightnessHapticValue = -1
   private var lastStrobeHapticValue = -1
   private val countdownHandler = Handler(Looper.getMainLooper())
@@ -101,7 +104,9 @@ class MainActivity : ComponentActivity() {
     binding.sliderStrobePreview.isEnabled = false
     binding.sliderStrobePreview.isClickable = false
     binding.sliderStrobePreview.isFocusable = false
+    setupBrightnessValueLabel()
     syncStrobePreview()
+    updateBrightnessValueLabel()
     setupAutoOffLockedTouchGuards()
 
     binding.btnToggle.setOnClickListener(::onPowerClicked)
@@ -173,6 +178,7 @@ class MainActivity : ComponentActivity() {
         performTapHaptic(slider)
         lastBrightnessHapticValue = sliderValue
       }
+      updateBrightnessValueLabel(sliderValue)
       if (fromUser && torchOn && selectedMode == Mode.TORCH && strengthSupported) {
         sendToService(ACTION_TORCH_UPDATE_INTENSITY, torchIntensity = sliderValue)
       }
@@ -313,6 +319,7 @@ class MainActivity : ComponentActivity() {
     sb.valueTo = maxStrength.toFloat()
     sb.stepSize = 1f
     sb.value = maxStrength.toFloat()
+    updateBrightnessValueLabel(maxStrength)
   }
 
   private fun hasCameraPermission(): Boolean {
@@ -532,6 +539,7 @@ class MainActivity : ComponentActivity() {
     binding.cardStrobe.alpha = 1f
     binding.cardAutoOff.alpha = if (autoOffLocked) 0.45f else 1f
     binding.btnScreenLight.isEnabled = true
+    updateBrightnessValueLabel()
     if (!torchControlsEnabled) {
       stopAutoOffCountdown()
       binding.txtPowerState.setText(R.string.action_torch_on)
@@ -539,6 +547,55 @@ class MainActivity : ComponentActivity() {
       binding.btnToggle.setBackgroundResource(R.drawable.bg_power_button_disabled)
     } else {
       setPowerLabel(off = !lightActive)
+    }
+  }
+
+  private fun setupBrightnessValueLabel() {
+    if (brightnessValueLabel != null) return
+    val parent = binding.cardBrightness.parent as? FrameLayout ?: return
+    val label = TextView(this).apply {
+      text = getString(R.string.brightness_level_max)
+      setAllCaps(true)
+      setTextColor(ContextCompat.getColor(this@MainActivity, R.color.md_text_dim))
+      textSize = 12f
+      setTypeface(typeface, android.graphics.Typeface.BOLD)
+      letterSpacing = 0.08f
+    }
+    val params = FrameLayout.LayoutParams(
+      ViewGroup.LayoutParams.WRAP_CONTENT,
+      ViewGroup.LayoutParams.WRAP_CONTENT,
+      android.view.Gravity.TOP or android.view.Gravity.END
+    ).apply {
+      topMargin = (8 * resources.displayMetrics.density).toInt()
+    }
+    parent.addView(label, params)
+    brightnessValueLabel = label
+  }
+
+  private fun updateBrightnessValueLabel(value: Int = (sliderBrightness?.value ?: maxStrength.toFloat()).toInt()) {
+    brightnessValueLabel?.text = brightnessLevelLabel(value, maxStrength)
+  }
+
+  private fun brightnessLevelLabel(value: Int, max: Int): String {
+    val normalizedMax = max.coerceAtLeast(1)
+    val normalizedValue = value.coerceIn(1, normalizedMax)
+    if (normalizedMax <= 1 || normalizedValue >= normalizedMax) return getString(R.string.brightness_level_max)
+
+    return when (normalizedMax) {
+      2 -> getString(R.string.brightness_level_low)
+      3 -> if (normalizedValue == 1) {
+        getString(R.string.brightness_level_low)
+      } else {
+        getString(R.string.brightness_level_medium)
+      }
+      else -> {
+        val ratio = normalizedValue.toFloat() / normalizedMax.toFloat()
+        when {
+          ratio < 0.34f -> getString(R.string.brightness_level_low)
+          ratio < 0.67f -> getString(R.string.brightness_level_medium)
+          else -> getString(R.string.brightness_level_high)
+        }
+      }
     }
   }
 
