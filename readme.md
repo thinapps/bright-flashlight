@@ -11,7 +11,7 @@
 
 ## Changelog
 
-### 0.7.6
+### 0.8.0
 - hardened locked Auto-off behavior so the dimmed Auto-off bar rejects touches while a light mode is active
 - enforced a valid Auto-off selection so the Auto-off bar cannot end up with nothing highlighted
 - normalized unsupported saved Auto-off values back to `Off`
