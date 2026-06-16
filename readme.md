@@ -14,6 +14,7 @@
 ### 0.8.3
 - renamed Strobe Speed labels to Very Slow, Slow, Medium, Fast, and Very Fast
 - changed the default Strobe Speed to Medium (3 Hz)
+- added adaptive Brightness labels so supported devices show Low, Medium, High, or Max based on their own torch strength range
 
 ### 0.8.2
 - fixed Strobe Speed active/dimmed state syncing when switching between Torch, Strobe, and SOS
@@ -145,7 +146,7 @@
 - restored the last selected flashlight mode on app launch
 - restored the last Auto-off option and Strobe speed
 - restored the last Screen Light RGB color after reopening Screen Light
-- saved Screen Light preset choices and manual RGB slider changes locally on-device
+- saved Screen Light preset choices and manual RGB changes locally on-device
 
 ### 0.5.8
 - added a notification action to turn off active flashlight modes without reopening the app
@@ -228,7 +229,6 @@
 - supports strobe mode with adjustable flashing speed
 - supports SOS mode using accurate Morse code
 - includes auto-off timer to save battery
-- adds color screen light mode with RGB sliders
 - uses Foreground Service for stable background operation
 - adds Quick Settings tile for fast torch control (Android 7.0+)
 - XML-based Material UI (no Jetpack Compose)
