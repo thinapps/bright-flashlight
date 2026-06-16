@@ -50,4 +50,16 @@
     <string name="notification_channel_desc">Running flashlight or strobe mode</string>
     <string name="notification_running">Flashlight is active</string>
     <string name="notification_action_turn_off">Turn Off</string>
+
+    <!-- Layout compatibility aliases used by the main controls screen. -->
+    <string name="no_flash_available">@string/no_flash_message</string>
+    <string name="camera_permission_required">@string/camera_permission_message</string>
+    <string name="action_allow_camera_permission">@string/camera_permission_button</string>
+    <string name="screen_light_short">@string/action_open_screen_light</string>
+    <string name="auto_off">@string/timer_label</string>
+    <string name="auto_off_off">@string/timer_off</string>
+    <string name="auto_off_5m">@string/timer_5_min</string>
+    <string name="auto_off_15m">@string/timer_15_min</string>
+    <string name="auto_off_30m">@string/timer_30_min</string>
+    <string name="auto_off_1h">@string/timer_1_hour</string>
 </resources>
