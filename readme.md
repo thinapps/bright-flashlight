@@ -17,6 +17,7 @@
 - normalized unsupported saved Auto-off values back to `Off`
 - kept locked Auto-off changes from saving new preferences while Torch, Strobe, or SOS is active
 - restored the Strobe Speed warning icon as a clean Material vector and sized it from layout XML
+- cleaned the main power icon as a standard Material vector with layout-controlled tinting
 - added a clean Material mobile icon for the Screen Light button
 - added design documentation for icon, dimming, layout, and visual design rules
 - documented the locked Auto-off touch guard, selection enforcement, and preference behavior
