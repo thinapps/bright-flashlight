@@ -21,4 +21,12 @@
         <item name="cardPreventCornerOverlap">false</item>
         <item name="strokeWidth">0dp</item>
     </style>
+
+    <style name="Widget.App.ModeSegment" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="android:textColor">@color/md_text</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="backgroundTint">@color/md_panel</item>
+        <item name="cornerRadius">24dp</item>
+        <item name="strokeWidth">0dp</item>
+    </style>
 </resources>
