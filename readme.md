@@ -14,6 +14,8 @@
 ### 0.8.2
 - fixed Strobe Speed active/dimmed state syncing when switching between Torch, Strobe, and SOS
 - hardened the Strobe Speed active and preview layers so only the active Strobe slider can receive touches
+- renamed Strobe Speed labels to Very Slow, Slow, Medium, Fast, and Very Fast
+- changed the default Strobe Speed to Medium (3 Hz)
 
 ### 0.8.1
 - restored the 0.7.5 home-screen visual design, including the original control layout, colors, icon treatment, and footer placement
