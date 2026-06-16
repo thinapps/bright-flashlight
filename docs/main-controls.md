@@ -84,7 +84,9 @@ The default Strobe Speed is `Medium (2 Hz)`. Keep this default because it is saf
 
 The dimmed Strobe Speed preview should always mirror the saved/current Strobe Speed value. Do not leave it hardcoded to the default, because that can surprise users when they switch into Strobe mode.
 
-The active Strobe Speed header includes a small warning icon on the far right. Tapping it opens a simple modal with a bold title and a content paragraph warning about flashing light sensitivity and photosensitive epilepsy. Do not replace this with an onboarding notice, persistent banner, or stored dismissal state.
+The Strobe Speed header keeps the title fixed on the left, places the warning icon immediately after the title, and keeps the changing speed value flush right. The dimmed Strobe Speed preview should mirror this header so the warning icon and current value remain visible even when Strobe mode is not selected.
+
+Tapping either Strobe Speed warning icon opens a simple modal with a bold title and a content paragraph warning about flashing light sensitivity and photosensitive epilepsy. Do not replace this with an onboarding notice, persistent banner, or stored dismissal state.
 
 The canonical speed mapping lives in:
 
@@ -125,6 +127,8 @@ This currently applies to:
 
 Dimmed controls should preserve their selected or current value when possible. For Auto-off, the selected option should stay highlighted while the whole section dims, instead of falling into a fully disabled color state that hides the selected value.
 
+Locked dimmed controls must not remain interactive. Auto-off is visually dimmed and locked while a light mode is active; touches on the Auto-off group and its child buttons should be consumed before they can change or clear the selected value.
+
 ## Auto-off
 
 Auto-off applies to Torch, Strobe, and SOS modes.
@@ -137,9 +141,13 @@ The supported options are:
 - 30 minutes
 - 1 hour
 
+One Auto-off option must always be selected. If the saved value is invalid or an interaction attempts to clear the selection, the app should normalize back to a supported option and re-check the matching button. The fallback for unsupported values is `Off`.
+
 Once a light mode is turned on, Auto-off controls are locked until the light mode is turned off. This prevents accidental timer changes while the flashlight is already running.
 
 When locked, the whole Auto-off section dims to `0.45` alpha so it matches the visual language used by the disabled Brightness and Strobe Speed placeholder controls. The selected Auto-off value should remain highlighted inside the dimmed section so users can still see the active timer choice.
+
+The locked Auto-off section should preserve the selected value visually but reject interaction. Touches on the dimmed Auto-off bar or any Auto-off option should not change the value, clear the checked option, trigger haptics, or save a new preference.
 
 When Auto-off is enabled before starting Torch, Strobe, or SOS, the power button shows a small white `MM:SS` countdown above the ON/OFF label. The countdown is Activity-side UI only; `TorchService` still owns the real shutdown timer.
 
@@ -155,14 +163,16 @@ Before shipping main-control changes, test:
 - power button ON/OFF label is clear at `18sp`
 - power button keeps the countdown slot above ON/OFF without shifting the layout
 - Auto-off countdown appears as small white `MM:SS` text only when a light mode is active and Auto-off is enabled
-- Auto-off controls lock while Torch, Strobe, or SOS is active, dim to match the disabled slider placeholders, keep the selected Auto-off value highlighted, then unlock and return to full opacity when the light mode stops
+- Auto-off controls lock while Torch, Strobe, or SOS is active, dim to match the disabled slider placeholders, keep the selected Auto-off value highlighted, reject all touches while locked, then unlock and return to full opacity when the light mode stops
+- Auto-off always has exactly one selected option; no interaction should leave the Auto-off bar with nothing highlighted
 - all intentional dimmed sections use `0.45` alpha unless a documented reason says otherwise
-- Strobe Speed warning icon appears far right above the active Strobe Speed slider and opens a simple warning modal with a bold title and content paragraph when tapped
+- Strobe Speed warning icon appears immediately after the Strobe Speed title and opens a simple warning modal with a bold title and content paragraph when tapped
+- Strobe Speed value is flush right in the header with no trailing right gap
+- dimmed Strobe Speed preview mirrors the warning icon and saved/current speed value before Strobe mode is enabled
 - Brightness value bubble starts at `1`, not `0`, on devices with torch strength support
 - Strobe Speed value bubble shows `1` through `5`, not `0` through `4`
 - Strobe Speed defaults to `Medium (2 Hz)`
 - Strobe Speed presets map linearly to `1 Hz`, `2 Hz`, `3 Hz`, `4 Hz`, and `5 Hz`
-- dimmed Strobe Speed preview mirrors the saved/current Strobe Speed value before Strobe mode is enabled
 - slider wells look slightly recessed/beveled without overpowering the power button
 - slider wells and the Screen pill do not use visible strokes
 - landscape or split-screen remains scrollable instead of clipping
