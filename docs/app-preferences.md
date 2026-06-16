@@ -71,6 +71,10 @@ These represent:
 
 Do not save arbitrary Auto-off durations unless the UI intentionally changes away from fixed presets.
 
+Saved Auto-off values should be normalized when restored. If an unsupported value is found, the app should fall back to `0` (`Off`) and keep the matching Auto-off button checked so the bar never appears with no selected option.
+
+Auto-off should save only when the user makes a real unlocked choice. While a light mode is active and Auto-off is locked/dimmed, touches should not change `auto_off_minutes` or write a new saved preference.
+
 ## Strobe speed presets
 
 `strobe_speed` stores the selected preset as the actual hertz value, not the slider index.
@@ -128,10 +132,12 @@ On Screen Light launch, `ScreenLightActivity` restores:
 The app saves preferences when the user changes normal UI choices:
 
 - changing mode saves `last_mode`
-- changing Auto-off saves `auto_off_minutes`
+- changing Auto-off while unlocked saves `auto_off_minutes`
 - changing Strobe speed saves `strobe_speed`
 - tapping a Screen Light preset saves RGB values and `screen_light_preset`
 - manually changing Screen Light RGB sliders saves RGB values and clears `screen_light_preset`
+
+Locked or restored UI state should not save preferences as if the user changed them. In particular, Auto-off should not save when the dimmed locked bar rejects touches while Torch, Strobe, or SOS is active.
 
 ## Adding new preferences
 
@@ -152,6 +158,8 @@ Before shipping preference changes, test:
 - change mode, close app, reopen app
 - change Auto-off, close app, reopen app
 - confirm Auto-off restores to the same selected duration, including `1h`
+- confirm Auto-off always restores to a checked option, with invalid stored values falling back to `Off`
+- confirm locked/dimmed Auto-off touches do not change or save `auto_off_minutes`
 - change Strobe speed, close app, reopen app
 - confirm Strobe speed restores to the same named preset
 - change Screen Light preset, close Screen Light, reopen Screen Light
