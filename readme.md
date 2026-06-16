@@ -11,13 +11,15 @@
 
 ## Changelog
 
+### 0.8.1
+- restored the 0.7.5 home-screen visual design, including the original control layout, colors, icon treatment, and footer placement
+- kept the simplified `ic_mobile.xml`, `ic_power.xml`, and `ic_warning.xml` filenames while restoring the 0.7.5 icon visuals
+
 ### 0.8.0
 - hardened locked Auto-off behavior so the dimmed Auto-off bar rejects touches while a light mode is active
 - enforced a valid Auto-off selection so the Auto-off bar cannot end up with nothing highlighted
 - normalized unsupported saved Auto-off values back to `Off`
 - kept locked Auto-off changes from saving new preferences while Torch, Strobe, or SOS is active
-- restored the 0.7.5 home-screen visual design, including the original control layout, colors, icon treatment, and footer placement
-- kept the simplified `ic_mobile.xml`, `ic_power.xml`, and `ic_warning.xml` filenames while restoring the 0.7.5 icon visuals
 
 ### 0.7.5
 - moved the Strobe Speed warning icon immediately after the Strobe Speed title so it reads as part of the label
