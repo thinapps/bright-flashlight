@@ -52,6 +52,7 @@ class MainActivity : ComponentActivity() {
   private var torchAvailable = false
   private var strengthSupported = false
   private var maxStrength = 1
+  private var autoOffControlsLocked = false
   private var lastBrightnessHapticValue = -1
   private var lastStrobeHapticValue = -1
   private val countdownHandler = Handler(Looper.getMainLooper())
@@ -98,6 +99,7 @@ class MainActivity : ComponentActivity() {
     binding.sliderStrobe.setLabelFormatter { value -> (value.toInt() + 1).toString() }
     binding.sliderStrobePreview.setLabelFormatter { value -> (value.toInt() + 1).toString() }
     syncStrobePreview()
+    setupAutoOffLockedTouchGuards()
 
     binding.btnToggle.setOnClickListener(::onPowerClicked)
     binding.btnToggle.setOnTouchListener { view, event ->
@@ -136,19 +138,17 @@ class MainActivity : ComponentActivity() {
       if (!restoringPreferences) saveModePreference()
     }
     binding.groupAutoOff.addOnButtonCheckedListener { _, checkedId, isChecked ->
-      if (!isChecked) return@addOnButtonCheckedListener
-      if (isAnyLightActive() && !restoringPreferences) {
-        binding.groupAutoOff.check(autoOffButtonIdForMinutes(selectedAutoOffMinutes))
+      if (!isChecked) {
+        enforceAutoOffSelection()
+        return@addOnButtonCheckedListener
+      }
+      if (autoOffControlsLocked || (isAnyLightActive() && !restoringPreferences)) {
+        enforceAutoOffSelection()
         return@addOnButtonCheckedListener
       }
       if (!restoringPreferences) performTapHapticForId(checkedId)
-      selectedAutoOffMinutes = when (checkedId) {
-        R.id.btnAutoOff5 -> 5
-        R.id.btnAutoOff15 -> 15
-        R.id.btnAutoOff30 -> 30
-        R.id.btnAutoOff60 -> 60
-        else -> 0
-      }
+      selectedAutoOffMinutes = minutesForAutoOffButtonId(checkedId)
+      enforceAutoOffSelection()
       if (!restoringPreferences) saveAutoOffPreference()
     }
     binding.sliderStrobe.addOnChangeListener { slider, value, fromUser ->
@@ -215,6 +215,18 @@ class MainActivity : ComponentActivity() {
     binding.sliderStrobePreview.value = sliderValue.coerceIn(0, 4).toFloat()
   }
 
+  private fun setupAutoOffLockedTouchGuards() {
+    val consumeWhenLocked = View.OnTouchListener { _, event ->
+      if (!autoOffControlsLocked) return@OnTouchListener false
+      if (event.actionMasked == MotionEvent.ACTION_DOWN) enforceAutoOffSelection()
+      true
+    }
+    binding.groupAutoOff.setOnTouchListener(consumeWhenLocked)
+    for (i in 0 until binding.groupAutoOff.childCount) {
+      binding.groupAutoOff.getChildAt(i).setOnTouchListener(consumeWhenLocked)
+    }
+  }
+
   private fun restorePreferences() {
     lifecycleScope.launch {
       val saved = appPreferences.preferences.first()
@@ -239,7 +251,7 @@ class MainActivity : ComponentActivity() {
       Mode.SOS.name -> Mode.SOS
       else -> Mode.TORCH
     }
-    selectedAutoOffMinutes = saved.autoOffMinutes
+    selectedAutoOffMinutes = normalizeAutoOffMinutes(saved.autoOffMinutes)
     binding.groupMode.check(
       when (selectedMode) {
         Mode.STROBE -> R.id.btnModeStrobe
@@ -247,7 +259,7 @@ class MainActivity : ComponentActivity() {
         Mode.TORCH -> R.id.btnModeTorch
       }
     )
-    binding.groupAutoOff.check(autoOffButtonIdForMinutes(selectedAutoOffMinutes))
+    enforceAutoOffSelection()
     binding.sliderStrobe.value = StrobeSpeedPreset.sliderValueForHz(saved.strobeSpeed).toFloat()
     syncStrobePreview()
     updateStrobeSpeedLabel(saved.strobeSpeed)
@@ -453,13 +465,38 @@ class MainActivity : ComponentActivity() {
     return String.format(Locale.US, "%02d:%02d", minutes, seconds)
   }
 
-  private fun autoOffButtonIdForMinutes(minutes: Int): Int {
+  private fun normalizeAutoOffMinutes(minutes: Int): Int {
     return when (minutes) {
+      5, 15, 30, 60 -> minutes
+      else -> 0
+    }
+  }
+
+  private fun minutesForAutoOffButtonId(buttonId: Int): Int {
+    return when (buttonId) {
+      R.id.btnAutoOff5 -> 5
+      R.id.btnAutoOff15 -> 15
+      R.id.btnAutoOff30 -> 30
+      R.id.btnAutoOff60 -> 60
+      else -> 0
+    }
+  }
+
+  private fun autoOffButtonIdForMinutes(minutes: Int): Int {
+    return when (normalizeAutoOffMinutes(minutes)) {
       5 -> R.id.btnAutoOff5
       15 -> R.id.btnAutoOff15
       30 -> R.id.btnAutoOff30
       60 -> R.id.btnAutoOff60
       else -> R.id.btnAutoOffOff
+    }
+  }
+
+  private fun enforceAutoOffSelection() {
+    selectedAutoOffMinutes = normalizeAutoOffMinutes(selectedAutoOffMinutes)
+    val expectedButtonId = autoOffButtonIdForMinutes(selectedAutoOffMinutes)
+    if (binding.groupAutoOff.checkedButtonId != expectedButtonId) {
+      binding.groupAutoOff.check(expectedButtonId)
     }
   }
 
@@ -495,6 +532,8 @@ class MainActivity : ComponentActivity() {
   }
 
   private fun setAutoOffControlsEnabled(torchControlsEnabled: Boolean, autoOffLocked: Boolean) {
+    autoOffControlsLocked = autoOffLocked
+    enforceAutoOffSelection()
     binding.groupAutoOff.isEnabled = torchControlsEnabled && !autoOffLocked
     for (i in 0 until binding.groupAutoOff.childCount) {
       binding.groupAutoOff.getChildAt(i).isEnabled = torchControlsEnabled
