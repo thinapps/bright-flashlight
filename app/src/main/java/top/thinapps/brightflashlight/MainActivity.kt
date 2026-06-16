@@ -98,6 +98,9 @@ class MainActivity : ComponentActivity() {
     sliderBrightness = binding.root.findViewById(R.id.sliderBrightness)
     binding.sliderStrobe.setLabelFormatter { value -> (value.toInt() + 1).toString() }
     binding.sliderStrobePreview.setLabelFormatter { value -> (value.toInt() + 1).toString() }
+    binding.sliderStrobePreview.isEnabled = false
+    binding.sliderStrobePreview.isClickable = false
+    binding.sliderStrobePreview.isFocusable = false
     syncStrobePreview()
     setupAutoOffLockedTouchGuards()
 
@@ -512,13 +515,20 @@ class MainActivity : ComponentActivity() {
     val torchControlsEnabled = enabled && torchAvailable
     val lightActive = isAnyLightActive()
     val autoOffLocked = torchControlsEnabled && lightActive
-    val strobeSelected = selectedMode == Mode.STROBE
+    val showActiveStrobe = torchControlsEnabled && selectedMode == Mode.STROBE
+
     binding.btnToggle.isEnabled = torchControlsEnabled
-    binding.sliderStrobe.isEnabled = torchControlsEnabled && strobeSelected
+    binding.sliderStrobe.isEnabled = showActiveStrobe
+    binding.sliderStrobe.isClickable = showActiveStrobe
+    binding.sliderStrobePreview.isEnabled = false
+    binding.sliderStrobePreview.isClickable = false
+    binding.sliderStrobePreview.isFocusable = false
     sliderBrightness?.isEnabled = torchControlsEnabled && strengthSupported && selectedMode == Mode.TORCH
     setEnabledRecursive(binding.groupMode, torchControlsEnabled)
     setAutoOffControlsEnabled(torchControlsEnabled, autoOffLocked)
-    binding.cardStrobe.visibility = if (torchControlsEnabled && strobeSelected) View.VISIBLE else View.INVISIBLE
+    binding.cardStrobe.visibility = if (showActiveStrobe) View.VISIBLE else View.INVISIBLE
+    binding.cardStrobe.isEnabled = showActiveStrobe
+    binding.cardStrobe.isClickable = showActiveStrobe
     binding.cardStrobe.alpha = 1f
     binding.cardAutoOff.alpha = if (autoOffLocked) 0.45f else 1f
     binding.btnScreenLight.isEnabled = true
