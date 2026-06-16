@@ -6,6 +6,7 @@
 | --- | --- |
 | [Main Controls](docs/main-controls.md) | Explains the main flashlight, screen light, mode, slider, and auto-off controls. |
 | [App Preferences](docs/app-preferences.md) | Documents saved app preferences and how user choices persist locally. |
+| [Design](docs/design.md) | Defines icon, dimming, layout, and visual design rules for the app. |
 | [Permissions](docs/permissions.md) | Explains Camera permission behavior, fallback states, and recovery prompts. |
 
 ## Changelog
