@@ -19,11 +19,11 @@
     <string name="mode_sos">SOS</string>
 
     <string name="strobe_speed">Strobe Speed</string>
-    <string name="strobe_speed_slow">Slow</string>
-    <string name="strobe_speed_medium">Medium</string>
-    <string name="strobe_speed_alert">Alert</string>
+    <string name="strobe_speed_slow">Very Slow</string>
+    <string name="strobe_speed_medium">Slow</string>
+    <string name="strobe_speed_alert">Medium</string>
     <string name="strobe_speed_fast">Fast</string>
-    <string name="strobe_speed_max">Max</string>
+    <string name="strobe_speed_max">Very Fast</string>
     <string name="strobe_warning_title">Strobe Light Warning</string>
     <string name="strobe_warning_message">Strobe mode flashes the light repeatedly and may bother people sensitive to flashing lights or photosensitive epilepsy. Use with caution and avoid pointing it at anyone unexpectedly.</string>
     <string name="torch_brightness">Brightness</string>
