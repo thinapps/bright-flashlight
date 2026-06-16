@@ -64,7 +64,7 @@
     android:layout_gravity="top|end"
     android:layout_marginTop="20dp"
     android:layout_marginEnd="24dp"
-    app:backgroundTint="@color/md_panel"
+    app:backgroundTint="@color/md_card"
     app:cornerRadius="20dp"
     app:icon="@drawable/ic_mobile"
     app:iconGravity="textStart"
@@ -264,14 +264,14 @@
               android:valueTo="10"
               android:stepSize="1"
               android:value="10"
-              app:haloColor="#33FF8A3D"
+              app:haloColor="@color/md_orange_halo"
               app:haloRadius="22dp"
-              app:thumbColor="#FFFF8A3D"
+              app:thumbColor="@color/md_orange"
               app:thumbElevation="6dp"
               app:thumbRadius="15dp"
               app:tickVisible="false"
-              app:trackColorActive="#FFFF6A2A"
-              app:trackColorInactive="#FF2C343C"
+              app:trackColorActive="@color/md_orange_track"
+              app:trackColorInactive="@color/md_slider_track_inactive"
               app:trackHeight="12dp" />
           </LinearLayout>
         </LinearLayout>
@@ -311,14 +311,14 @@
               android:valueTo="10"
               android:stepSize="1"
               android:value="10"
-              app:haloColor="#33FF8A3D"
+              app:haloColor="@color/md_orange_halo"
               app:haloRadius="22dp"
-              app:thumbColor="#FFFF8A3D"
+              app:thumbColor="@color/md_orange"
               app:thumbElevation="6dp"
               app:thumbRadius="15dp"
               app:tickVisible="false"
-              app:trackColorActive="#FFFF6A2A"
-              app:trackColorInactive="#FF2C343C"
+              app:trackColorActive="@color/md_orange_track"
+              app:trackColorInactive="@color/md_slider_track_inactive"
               app:trackHeight="12dp" />
           </LinearLayout>
         </LinearLayout>
@@ -397,14 +397,14 @@
               android:valueTo="4"
               android:stepSize="1"
               android:value="1"
-              app:haloColor="#33FF8A3D"
+              app:haloColor="@color/md_orange_halo"
               app:haloRadius="22dp"
-              app:thumbColor="#FFFF8A3D"
+              app:thumbColor="@color/md_orange"
               app:thumbElevation="6dp"
               app:thumbRadius="15dp"
               app:tickVisible="false"
-              app:trackColorActive="#FFFF6A2A"
-              app:trackColorInactive="#FF2C343C"
+              app:trackColorActive="@color/md_orange_track"
+              app:trackColorInactive="@color/md_slider_track_inactive"
               app:trackHeight="12dp" />
           </LinearLayout>
         </LinearLayout>
@@ -479,14 +479,14 @@
               android:valueTo="4"
               android:stepSize="1"
               android:value="1"
-              app:haloColor="#33FF8A3D"
+              app:haloColor="@color/md_orange_halo"
               app:haloRadius="22dp"
-              app:thumbColor="#FFFF8A3D"
+              app:thumbColor="@color/md_orange"
               app:thumbElevation="6dp"
               app:thumbRadius="15dp"
               app:tickVisible="false"
-              app:trackColorActive="#FFFF6A2A"
-              app:trackColorInactive="#FF2C343C"
+              app:trackColorActive="@color/md_orange_track"
+              app:trackColorInactive="@color/md_slider_track_inactive"
               app:trackHeight="12dp" />
           </LinearLayout>
         </LinearLayout>
