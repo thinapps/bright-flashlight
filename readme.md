@@ -10,6 +10,13 @@
 
 ## Changelog
 
+### 0.7.6
+- hardened locked Auto-off behavior so the dimmed Auto-off bar rejects touches while a light mode is active
+- enforced a valid Auto-off selection so the Auto-off bar cannot end up with nothing highlighted
+- normalized unsupported saved Auto-off values back to `Off`
+- kept locked Auto-off changes from saving new preferences while Torch, Strobe, or SOS is active
+- documented the locked Auto-off touch guard, selection enforcement, and preference behavior
+
 ### 0.7.5
 - moved the Strobe Speed warning icon immediately after the Strobe Speed title so it reads as part of the label
 - kept the Strobe Speed value flush right in the header with no trailing right gap
