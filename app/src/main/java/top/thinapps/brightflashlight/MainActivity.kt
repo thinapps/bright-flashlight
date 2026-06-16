@@ -573,7 +573,18 @@ class MainActivity : ComponentActivity() {
   }
 
   private fun updateBrightnessValueLabel(value: Int = (sliderBrightness?.value ?: maxStrength.toFloat()).toInt()) {
-    brightnessValueLabel?.text = brightnessLevelLabel(value, maxStrength)
+    val showActiveBrightness = torchAvailable &&
+      strengthSupported &&
+      selectedMode == Mode.TORCH &&
+      binding.cardBrightness.visibility == View.VISIBLE &&
+      maxStrength > 1
+
+    brightnessValueLabel?.text = if (showActiveBrightness) {
+      brightnessLevelLabel(value, maxStrength)
+    } else {
+      getString(R.string.brightness_level_max)
+    }
+    brightnessValueLabel?.alpha = if (showActiveBrightness) 1f else 0.45f
   }
 
   private fun brightnessLevelLabel(value: Int, max: Int): String {
