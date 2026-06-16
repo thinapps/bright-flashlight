@@ -7,7 +7,7 @@
 
   <TextView
     android:id="@+id/txtNoFlash"
-    android:text="@string/no_flash_available"
+    android:text="@string/no_flash_message"
     android:textColor="@color/md_text_dim"
     android:textSize="14sp"
     android:gravity="center"
@@ -28,7 +28,7 @@
     android:layout_height="match_parent">
 
     <TextView
-      android:text="@string/camera_permission_required"
+      android:text="@string/camera_permission_message"
       android:textColor="@color/md_text"
       android:textSize="16sp"
       android:gravity="center"
@@ -37,7 +37,7 @@
 
     <com.google.android.material.button.MaterialButton
       android:id="@+id/btnAccessNotice"
-      android:text="@string/action_allow_camera_permission"
+      android:text="@string/camera_permission_button"
       android:textAllCaps="false"
       android:layout_marginTop="16dp"
       android:layout_width="wrap_content"
@@ -49,7 +49,7 @@
 
   <com.google.android.material.button.MaterialButton
     android:id="@+id/btnScreenLight"
-    android:text="@string/screen_light_short"
+    android:text="@string/action_open_screen_light"
     android:textAllCaps="false"
     android:textSize="13sp"
     android:textColor="@color/md_text"
@@ -166,7 +166,7 @@
         android:layout_height="wrap_content">
 
         <TextView
-          android:text="@string/auto_off"
+          android:text="@string/timer_label"
           android:textAllCaps="true"
           android:textColor="@color/md_text_dim"
           android:textSize="12sp"
@@ -187,7 +187,7 @@
           <com.google.android.material.button.MaterialButton
             android:id="@+id/btnAutoOffOff"
             style="@style/Widget.App.ModeSegment"
-            android:text="@string/auto_off_off"
+            android:text="@string/timer_off"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1" />
@@ -195,7 +195,7 @@
           <com.google.android.material.button.MaterialButton
             android:id="@+id/btnAutoOff5"
             style="@style/Widget.App.ModeSegment"
-            android:text="@string/auto_off_5m"
+            android:text="@string/timer_5_min"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1" />
@@ -203,7 +203,7 @@
           <com.google.android.material.button.MaterialButton
             android:id="@+id/btnAutoOff15"
             style="@style/Widget.App.ModeSegment"
-            android:text="@string/auto_off_15m"
+            android:text="@string/timer_15_min"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1" />
@@ -211,7 +211,7 @@
           <com.google.android.material.button.MaterialButton
             android:id="@+id/btnAutoOff30"
             style="@style/Widget.App.ModeSegment"
-            android:text="@string/auto_off_30m"
+            android:text="@string/timer_30_min"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1" />
@@ -219,7 +219,7 @@
           <com.google.android.material.button.MaterialButton
             android:id="@+id/btnAutoOff60"
             style="@style/Widget.App.ModeSegment"
-            android:text="@string/auto_off_1h"
+            android:text="@string/timer_1_hour"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1" />
