@@ -361,7 +361,7 @@
               android:contentDescription="@string/strobe_warning_title"
               android:padding="11dp"
               android:scaleType="centerInside"
-              android:src="@drawable/ic_strobe_warning"
+              android:src="@drawable/ic_warning"
               android:tint="@color/md_text_dim" />
 
             <Space
@@ -444,7 +444,7 @@
               android:contentDescription="@string/strobe_warning_title"
               android:padding="11dp"
               android:scaleType="centerInside"
-              android:src="@drawable/ic_strobe_warning"
+              android:src="@drawable/ic_warning"
               android:tint="@color/md_text_dim" />
 
             <Space
