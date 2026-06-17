@@ -17,6 +17,7 @@
 - removed legacy Jetifier from `gradle.properties` and kept the simple root Gradle buildscript setup
 - tightened the Android release workflow with safer Gradle download and keystore restore steps while keeping manual GitHub Actions releases simple
 - deleted the unused empty `app/proguard-rules.pro` file because release minification and resource shrinking are disabled
+- cleaned `app/build.gradle` by removing unused vector drawable support config and broad `META-INF/*` packaging exclusions
 
 ### 0.8.4
 - cleaned Auto-off service scheduling so the service uses one reusable Auto-off check instead of stacking repeated delayed checks
