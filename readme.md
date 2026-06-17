@@ -11,6 +11,9 @@
 
 ## Changelog
 
+### 0.8.5
+- removed the unused Camera permission rationale string after keeping the simpler built-in Android permission dialog plus inline recovery message flow
+
 ### 0.8.4
 - cleaned Auto-off service scheduling so the service uses one reusable Auto-off check instead of stacking repeated delayed checks
 - moved the Brightness value labels into `activity_main.xml` and aligned Brightness slider header spacing with Strobe Speed
