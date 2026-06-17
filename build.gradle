@@ -1,9 +1,17 @@
-// Root build configuration.
-// Keep plugin versions centralized here so app modules can apply them without repeating versions.
-plugins {
-    // Android application plugin used by :app.
-    id "com.android.application" version "8.5.2" apply false
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath "com.android.tools.build:gradle:8.5.2"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.24"
+    }
+}
 
-    // Kotlin Android plugin used by :app Kotlin sources.
-    id "org.jetbrains.kotlin.android" version "1.9.24" apply false
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
 }
