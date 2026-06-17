@@ -44,8 +44,6 @@
     <string name="screen_preset_red">Red</string>
     <string name="screen_preset_blue">Blue</string>
 
-    <string name="tile_label">Flashlight</string>
-
     <string name="notification_channel_name">Flashlight</string>
     <string name="notification_channel_desc">Running flashlight or strobe mode</string>
     <string name="notification_running">Flashlight is active</string>
