@@ -34,16 +34,19 @@ import top.thinapps.brightflashlight.torch.TorchService.Companion.ACTION_TORCH_O
 import top.thinapps.brightflashlight.torch.TorchService.Companion.ACTION_TORCH_UPDATE_INTENSITY
 import top.thinapps.brightflashlight.torch.TorchService.Companion.EXTRA_AUTO_OFF_MINUTES
 import top.thinapps.brightflashlight.torch.TorchService.Companion.EXTRA_STROBE_SPEED
+import top.thinapps.brightflashlight.torch.TorchService.Companion.EXTRA_TORCH_INTENSITY
 import top.thinapps.brightflashlight.ui.ScreenLightActivity
 import java.util.Locale
 
 class MainActivity : ComponentActivity() {
   private enum class Mode { TORCH, STROBE, SOS }
+
   private lateinit var binding: ActivityMainBinding
   private lateinit var appPreferences: AppPreferences
+
   private var sliderBrightness: Slider? = null
   private var selectedMode = Mode.TORCH
-  private var selectedAutoOffMinutes = 0
+  private var selectedAutoOffMinutes = DEFAULT_AUTO_OFF_MINUTES
   private var torchOn = false
   private var strobeRunning = false
   private var sosRunning = false
@@ -51,10 +54,11 @@ class MainActivity : ComponentActivity() {
   private var torch: TorchController? = null
   private var torchAvailable = false
   private var strengthSupported = false
-  private var maxStrength = 1
+  private var maxStrength = DEFAULT_TORCH_STRENGTH
   private var autoOffControlsLocked = false
-  private var lastBrightnessHapticValue = -1
-  private var lastStrobeHapticValue = -1
+  private var lastBrightnessHapticValue = NO_HAPTIC_VALUE
+  private var lastStrobeHapticValue = NO_HAPTIC_VALUE
+
   private val countdownHandler = Handler(Looper.getMainLooper())
   private var autoOffEndsAtMs = 0L
 
@@ -74,116 +78,28 @@ class MainActivity : ComponentActivity() {
       }
 
       updateAutoOffCountdown()
-      countdownHandler.postDelayed(this, 1000L)
+      countdownHandler.postDelayed(this, COUNTDOWN_TICK_MS)
     }
   }
 
   private val permLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
-    if (granted) {
-      showAccessNotice(false)
-      ensureTorch()
-      refreshTorchUi()
-      syncUiEnabledState(true)
-    } else {
-      showAccessNotice(true)
-      syncUiEnabledState(false)
-    }
+    handleCameraPermissionResult(granted)
   }
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
+
     appPreferences = AppPreferences(applicationContext)
     binding = ActivityMainBinding.inflate(layoutInflater)
     setContentView(binding.root)
     sliderBrightness = binding.root.findViewById(R.id.sliderBrightness)
-    binding.sliderStrobe.setLabelFormatter { value -> (value.toInt() + 1).toString() }
-    binding.sliderStrobePreview.setLabelFormatter { value -> (value.toInt() + 1).toString() }
-    binding.sliderStrobePreview.isEnabled = false
-    binding.sliderStrobePreview.isClickable = false
-    binding.sliderStrobePreview.isFocusable = false
-    syncStrobePreview()
-    updateBrightnessValueLabel()
-    setupAutoOffLockedTouchGuards()
 
-    binding.btnToggle.setOnClickListener(::onPowerClicked)
-    binding.btnToggle.setOnTouchListener { view, event ->
-      if (event.actionMasked == MotionEvent.ACTION_DOWN && view.isEnabled) {
-        performTapHaptic(view)
-      }
-      false
-    }
-    binding.btnAccessNotice.setOnClickListener { view ->
-      performTapHaptic(view)
-      requestCameraPermission()
-    }
-    binding.btnScreenLight.setOnClickListener { view ->
-      performTapHaptic(view)
-      startActivity(Intent(this, ScreenLightActivity::class.java))
-    }
-    binding.btnStrobeWarning.setOnClickListener { view ->
-      performTapHaptic(view)
-      showStrobeWarningDialog()
-    }
-    binding.btnStrobeWarningPreview.setOnClickListener { view ->
-      performTapHaptic(view)
-      showStrobeWarningDialog()
-    }
-    binding.groupMode.addOnButtonCheckedListener { _, checkedId, isChecked ->
-      if (!isChecked) return@addOnButtonCheckedListener
-      if (!restoringPreferences) performTapHapticForId(checkedId)
-      selectedMode = when (checkedId) {
-        R.id.btnModeStrobe -> Mode.STROBE
-        R.id.btnModeSos -> Mode.SOS
-        else -> Mode.TORCH
-      }
-      stopAllModes()
-      setPowerLabel(off = true)
-      refreshTorchUi()
-      syncUiEnabledState(hasCameraPermission())
-      if (!restoringPreferences) saveModePreference()
-    }
-    binding.groupAutoOff.addOnButtonCheckedListener { _, checkedId, isChecked ->
-      if (!isChecked) {
-        enforceAutoOffSelection()
-        return@addOnButtonCheckedListener
-      }
-      if (autoOffControlsLocked || (isAnyLightActive() && !restoringPreferences)) {
-        enforceAutoOffSelection()
-        return@addOnButtonCheckedListener
-      }
-      if (!restoringPreferences) performTapHapticForId(checkedId)
-      selectedAutoOffMinutes = minutesForAutoOffButtonId(checkedId)
-      enforceAutoOffSelection()
-      if (!restoringPreferences) saveAutoOffPreference()
-    }
-    binding.sliderStrobe.addOnChangeListener { slider, value, fromUser ->
-      val sliderValue = value.toInt()
-      syncStrobePreview(sliderValue)
-      if (fromUser && sliderValue != lastStrobeHapticValue) {
-        performTapHaptic(slider)
-        lastStrobeHapticValue = sliderValue
-      }
-      val speedHz = StrobeSpeedPreset.hzForSliderValue(sliderValue)
-      updateStrobeSpeedLabel(speedHz)
-      if (fromUser && !restoringPreferences) saveStrobeSpeedPreference(speedHz)
-      if (fromUser && strobeRunning) sendToService(ACTION_STROBE_UPDATE, strobeSpeed = speedHz)
-    }
-    sliderBrightness?.addOnChangeListener { slider, value, fromUser ->
-      val sliderValue = value.toInt()
-      if (fromUser && sliderValue != lastBrightnessHapticValue) {
-        performTapHaptic(slider)
-        lastBrightnessHapticValue = sliderValue
-      }
-      updateBrightnessValueLabel(sliderValue)
-      if (fromUser && torchOn && selectedMode == Mode.TORCH && strengthSupported) {
-        sendToService(ACTION_TORCH_UPDATE_INTENSITY, torchIntensity = sliderValue)
-      }
-    }
-
+    setupControls()
     updateStrobeSpeedLabel()
     restorePreferences()
-    val hasCam = hasCameraPermission()
-    if (hasCam) {
+
+    val hasCamera = hasCameraPermission()
+    if (hasCamera) {
       showAccessNotice(false)
       ensureTorch()
       refreshTorchUi()
@@ -191,7 +107,7 @@ class MainActivity : ComponentActivity() {
       showAccessNotice(true)
       requestCameraPermission()
     }
-    syncUiEnabledState(hasCam)
+    syncUiEnabledState(hasCamera)
   }
 
   override fun onResume() {
@@ -209,6 +125,157 @@ class MainActivity : ComponentActivity() {
     super.onDestroy()
   }
 
+  private fun setupControls() {
+    setupStrobeSliders()
+    setupPowerButton()
+    setupAccessNotice()
+    setupScreenLightButton()
+    setupStrobeWarningButtons()
+    setupModeControls()
+    setupAutoOffControls()
+    setupBrightnessSlider()
+
+    updateBrightnessValueLabel()
+    setupAutoOffLockedTouchGuards()
+  }
+
+  private fun setupStrobeSliders() {
+    binding.sliderStrobe.setLabelFormatter { value -> (value.toInt() + 1).toString() }
+    binding.sliderStrobePreview.setLabelFormatter { value -> (value.toInt() + 1).toString() }
+    setStrobePreviewEnabled(false)
+    syncStrobePreview()
+
+    binding.sliderStrobe.addOnChangeListener { slider, value, fromUser ->
+      handleStrobeSliderChange(slider, value, fromUser)
+    }
+  }
+
+  private fun setupPowerButton() {
+    binding.btnToggle.setOnClickListener(::onPowerClicked)
+    binding.btnToggle.setOnTouchListener { view, event ->
+      if (event.actionMasked == MotionEvent.ACTION_DOWN && view.isEnabled) {
+        performTapHaptic(view)
+      }
+      false
+    }
+  }
+
+  private fun setupAccessNotice() {
+    binding.btnAccessNotice.setOnClickListener { view ->
+      performTapHaptic(view)
+      requestCameraPermission()
+    }
+  }
+
+  private fun setupScreenLightButton() {
+    binding.btnScreenLight.setOnClickListener { view ->
+      performTapHaptic(view)
+      startActivity(Intent(this, ScreenLightActivity::class.java))
+    }
+  }
+
+  private fun setupStrobeWarningButtons() {
+    binding.btnStrobeWarning.setOnClickListener { view ->
+      performTapHaptic(view)
+      showStrobeWarningDialog()
+    }
+    binding.btnStrobeWarningPreview.setOnClickListener { view ->
+      performTapHaptic(view)
+      showStrobeWarningDialog()
+    }
+  }
+
+  private fun setupModeControls() {
+    binding.groupMode.addOnButtonCheckedListener { _, checkedId, isChecked ->
+      if (!isChecked) return@addOnButtonCheckedListener
+      handleModeSelection(checkedId)
+    }
+  }
+
+  private fun setupAutoOffControls() {
+    binding.groupAutoOff.addOnButtonCheckedListener { _, checkedId, isChecked ->
+      handleAutoOffSelection(checkedId, isChecked)
+    }
+  }
+
+  private fun setupBrightnessSlider() {
+    sliderBrightness?.addOnChangeListener { slider, value, fromUser ->
+      handleBrightnessSliderChange(slider, value, fromUser)
+    }
+  }
+
+  private fun handleCameraPermissionResult(granted: Boolean) {
+    if (granted) {
+      showAccessNotice(false)
+      ensureTorch()
+      refreshTorchUi()
+      syncUiEnabledState(true)
+    } else {
+      showAccessNotice(true)
+      syncUiEnabledState(false)
+    }
+  }
+
+  private fun handleModeSelection(checkedId: Int) {
+    if (!restoringPreferences) performTapHapticForId(checkedId)
+    selectedMode = when (checkedId) {
+      R.id.btnModeStrobe -> Mode.STROBE
+      R.id.btnModeSos -> Mode.SOS
+      else -> Mode.TORCH
+    }
+    stopAllModes()
+    setPowerLabel(off = true)
+    refreshTorchUi()
+    syncUiEnabledState(hasCameraPermission())
+    if (!restoringPreferences) saveModePreference()
+  }
+
+  private fun handleAutoOffSelection(checkedId: Int, isChecked: Boolean) {
+    if (!isChecked) {
+      enforceAutoOffSelection()
+      return
+    }
+
+    if (autoOffControlsLocked || (isAnyLightActive() && !restoringPreferences)) {
+      enforceAutoOffSelection()
+      return
+    }
+
+    if (!restoringPreferences) performTapHapticForId(checkedId)
+    selectedAutoOffMinutes = minutesForAutoOffButtonId(checkedId)
+    enforceAutoOffSelection()
+    if (!restoringPreferences) saveAutoOffPreference()
+  }
+
+  private fun handleStrobeSliderChange(slider: Slider, value: Float, fromUser: Boolean) {
+    val sliderValue = value.toInt()
+    syncStrobePreview(sliderValue)
+
+    if (fromUser && sliderValue != lastStrobeHapticValue) {
+      performTapHaptic(slider)
+      lastStrobeHapticValue = sliderValue
+    }
+
+    val speedHz = StrobeSpeedPreset.hzForSliderValue(sliderValue)
+    updateStrobeSpeedLabel(speedHz)
+    if (fromUser && !restoringPreferences) saveStrobeSpeedPreference(speedHz)
+    if (fromUser && strobeRunning) sendToService(ACTION_STROBE_UPDATE, strobeSpeed = speedHz)
+  }
+
+  private fun handleBrightnessSliderChange(slider: Slider, value: Float, fromUser: Boolean) {
+    val sliderValue = value.toInt()
+
+    if (fromUser && sliderValue != lastBrightnessHapticValue) {
+      performTapHaptic(slider)
+      lastBrightnessHapticValue = sliderValue
+    }
+
+    updateBrightnessValueLabel(sliderValue)
+    if (fromUser && torchOn && selectedMode == Mode.TORCH && strengthSupported) {
+      sendToService(ACTION_TORCH_UPDATE_INTENSITY, torchIntensity = sliderValue)
+    }
+  }
+
   private fun performTapHaptic(view: View) {
     view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY)
   }
@@ -217,8 +284,17 @@ class MainActivity : ComponentActivity() {
     binding.root.findViewById<View>(viewId)?.let { performTapHaptic(it) }
   }
 
+  private fun setStrobePreviewEnabled(enabled: Boolean) {
+    binding.sliderStrobePreview.isEnabled = enabled
+    binding.sliderStrobePreview.isClickable = enabled
+    binding.sliderStrobePreview.isFocusable = enabled
+  }
+
   private fun syncStrobePreview(sliderValue: Int = binding.sliderStrobe.value.toInt()) {
-    binding.sliderStrobePreview.value = sliderValue.coerceIn(0, 4).toFloat()
+    binding.sliderStrobePreview.value = sliderValue.coerceIn(
+      STROBE_SLIDER_MIN,
+      STROBE_SLIDER_MAX
+    ).toFloat()
   }
 
   private fun setupAutoOffLockedTouchGuards() {
@@ -239,15 +315,19 @@ class MainActivity : ComponentActivity() {
       restoringPreferences = true
       applySavedPreferences(saved)
       restoringPreferences = false
-      if (hasCameraPermission()) {
-        showAccessNotice(false)
-        ensureTorch()
-        refreshTorchUi()
-        syncUiEnabledState(true)
-      } else {
-        showAccessNotice(true)
-        syncUiEnabledState(false)
-      }
+      syncAfterPreferenceRestore()
+    }
+  }
+
+  private fun syncAfterPreferenceRestore() {
+    if (hasCameraPermission()) {
+      showAccessNotice(false)
+      ensureTorch()
+      refreshTorchUi()
+      syncUiEnabledState(true)
+    } else {
+      showAccessNotice(true)
+      syncUiEnabledState(false)
     }
   }
 
@@ -274,9 +354,13 @@ class MainActivity : ComponentActivity() {
   private fun ensureTorch() {
     val controller = torch ?: TorchController(applicationContext).also { torch = it }
     torchAvailable = controller.isAvailable()
-    val (supported, max) = if (torchAvailable) controller.getStrengthSupport() else false to 1
+    val (supported, max) = if (torchAvailable) {
+      controller.getStrengthSupport()
+    } else {
+      false to DEFAULT_TORCH_STRENGTH
+    }
     strengthSupported = supported
-    maxStrength = max.coerceAtLeast(1)
+    maxStrength = max.coerceAtLeast(DEFAULT_TORCH_STRENGTH)
   }
 
   private fun refreshTorchUi() {
@@ -288,6 +372,7 @@ class MainActivity : ComponentActivity() {
       binding.cardAutoOff.visibility = View.GONE
       return
     }
+
     showAccessNotice(false)
     if (!torchAvailable) {
       binding.txtNoFlash.visibility = View.VISIBLE
@@ -296,6 +381,7 @@ class MainActivity : ComponentActivity() {
       binding.cardAutoOff.visibility = View.GONE
       return
     }
+
     binding.txtNoFlash.visibility = View.GONE
     binding.cardAutoOff.visibility = View.VISIBLE
     binding.cardStrobe.visibility = View.VISIBLE
@@ -304,22 +390,24 @@ class MainActivity : ComponentActivity() {
 
   private fun setupBrightnessUi() {
     val sb = sliderBrightness ?: return
-    if (selectedMode != Mode.TORCH || !strengthSupported || maxStrength <= 1) {
+    if (selectedMode != Mode.TORCH || !strengthSupported || maxStrength <= DEFAULT_TORCH_STRENGTH) {
       binding.cardBrightness.visibility = View.GONE
       return
     }
+
     binding.cardBrightness.visibility = View.VISIBLE
     sb.isEnabled = true
-    sb.valueFrom = 1f
-    sb.value = 1f
+    sb.valueFrom = DEFAULT_TORCH_STRENGTH.toFloat()
+    sb.value = DEFAULT_TORCH_STRENGTH.toFloat()
     sb.valueTo = maxStrength.toFloat()
-    sb.stepSize = 1f
+    sb.stepSize = BRIGHTNESS_STEP_SIZE
     sb.value = maxStrength.toFloat()
     updateBrightnessValueLabel(maxStrength)
   }
 
   private fun hasCameraPermission(): Boolean {
-    return ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
+    return ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) ==
+      PackageManager.PERMISSION_GRANTED
   }
 
   private fun requestCameraPermission() {
@@ -341,64 +429,81 @@ class MainActivity : ComponentActivity() {
   @Suppress("UNUSED_PARAMETER")
   fun onPowerClicked(v: View) {
     if (!torchAvailable) return
+
     when (selectedMode) {
       Mode.TORCH -> ensurePermissionThen {
-        if (torchOn) {
-          sendToService(ACTION_TORCH_OFF)
-          torchOn = false
-          setPowerLabel(true)
-          stopAutoOffCountdown()
-          syncUiEnabledState(hasCameraPermission())
-        } else {
-          stopAllModes()
-          val intensity = (sliderBrightness?.value ?: 1f).toInt().coerceAtLeast(1)
-          sendToService(ACTION_TORCH_ON, torchIntensity = intensity)
-          torchOn = true
-          setPowerLabel(false)
-          startAutoOffCountdownIfNeeded()
-          syncUiEnabledState(hasCameraPermission())
-        }
+        if (torchOn) stopTorchMode() else startTorchMode()
       }
       Mode.STROBE -> ensurePermissionThen {
-        if (strobeRunning) {
-          sendToService(ACTION_STROBE_STOP)
-          strobeRunning = false
-          setPowerLabel(true)
-          stopAutoOffCountdown()
-          syncUiEnabledState(hasCameraPermission())
-        } else {
-          stopAllModes()
-          sendToService(ACTION_STROBE_START, strobeSpeed = selectedStrobeSpeed())
-          strobeRunning = true
-          setPowerLabel(false)
-          startAutoOffCountdownIfNeeded()
-          syncUiEnabledState(hasCameraPermission())
-        }
+        if (strobeRunning) stopStrobeMode() else startStrobeMode()
       }
       Mode.SOS -> ensurePermissionThen {
-        if (sosRunning) {
-          sendToService(ACTION_SOS_STOP)
-          sosRunning = false
-          setPowerLabel(true)
-          stopAutoOffCountdown()
-          syncUiEnabledState(hasCameraPermission())
-        } else {
-          stopAllModes()
-          sendToService(ACTION_SOS_START)
-          sosRunning = true
-          setPowerLabel(false)
-          startAutoOffCountdownIfNeeded()
-          syncUiEnabledState(hasCameraPermission())
-        }
+        if (sosRunning) stopSosMode() else startSosMode()
       }
     }
   }
 
   private fun ensurePermissionThen(block: () -> Unit) {
-    if (hasCameraPermission()) block() else {
+    if (hasCameraPermission()) {
+      block()
+    } else {
       showAccessNotice(true)
       requestCameraPermission()
     }
+  }
+
+  private fun startTorchMode() {
+    stopAllModes()
+    val intensity = (sliderBrightness?.value ?: DEFAULT_TORCH_STRENGTH.toFloat())
+      .toInt()
+      .coerceAtLeast(DEFAULT_TORCH_STRENGTH)
+    sendToService(ACTION_TORCH_ON, torchIntensity = intensity)
+    torchOn = true
+    setPowerLabel(off = false)
+    startAutoOffCountdownIfNeeded()
+    syncUiEnabledState(hasCameraPermission())
+  }
+
+  private fun stopTorchMode() {
+    sendToService(ACTION_TORCH_OFF)
+    torchOn = false
+    setPowerLabel(off = true)
+    stopAutoOffCountdown()
+    syncUiEnabledState(hasCameraPermission())
+  }
+
+  private fun startStrobeMode() {
+    stopAllModes()
+    sendToService(ACTION_STROBE_START, strobeSpeed = selectedStrobeSpeed())
+    strobeRunning = true
+    setPowerLabel(off = false)
+    startAutoOffCountdownIfNeeded()
+    syncUiEnabledState(hasCameraPermission())
+  }
+
+  private fun stopStrobeMode() {
+    sendToService(ACTION_STROBE_STOP)
+    strobeRunning = false
+    setPowerLabel(off = true)
+    stopAutoOffCountdown()
+    syncUiEnabledState(hasCameraPermission())
+  }
+
+  private fun startSosMode() {
+    stopAllModes()
+    sendToService(ACTION_SOS_START)
+    sosRunning = true
+    setPowerLabel(off = false)
+    startAutoOffCountdownIfNeeded()
+    syncUiEnabledState(hasCameraPermission())
+  }
+
+  private fun stopSosMode() {
+    sendToService(ACTION_SOS_STOP)
+    sosRunning = false
+    setPowerLabel(off = true)
+    stopAutoOffCountdown()
+    syncUiEnabledState(hasCameraPermission())
   }
 
   private fun stopAllModes() {
@@ -441,22 +546,20 @@ class MainActivity : ComponentActivity() {
       return
     }
 
-    autoOffEndsAtMs = System.currentTimeMillis() + selectedAutoOffMinutes.toLong() * 60_000L
+    autoOffEndsAtMs = System.currentTimeMillis() + selectedAutoOffMinutes.toLong() * MS_PER_MINUTE
     updateAutoOffCountdown()
-    countdownHandler.postDelayed(countdownRunnable, 1000L)
+    countdownHandler.postDelayed(countdownRunnable, COUNTDOWN_TICK_MS)
   }
 
   private fun stopAutoOffCountdown() {
     countdownHandler.removeCallbacks(countdownRunnable)
     autoOffEndsAtMs = 0L
-    binding.txtAutoOffCountdown.setText(R.string.auto_off_countdown_placeholder)
-    binding.txtAutoOffCountdown.visibility = View.INVISIBLE
+    setAutoOffCountdownVisible(false)
   }
 
   private fun updateAutoOffCountdown() {
     if (!isAnyLightActive() || selectedAutoOffMinutes <= 0 || autoOffEndsAtMs <= 0L) {
-      binding.txtAutoOffCountdown.setText(R.string.auto_off_countdown_placeholder)
-      binding.txtAutoOffCountdown.visibility = View.INVISIBLE
+      setAutoOffCountdownVisible(false)
       return
     }
 
@@ -465,36 +568,42 @@ class MainActivity : ComponentActivity() {
     binding.txtAutoOffCountdown.visibility = View.VISIBLE
   }
 
+  private fun setAutoOffCountdownVisible(visible: Boolean) {
+    if (!visible) {
+      binding.txtAutoOffCountdown.setText(R.string.auto_off_countdown_placeholder)
+      binding.txtAutoOffCountdown.visibility = View.INVISIBLE
+    } else {
+      binding.txtAutoOffCountdown.visibility = View.VISIBLE
+    }
+  }
+
   private fun formatAutoOffRemaining(remainingMs: Long): String {
-    val totalSeconds = ((remainingMs + 999L) / 1000L).coerceAtLeast(0L)
-    val minutes = totalSeconds / 60L
-    val seconds = totalSeconds % 60L
+    val totalSeconds = ((remainingMs + COUNTDOWN_ROUND_UP_MS) / MS_PER_SECOND).coerceAtLeast(0L)
+    val minutes = totalSeconds / SECONDS_PER_MINUTE
+    val seconds = totalSeconds % SECONDS_PER_MINUTE
     return String.format(Locale.US, "%02d:%02d", minutes, seconds)
   }
 
   private fun normalizeAutoOffMinutes(minutes: Int): Int {
-    return when (minutes) {
-      5, 15, 30, 60 -> minutes
-      else -> 0
-    }
+    return if (minutes in VALID_AUTO_OFF_MINUTES) minutes else DEFAULT_AUTO_OFF_MINUTES
   }
 
   private fun minutesForAutoOffButtonId(buttonId: Int): Int {
     return when (buttonId) {
-      R.id.btnAutoOff5 -> 5
-      R.id.btnAutoOff15 -> 15
-      R.id.btnAutoOff30 -> 30
-      R.id.btnAutoOff60 -> 60
-      else -> 0
+      R.id.btnAutoOff5 -> AUTO_OFF_5_MINUTES
+      R.id.btnAutoOff15 -> AUTO_OFF_15_MINUTES
+      R.id.btnAutoOff30 -> AUTO_OFF_30_MINUTES
+      R.id.btnAutoOff60 -> AUTO_OFF_60_MINUTES
+      else -> DEFAULT_AUTO_OFF_MINUTES
     }
   }
 
   private fun autoOffButtonIdForMinutes(minutes: Int): Int {
     return when (normalizeAutoOffMinutes(minutes)) {
-      5 -> R.id.btnAutoOff5
-      15 -> R.id.btnAutoOff15
-      30 -> R.id.btnAutoOff30
-      60 -> R.id.btnAutoOff60
+      AUTO_OFF_5_MINUTES -> R.id.btnAutoOff5
+      AUTO_OFF_15_MINUTES -> R.id.btnAutoOff15
+      AUTO_OFF_30_MINUTES -> R.id.btnAutoOff30
+      AUTO_OFF_60_MINUTES -> R.id.btnAutoOff60
       else -> R.id.btnAutoOffOff
     }
   }
@@ -511,7 +620,9 @@ class MainActivity : ComponentActivity() {
     val labelRes = if (off) R.string.action_torch_on else R.string.action_torch_off
     binding.txtPowerState.setText(labelRes)
     binding.btnToggle.contentDescription = getString(labelRes)
-    binding.btnToggle.setBackgroundResource(if (off) R.drawable.bg_power_button_off else R.drawable.bg_power_button_on)
+    binding.btnToggle.setBackgroundResource(
+      if (off) R.drawable.bg_power_button_off else R.drawable.bg_power_button_on
+    )
   }
 
   private fun syncUiEnabledState(enabled: Boolean) {
@@ -523,9 +634,7 @@ class MainActivity : ComponentActivity() {
     binding.btnToggle.isEnabled = torchControlsEnabled
     binding.sliderStrobe.isEnabled = showActiveStrobe
     binding.sliderStrobe.isClickable = showActiveStrobe
-    binding.sliderStrobePreview.isEnabled = false
-    binding.sliderStrobePreview.isClickable = false
-    binding.sliderStrobePreview.isFocusable = false
+    setStrobePreviewEnabled(false)
     sliderBrightness?.isEnabled = torchControlsEnabled && strengthSupported && selectedMode == Mode.TORCH
     setEnabledRecursive(binding.groupMode, torchControlsEnabled)
     setAutoOffControlsEnabled(torchControlsEnabled, autoOffLocked)
@@ -533,9 +642,10 @@ class MainActivity : ComponentActivity() {
     binding.cardStrobe.isEnabled = showActiveStrobe
     binding.cardStrobe.isClickable = showActiveStrobe
     binding.cardStrobe.alpha = 1f
-    binding.cardAutoOff.alpha = if (autoOffLocked) 0.45f else 1f
+    binding.cardAutoOff.alpha = if (autoOffLocked) DISABLED_SECTION_ALPHA else ENABLED_SECTION_ALPHA
     binding.btnScreenLight.isEnabled = true
     updateBrightnessValueLabel()
+
     if (!torchControlsEnabled) {
       stopAutoOffCountdown()
       binding.txtPowerState.setText(R.string.action_torch_on)
@@ -546,12 +656,14 @@ class MainActivity : ComponentActivity() {
     }
   }
 
-  private fun updateBrightnessValueLabel(value: Int = (sliderBrightness?.value ?: maxStrength.toFloat()).toInt()) {
+  private fun updateBrightnessValueLabel(
+    value: Int = (sliderBrightness?.value ?: maxStrength.toFloat()).toInt()
+  ) {
     val showActiveBrightness = torchAvailable &&
       strengthSupported &&
       selectedMode == Mode.TORCH &&
       binding.cardBrightness.visibility == View.VISIBLE &&
-      maxStrength > 1
+      maxStrength > DEFAULT_TORCH_STRENGTH
 
     binding.txtBrightnessValue.text = if (showActiveBrightness) {
       brightnessLevelLabel(value, maxStrength)
@@ -562,13 +674,15 @@ class MainActivity : ComponentActivity() {
   }
 
   private fun brightnessLevelLabel(value: Int, max: Int): String {
-    val normalizedMax = max.coerceAtLeast(1)
-    val normalizedValue = value.coerceIn(1, normalizedMax)
-    if (normalizedMax <= 1 || normalizedValue >= normalizedMax) return getString(R.string.brightness_level_max)
+    val normalizedMax = max.coerceAtLeast(DEFAULT_TORCH_STRENGTH)
+    val normalizedValue = value.coerceIn(DEFAULT_TORCH_STRENGTH, normalizedMax)
+    if (normalizedMax <= DEFAULT_TORCH_STRENGTH || normalizedValue >= normalizedMax) {
+      return getString(R.string.brightness_level_max)
+    }
 
     return when (normalizedMax) {
       2 -> getString(R.string.brightness_level_low)
-      3 -> if (normalizedValue == 1) {
+      3 -> if (normalizedValue == DEFAULT_TORCH_STRENGTH) {
         getString(R.string.brightness_level_low)
       } else {
         getString(R.string.brightness_level_medium)
@@ -576,8 +690,8 @@ class MainActivity : ComponentActivity() {
       else -> {
         val ratio = normalizedValue.toFloat() / normalizedMax.toFloat()
         when {
-          ratio < 0.34f -> getString(R.string.brightness_level_low)
-          ratio < 0.67f -> getString(R.string.brightness_level_medium)
+          ratio < BRIGHTNESS_LOW_RATIO -> getString(R.string.brightness_level_low)
+          ratio < BRIGHTNESS_MEDIUM_RATIO -> getString(R.string.brightness_level_medium)
           else -> getString(R.string.brightness_level_high)
         }
       }
@@ -595,7 +709,9 @@ class MainActivity : ComponentActivity() {
 
   private fun setEnabledRecursive(view: View, enabled: Boolean) {
     view.isEnabled = enabled
-    if (view is ViewGroup) for (i in 0 until view.childCount) setEnabledRecursive(view.getChildAt(i), enabled)
+    if (view is ViewGroup) {
+      for (i in 0 until view.childCount) setEnabledRecursive(view.getChildAt(i), enabled)
+    }
   }
 
   private fun selectedStrobeSpeed(): Int {
@@ -632,11 +748,39 @@ class MainActivity : ComponentActivity() {
   }
 
   private fun sendToService(action: String?, strobeSpeed: Int? = null, torchIntensity: Int? = null) {
-    val i = Intent(this, TorchService::class.java)
-    if (action != null) i.action = action
-    i.putExtra(EXTRA_AUTO_OFF_MINUTES, selectedAutoOffMinutes)
-    strobeSpeed?.let { i.putExtra(EXTRA_STROBE_SPEED, it) }
-    torchIntensity?.let { i.putExtra(TorchService.EXTRA_TORCH_INTENSITY, it) }
-    ContextCompat.startForegroundService(this, i)
+    val intent = Intent(this, TorchService::class.java)
+    if (action != null) intent.action = action
+    intent.putExtra(EXTRA_AUTO_OFF_MINUTES, selectedAutoOffMinutes)
+    strobeSpeed?.let { intent.putExtra(EXTRA_STROBE_SPEED, it) }
+    torchIntensity?.let { intent.putExtra(EXTRA_TORCH_INTENSITY, it) }
+    ContextCompat.startForegroundService(this, intent)
+  }
+
+  private companion object {
+    const val DEFAULT_AUTO_OFF_MINUTES = 0
+    const val DEFAULT_TORCH_STRENGTH = 1
+    const val NO_HAPTIC_VALUE = -1
+    const val STROBE_SLIDER_MIN = 0
+    const val STROBE_SLIDER_MAX = 4
+    const val COUNTDOWN_TICK_MS = 1000L
+    const val COUNTDOWN_ROUND_UP_MS = 999L
+    const val MS_PER_SECOND = 1000L
+    const val SECONDS_PER_MINUTE = 60L
+    const val MS_PER_MINUTE = 60_000L
+    const val BRIGHTNESS_STEP_SIZE = 1f
+    const val BRIGHTNESS_LOW_RATIO = 0.34f
+    const val BRIGHTNESS_MEDIUM_RATIO = 0.67f
+    const val DISABLED_SECTION_ALPHA = 0.45f
+    const val ENABLED_SECTION_ALPHA = 1f
+    const val AUTO_OFF_5_MINUTES = 5
+    const val AUTO_OFF_15_MINUTES = 15
+    const val AUTO_OFF_30_MINUTES = 30
+    const val AUTO_OFF_60_MINUTES = 60
+    val VALID_AUTO_OFF_MINUTES = setOf(
+      AUTO_OFF_5_MINUTES,
+      AUTO_OFF_15_MINUTES,
+      AUTO_OFF_30_MINUTES,
+      AUTO_OFF_60_MINUTES
+    )
   }
 }
