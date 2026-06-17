@@ -11,6 +11,12 @@
 
 ## Changelog
 
+### 0.8.4
+- cleaned Auto-off service scheduling so the service uses one reusable Auto-off check instead of stacking repeated delayed checks
+- moved the Brightness value labels into `activity_main.xml` and aligned Brightness slider header spacing with Strobe Speed
+- cleaned temporary Gradle verbosity settings from `gradle.properties`
+- removed unused AndroidX dependencies that were not referenced by code or layouts
+
 ### 0.8.3
 - renamed Strobe Speed labels to Very Slow, Slow, Medium, Fast, and Very Fast
 - changed the default Strobe Speed to Medium (3 Hz)
