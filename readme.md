@@ -14,8 +14,9 @@
 
 ### 0.8.9
 - renamed the shared segmented control rail drawable from `bg_mode_switch_rail.xml` to `bg_segmented_control_rail.xml`
-- rewired the Mode and Auto-off segmented controls to use the new shared rail drawable name
-- removed the old narrow mode rail drawable after confirming no layout references remained
+- renamed the shared segmented control button color selector from `mode_switch_button_bg.xml` to `segmented_control_button_bg.xml`
+- rewired the Mode and Auto-off segmented controls to use the new shared rail drawable and button color names
+- removed the old narrow mode rail drawable and mode button color selector after confirming layout references were updated
 - removed the unused `AppCard` MaterialCardView style and theme hook from `themes.xml`
 - kept the existing visual design and control behavior unchanged while cleaning resource names and orphans
 
