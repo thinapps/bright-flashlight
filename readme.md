@@ -17,6 +17,9 @@
 - kept Camera and foreground service declarations focused on the active torch service behavior
 - hardened saved preferences so invalid mode, Auto-off, Strobe Speed, and Screen Light color values fall back to supported defaults
 - added a safe DataStore read fallback so preference restore can recover from temporary local read errors
+- simplified Strobe Speed preset mapping with named constants for the five supported slider stops
+- cleaned `TorchController.kt` by removing the reflection-based torch strength shim and using the Android 13+ API directly
+- reset cached camera state when a camera ID becomes invalid so hardware detection can be retried cleanly
 
 ### 0.8.5
 - removed the unused Camera permission rationale string after keeping the simpler built-in Android permission dialog plus inline recovery message flow
