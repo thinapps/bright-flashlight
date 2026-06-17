@@ -34,6 +34,7 @@ class TorchService : Service() {
         private const val NOTIF_ID = 42
         private const val PREFS = "torch_service_state"
         private const val KEY_ACTIVE = "active"
+        private const val AUTO_OFF_CHECK_INTERVAL_MS = 1000L
 
         fun isActive(context: Context): Boolean {
             return context.applicationContext
@@ -52,6 +53,17 @@ class TorchService : Service() {
     private var curIntervalMs: Long = 100L
     private var autoOffAtMs: Long = 0L
     private var strobeLampOn = false
+
+    private val autoOffRunnable = object : Runnable {
+        override fun run() {
+            if (autoOffAtMs == 0L) return
+            if (System.currentTimeMillis() >= autoOffAtMs) {
+                stopAndExit()
+            } else {
+                handler.postDelayed(this, AUTO_OFF_CHECK_INTERVAL_MS)
+            }
+        }
+    }
 
     override fun onCreate() {
         super.onCreate()
@@ -279,15 +291,8 @@ class TorchService : Service() {
     }
 
     private fun scheduleAutoOffCheck() {
+        handler.removeCallbacks(autoOffRunnable)
         if (autoOffAtMs == 0L) return
-        handler.postDelayed(object : Runnable {
-            override fun run() {
-                if (autoOffAtMs != 0L && System.currentTimeMillis() >= autoOffAtMs) {
-                    stopAndExit()
-                } else {
-                    handler.postDelayed(this, 1000L)
-                }
-            }
-        }, 1000L)
+        handler.postDelayed(autoOffRunnable, AUTO_OFF_CHECK_INTERVAL_MS)
     }
 }
