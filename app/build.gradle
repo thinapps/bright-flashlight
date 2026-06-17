@@ -69,14 +69,9 @@ dependencies {
     implementation "androidx.activity:activity-ktx:1.9.3"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.8.6"
 
-    // Material Components for sliders, buttons, cards, and toggle groups.
+    // Material Components for sliders, buttons, and toggle groups.
     implementation "com.google.android.material:material:1.13.0"
-    implementation "androidx.constraintlayout:constraintlayout:2.2.0"
 
     // Local app preferences for remembered UI choices.
     implementation "androidx.datastore:datastore-preferences:1.2.1"
-
-    // Lightweight helpers kept for compatibility/future AndroidX usage.
-    implementation "androidx.preference:preference-ktx:1.2.1"
-    implementation "androidx.annotation:annotation:1.8.2"
 }
