@@ -1,19 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:top="6dp" android:left="3dp" android:right="3dp">
+    <item
+        android:top="@dimen/power_disabled_shadow_top"
+        android:left="@dimen/power_shadow_inset_side"
+        android:right="@dimen/power_shadow_inset_side">
         <shape android:shape="oval">
             <solid android:color="@color/power_button_disabled_shadow" />
         </shape>
     </item>
 
-    <item android:bottom="4dp">
+    <item android:bottom="@dimen/power_disabled_face_bottom">
         <shape android:shape="oval">
             <gradient
                 android:angle="270"
                 android:startColor="@color/power_button_disabled_start"
                 android:endColor="@color/power_button_disabled_end" />
             <stroke
-                android:width="2dp"
+                android:width="@dimen/thin_stroke_width"
                 android:color="@color/power_button_disabled_stroke" />
         </shape>
     </item>
