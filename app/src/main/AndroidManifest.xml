@@ -1,39 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="top.thinapps.brightflashlight">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- torch control (runtime on Android 6+) -->
+    <!-- camera torch control -->
     <uses-permission android:name="android.permission.CAMERA" />
 
-    <!-- foreground service for camera torch -->
+    <!-- foreground torch service -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_CAMERA" />
 
-    <!-- optional: notifications on 13+ if you show non-FGS notifications -->
-    <!-- <uses-permission android:name="android.permission.POST_NOTIFICATIONS" /> -->
-
-    <!-- allow install on devices without flash (for Screen Light) -->
-    <uses-feature android:name="android.hardware.camera.flash" android:required="false" />
+    <!-- allow screen light on devices without flash -->
+    <uses-feature
+        android:name="android.hardware.camera.flash"
+        android:required="false" />
 
     <application
         android:allowBackup="false"
-        android:supportsRtl="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:supportsRtl="true"
         android:theme="@style/Theme.BrightFlashlight">
 
         <activity
             android:name=".ui.ScreenLightActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="false"
-            android:label="@string/screen_light_title"
-            android:configChanges="orientation|keyboardHidden|screenSize" />
+            android:label="@string/screen_light_title" />
 
         <activity
             android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_name">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -44,4 +44,5 @@
             android:foregroundServiceType="camera" />
 
     </application>
+
 </manifest>
