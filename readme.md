@@ -12,6 +12,12 @@
 
 ## Changelog
 
+### 0.8.7
+- cleaned `TorchService.kt` with clearer service state, intensity, and notification naming
+- moved foreground notification channel setup into a dedicated helper while keeping the same persistent torch notification behavior
+- added named constants for Auto-off timing, default torch intensity, notification request code, and SOS pattern timing
+- simplified Auto-off scheduling math and removed duplicate handler cleanup while keeping Torch, Strobe, SOS, and notification shutdown behavior unchanged
+
 ### 0.8.6
 - cleaned `AndroidManifest.xml` by removing the manifest package attribute and stale optional notification comment
 - kept Camera and foreground service declarations focused on the active torch service behavior
