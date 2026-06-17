@@ -13,6 +13,8 @@
 
 ### 0.8.5
 - removed the unused Camera permission rationale string after keeping the simpler built-in Android permission dialog plus inline recovery message flow
+- documented the simple root Gradle buildscript and cleaned `gradle.properties` by removing legacy Jetifier
+- tightened the Android release workflow with safer Gradle download and keystore restore steps while keeping manual GitHub Actions releases simple
 
 ### 0.8.4
 - cleaned Auto-off service scheduling so the service uses one reusable Auto-off check instead of stacking repeated delayed checks
