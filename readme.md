@@ -12,6 +12,13 @@
 
 ## Changelog
 
+### 0.8.9
+- renamed the shared segmented control rail drawable from `bg_mode_switch_rail.xml` to `bg_segmented_control_rail.xml`
+- rewired the Mode and Auto-off segmented controls to use the new shared rail drawable name
+- removed the old narrow mode rail drawable after confirming no layout references remained
+- removed the unused `AppCard` MaterialCardView style and theme hook from `themes.xml`
+- kept the existing visual design and control behavior unchanged while cleaning resource names and orphans
+
 ### 0.8.8
 - cleaned `MainActivity.kt` by splitting the large startup setup into focused helper methods
 - organized Torch, Strobe, and SOS power button handling into smaller mode-specific start and stop helpers
