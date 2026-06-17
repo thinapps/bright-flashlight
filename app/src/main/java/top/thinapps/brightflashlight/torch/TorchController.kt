@@ -172,7 +172,7 @@ class TorchController(context: Context) {
 
     private fun setTorchStrength(id: String, level: Int) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            cameraManager.setTorchStrengthLevel(id, level)
+            cameraManager.turnOnTorchWithStrengthLevel(id, level)
         }
     }
 }
