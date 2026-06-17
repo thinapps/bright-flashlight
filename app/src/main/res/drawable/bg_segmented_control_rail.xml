@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
     <solid android:color="@color/segmented_control_rail" />
-    <corners android:radius="22dp" />
+    <corners android:radius="@dimen/segmented_control_rail_radius" />
     <padding
-        android:left="4dp"
-        android:top="4dp"
-        android:right="4dp"
-        android:bottom="4dp" />
+        android:left="@dimen/segmented_control_padding"
+        android:top="@dimen/segmented_control_padding"
+        android:right="@dimen/segmented_control_padding"
+        android:bottom="@dimen/segmented_control_padding" />
 </shape>
