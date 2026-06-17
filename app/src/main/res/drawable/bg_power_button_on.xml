@@ -2,7 +2,7 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:top="8dp" android:left="3dp" android:right="3dp">
         <shape android:shape="oval">
-            <solid android:color="#8F2100" />
+            <solid android:color="@color/power_button_on_shadow" />
         </shape>
     </item>
 
@@ -10,12 +10,12 @@
         <shape android:shape="oval">
             <gradient
                 android:angle="270"
-                android:startColor="#FFFF7A2B"
-                android:centerColor="#FFE63A00"
-                android:endColor="#FFC92800" />
+                android:startColor="@color/power_button_on_start"
+                android:centerColor="@color/power_button_on_center"
+                android:endColor="@color/power_button_on_end" />
             <stroke
                 android:width="2dp"
-                android:color="#FFFFA15F" />
+                android:color="@color/power_button_on_stroke" />
         </shape>
     </item>
 
@@ -23,8 +23,8 @@
         <shape android:shape="oval">
             <gradient
                 android:angle="270"
-                android:startColor="#80FFFFFF"
-                android:endColor="#00FFFFFF" />
+                android:startColor="@color/power_button_on_highlight_start"
+                android:endColor="@color/power_button_highlight_end" />
         </shape>
     </item>
 </layer-list>
