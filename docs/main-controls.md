@@ -52,7 +52,7 @@ The Screen Light destination can keep the full `Screen Light` title.
 
 ## Brightness
 
-Brightness is only shown when:
+The active Brightness overlay is only shown when:
 
 - Torch mode is selected
 - Camera permission exists
@@ -123,6 +123,8 @@ The well should feel related to the main power button, but less visually dominan
 
 Do not make the slider wells brighter or more raised than the power button. Keep orange on the active slider fill and thumb, not on the well outline.
 
+Brightness and Strobe Speed should keep matching vertical rhythm: `32dp` header row, `4dp` gap, `56dp` slider well, and `48dp` slider height.
+
 ## Stable lower controls
 
 Brightness and Strobe Speed intentionally reserve their layout areas with dim placeholder controls underneath the active overlay. This keeps the lower half of the screen stable when switching modes or when a control is unsupported.
@@ -166,6 +168,8 @@ The locked Auto-off section should preserve the selected value visually but reje
 
 When Auto-off is enabled before starting Torch, Strobe, or SOS, the power button shows a small white `MM:SS` countdown above the ON/OFF label. The countdown is Activity-side UI only; `TorchService` still owns the real shutdown timer.
 
+`TorchService` should use a single reusable Auto-off check runnable and clear any pending check before posting the next one. Do not stack anonymous delayed Auto-off checks.
+
 ## Testing checklist
 
 Before shipping main-control changes, test:
@@ -183,6 +187,7 @@ Before shipping main-control changes, test:
 - all intentional dimmed sections use `0.45` alpha unless a documented reason says otherwise
 - Brightness value is flush right in the header and updates as Low, Medium, High, or Max based on device-supported strength levels
 - dimmed or unsupported Brightness placeholder shows `Max`
+- Brightness and Strobe Speed header/well spacing matches exactly
 - Strobe Speed warning icon appears immediately after the Strobe Speed title and opens a simple warning modal with a bold title and content paragraph when tapped
 - Strobe Speed value is flush right in the header with no trailing right gap
 - dimmed Strobe Speed preview mirrors the warning icon and saved/current speed value before Strobe mode is enabled
@@ -194,7 +199,7 @@ Before shipping main-control changes, test:
 - slider wells and the Screen pill do not use visible strokes
 - landscape or split-screen remains scrollable instead of clipping
 - large accessibility text remains scrollable instead of clipping
-- Torch mode shows Brightness only on devices with torch strength support
+- Torch mode shows the active Brightness overlay only on devices with torch strength support
 - Strobe mode shows Strobe Speed and updates while running
 - SOS mode hides Brightness and Strobe Speed but keeps Auto-off available
 - Auto-off remains a single normal section, not a duplicate placeholder section
