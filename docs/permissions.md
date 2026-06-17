@@ -9,7 +9,6 @@ Android exposes the physical flashlight through the camera APIs, so Camera permi
 - Torch
 - Strobe
 - SOS
-- Quick Settings tile flashlight control
 
 The app does not take photos, record video, upload camera data, or use Camera permission for anything beyond controlling the flashlight.
 
