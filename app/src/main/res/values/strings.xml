@@ -6,10 +6,6 @@
 
     <string name="action_torch_on">ON</string>
     <string name="action_torch_off">OFF</string>
-    <string name="action_strobe_start">Start Strobe</string>
-    <string name="action_strobe_stop">Stop Strobe</string>
-    <string name="action_sos_start">Start SOS</string>
-    <string name="action_sos_stop">Stop SOS</string>
     <string name="action_open_screen_light">Screen</string>
     <string name="auto_off_countdown_placeholder">00:00</string>
 
