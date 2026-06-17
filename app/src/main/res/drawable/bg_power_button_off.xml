@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:top="8dp" android:left="3dp" android:right="3dp">
+    <item
+        android:top="@dimen/power_shadow_inset_top"
+        android:left="@dimen/power_shadow_inset_side"
+        android:right="@dimen/power_shadow_inset_side">
         <shape android:shape="oval">
             <solid android:color="@color/power_button_off_shadow" />
         </shape>
     </item>
 
-    <item android:bottom="6dp">
+    <item android:bottom="@dimen/power_face_inset_bottom">
         <shape android:shape="oval">
             <gradient
                 android:angle="270"
@@ -14,12 +17,16 @@
                 android:centerColor="@color/power_button_off_center"
                 android:endColor="@color/power_button_off_end" />
             <stroke
-                android:width="2dp"
+                android:width="@dimen/thin_stroke_width"
                 android:color="@color/power_button_off_stroke" />
         </shape>
     </item>
 
-    <item android:left="18dp" android:top="14dp" android:right="18dp" android:bottom="92dp">
+    <item
+        android:left="@dimen/power_highlight_off_side"
+        android:top="@dimen/power_highlight_off_top"
+        android:right="@dimen/power_highlight_off_side"
+        android:bottom="@dimen/power_highlight_off_bottom">
         <shape android:shape="oval">
             <gradient
                 android:angle="270"
