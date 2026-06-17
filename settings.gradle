@@ -1,2 +1,24 @@
+pluginManagement {
+    repositories {
+        // Android Gradle Plugin is resolved from Google's Maven repository.
+        google()
+
+        // Kotlin and AndroidX artifacts are resolved from Maven Central.
+        mavenCentral()
+
+        // Keep the Gradle Plugin Portal available for plugin metadata resolution.
+        gradlePluginPortal()
+    }
+}
+
+dependencyResolutionManagement {
+    // Keep dependency repositories centralized here instead of redefining them in project build files.
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
 rootProject.name = "BrightFlashlight"
 include ":app"
