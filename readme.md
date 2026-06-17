@@ -14,6 +14,7 @@
 ### 0.8.4
 - cleaned Auto-off service scheduling so the service uses one reusable Auto-off check instead of stacking repeated delayed checks
 - moved the Brightness value labels into `activity_main.xml` and aligned Brightness slider header spacing with Strobe Speed
+- removed the custom Quick Settings tile because Android already provides a built-in flashlight tile and this app is focused on the full in-app control surface
 - cleaned temporary Gradle verbosity settings from `gradle.properties`
 - removed unused AndroidX dependencies that were not referenced by code or layouts
 
