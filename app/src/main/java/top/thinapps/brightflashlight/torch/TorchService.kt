@@ -32,9 +32,16 @@ class TorchService : Service() {
 
         private const val CH_ID = "flashlight"
         private const val NOTIF_ID = 42
+        private const val NOTIF_TURN_OFF_REQUEST_CODE = 0
         private const val PREFS = "torch_service_state"
         private const val KEY_ACTIVE = "active"
+        private const val DEFAULT_TORCH_INTENSITY = 1
         private const val AUTO_OFF_CHECK_INTERVAL_MS = 1000L
+        private const val MS_PER_MINUTE = 60_000L
+        private const val SOS_DOT_MS = 200L
+        private const val SOS_DASH_MS = 600L
+        private const val SOS_GAP_MS = 200L
+        private const val SOS_WORD_GAP_MS = 1200L
 
         fun isActive(context: Context): Boolean {
             return context.applicationContext
@@ -45,12 +52,13 @@ class TorchService : Service() {
 
     private lateinit var controller: TorchController
     private val handler = Handler(Looper.getMainLooper())
+    private val notificationManager by lazy { getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager }
 
     private var strobeRunning = false
     private var sosRunning = false
     private var strobeSpeed = StrobeSpeedPreset.DEFAULT_HZ
-    private var curIntensity = 1
-    private var curIntervalMs: Long = 100L
+    private var currentIntensity = DEFAULT_TORCH_INTENSITY
+    private var currentIntervalMs: Long = StrobeSpeedPreset.intervalMsForHz(strobeSpeed)
     private var autoOffAtMs: Long = 0L
     private var strobeLampOn = false
 
@@ -68,9 +76,7 @@ class TorchService : Service() {
     override fun onCreate() {
         super.onCreate()
         controller = TorchController(applicationContext)
-        curIntervalMs = StrobeSpeedPreset.intervalMsForHz(strobeSpeed)
-        val maxApi = controller.getMaxIntensity()
-        curIntensity = if (maxApi > 1) maxApi else 1
+        currentIntensity = controller.getMaxStrength().coerceAtLeast(DEFAULT_TORCH_INTENSITY)
         startForeground(NOTIF_ID, buildNotification())
     }
 
@@ -83,29 +89,29 @@ class TorchService : Service() {
     override fun onBind(intent: Intent?): IBinder? = null
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        intent?.getIntExtra(EXTRA_STROBE_SPEED, -1)?.let {
-            if (it >= 0) {
-                strobeSpeed = StrobeSpeedPreset.normalizeHz(it)
-                curIntervalMs = StrobeSpeedPreset.intervalMsForHz(strobeSpeed)
+        intent?.getIntExtra(EXTRA_STROBE_SPEED, -1)?.let { speed ->
+            if (speed >= 0) {
+                strobeSpeed = StrobeSpeedPreset.normalizeHz(speed)
+                currentIntervalMs = StrobeSpeedPreset.intervalMsForHz(strobeSpeed)
             }
         }
 
         intent?.getIntExtra(EXTRA_TORCH_INTENSITY, -1)?.let { level ->
             if (level >= 0) {
-                curIntensity = normalizeTorchIntensity(level)
+                currentIntensity = normalizeTorchIntensity(level)
             }
         }
 
-        intent?.getIntExtra(EXTRA_AUTO_OFF_MINUTES, -1)?.let { mins ->
-            if (mins >= 0) {
-                autoOffAtMs = if (mins == 0) 0L else System.currentTimeMillis() + mins * 60_000L
+        intent?.getIntExtra(EXTRA_AUTO_OFF_MINUTES, -1)?.let { minutes ->
+            if (minutes >= 0) {
+                setAutoOffMinutes(minutes)
             }
         }
 
         when (intent?.action) {
             ACTION_TORCH_ON -> {
                 stopPatterns()
-                val level = if (curIntensity <= 0) 1 else curIntensity
+                val level = currentIntensity.coerceAtLeast(DEFAULT_TORCH_INTENSITY)
                 if (controller.setTorchIntensity(level)) {
                     markRunning()
                 } else {
@@ -117,7 +123,7 @@ class TorchService : Service() {
             }
             ACTION_TORCH_UPDATE_INTENSITY -> {
                 if (!strobeRunning && !sosRunning) {
-                    if (controller.setTorchIntensity(curIntensity)) {
+                    if (controller.setTorchIntensity(currentIntensity)) {
                         markRunning()
                     } else {
                         stopAndExit()
@@ -134,7 +140,7 @@ class TorchService : Service() {
                 }
             }
             ACTION_STROBE_UPDATE -> {
-                curIntervalMs = StrobeSpeedPreset.intervalMsForHz(strobeSpeed)
+                currentIntervalMs = StrobeSpeedPreset.intervalMsForHz(strobeSpeed)
                 if (strobeRunning) restartStrobe()
             }
             ACTION_STROBE_STOP -> {
@@ -160,22 +166,12 @@ class TorchService : Service() {
     }
 
     private fun buildNotification(): Notification {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val nm = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            val ch = NotificationChannel(
-                CH_ID,
-                getString(R.string.notification_channel_name),
-                NotificationManager.IMPORTANCE_LOW
-            ).apply {
-                description = getString(R.string.notification_channel_desc)
-            }
-            nm.createNotificationChannel(ch)
-        }
+        ensureNotificationChannel()
 
         val offIntent = Intent(this, TorchService::class.java).setAction(ACTION_TORCH_OFF)
         val offPendingIntent = PendingIntent.getService(
             this,
-            0,
+            NOTIF_TURN_OFF_REQUEST_CODE,
             offIntent,
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
@@ -193,15 +189,27 @@ class TorchService : Service() {
             .build()
     }
 
-    private fun updateNotif() {
-        val nm = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        nm.notify(NOTIF_ID, buildNotification())
+    private fun ensureNotificationChannel() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return
+
+        val channel = NotificationChannel(
+            CH_ID,
+            getString(R.string.notification_channel_name),
+            NotificationManager.IMPORTANCE_LOW
+        ).apply {
+            description = getString(R.string.notification_channel_desc)
+        }
+        notificationManager.createNotificationChannel(channel)
+    }
+
+    private fun updateNotification() {
+        notificationManager.notify(NOTIF_ID, buildNotification())
     }
 
     private fun markRunning() {
         setServiceActive(true)
         scheduleAutoOffCheck()
-        updateNotif()
+        updateNotification()
     }
 
     private fun stopAndExit() {
@@ -225,7 +233,6 @@ class TorchService : Service() {
     private fun stopAll() {
         stopPatterns()
         controller.setTorch(false)
-        handler.removeCallbacksAndMessages(null)
     }
 
     private fun stopPatterns() {
@@ -235,8 +242,16 @@ class TorchService : Service() {
     }
 
     private fun normalizeTorchIntensity(level: Int): Int {
-        val maxLevel = controller.getMaxIntensity().coerceAtLeast(1)
+        val maxLevel = controller.getMaxStrength().coerceAtLeast(DEFAULT_TORCH_INTENSITY)
         return level.coerceIn(0, maxLevel)
+    }
+
+    private fun setAutoOffMinutes(minutes: Int) {
+        autoOffAtMs = if (minutes == 0) {
+            0L
+        } else {
+            System.currentTimeMillis() + minutes.toLong() * MS_PER_MINUTE
+        }
     }
 
     private fun startStrobe() {
@@ -255,37 +270,32 @@ class TorchService : Service() {
         override fun run() {
             if (!strobeRunning) return
             strobeLampOn = !strobeLampOn
-            controller.setTorchIntensity(if (strobeLampOn) curIntensity.coerceAtLeast(1) else 0)
-            handler.postDelayed(this, curIntervalMs / 2)
+            controller.setTorchIntensity(if (strobeLampOn) currentIntensity.coerceAtLeast(DEFAULT_TORCH_INTENSITY) else 0)
+            handler.postDelayed(this, currentIntervalMs / 2)
         }
     }
 
     private fun tickStrobe() {
         if (!strobeRunning) return
         strobeLampOn = !strobeLampOn
-        controller.setTorchIntensity(if (strobeLampOn) curIntensity.coerceAtLeast(1) else 0)
-        handler.postDelayed(strobeTickRunnable, curIntervalMs / 2)
+        controller.setTorchIntensity(if (strobeLampOn) currentIntensity.coerceAtLeast(DEFAULT_TORCH_INTENSITY) else 0)
+        handler.postDelayed(strobeTickRunnable, currentIntervalMs / 2)
     }
 
     private fun startSos() {
         sosRunning = true
-        val dot = 200L
-        val dash = 600L
-        val gap = 200L
-        val wordGap = 1200L
-
         val pattern = mutableListOf<Pair<Boolean, Long>>().apply {
-            repeat(3) { add(true to dot); add(false to gap) }
-            repeat(3) { add(true to dash); add(false to gap) }
-            repeat(3) { add(true to dot); add(false to gap) }
-            add(false to wordGap)
+            repeat(3) { add(true to SOS_DOT_MS); add(false to SOS_GAP_MS) }
+            repeat(3) { add(true to SOS_DASH_MS); add(false to SOS_GAP_MS) }
+            repeat(3) { add(true to SOS_DOT_MS); add(false to SOS_GAP_MS) }
+            add(false to SOS_WORD_GAP_MS)
         }
 
         fun runFrom(index: Int) {
             if (!sosRunning) return
-            val (on, dur) = pattern[index]
-            controller.setTorchIntensity(if (on) curIntensity.coerceAtLeast(1) else 0)
-            handler.postDelayed({ runFrom((index + 1) % pattern.size) }, dur)
+            val (on, durationMs) = pattern[index]
+            controller.setTorchIntensity(if (on) currentIntensity.coerceAtLeast(DEFAULT_TORCH_INTENSITY) else 0)
+            handler.postDelayed({ runFrom((index + 1) % pattern.size) }, durationMs)
         }
         runFrom(0)
     }
