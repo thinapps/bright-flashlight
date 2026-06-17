@@ -7,6 +7,6 @@
   android:paddingEnd="24dp"
   android:paddingBottom="4dp"
   android:text="@string/strobe_warning_title"
-  android:textColor="#DE000000"
+  android:textColor="@color/dialog_title_text"
   android:textSize="20sp"
   android:textStyle="bold" />
