@@ -11,8 +11,6 @@ import android.view.HapticFeedbackConstants
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
-import android.widget.TextView
 import androidx.activity.ComponentActivity
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
@@ -55,7 +53,6 @@ class MainActivity : ComponentActivity() {
   private var strengthSupported = false
   private var maxStrength = 1
   private var autoOffControlsLocked = false
-  private var brightnessValueLabel: TextView? = null
   private var lastBrightnessHapticValue = -1
   private var lastStrobeHapticValue = -1
   private val countdownHandler = Handler(Looper.getMainLooper())
@@ -104,7 +101,6 @@ class MainActivity : ComponentActivity() {
     binding.sliderStrobePreview.isEnabled = false
     binding.sliderStrobePreview.isClickable = false
     binding.sliderStrobePreview.isFocusable = false
-    setupBrightnessValueLabel()
     syncStrobePreview()
     updateBrightnessValueLabel()
     setupAutoOffLockedTouchGuards()
@@ -550,28 +546,6 @@ class MainActivity : ComponentActivity() {
     }
   }
 
-  private fun setupBrightnessValueLabel() {
-    if (brightnessValueLabel != null) return
-    val parent = binding.cardBrightness.parent as? FrameLayout ?: return
-    val label = TextView(this).apply {
-      text = getString(R.string.brightness_level_max)
-      setAllCaps(true)
-      setTextColor(ContextCompat.getColor(this@MainActivity, R.color.md_text_dim))
-      textSize = 12f
-      setTypeface(typeface, android.graphics.Typeface.BOLD)
-      letterSpacing = 0.08f
-    }
-    val params = FrameLayout.LayoutParams(
-      ViewGroup.LayoutParams.WRAP_CONTENT,
-      ViewGroup.LayoutParams.WRAP_CONTENT,
-      android.view.Gravity.TOP or android.view.Gravity.END
-    ).apply {
-      topMargin = (8 * resources.displayMetrics.density).toInt()
-    }
-    parent.addView(label, params)
-    brightnessValueLabel = label
-  }
-
   private fun updateBrightnessValueLabel(value: Int = (sliderBrightness?.value ?: maxStrength.toFloat()).toInt()) {
     val showActiveBrightness = torchAvailable &&
       strengthSupported &&
@@ -579,12 +553,12 @@ class MainActivity : ComponentActivity() {
       binding.cardBrightness.visibility == View.VISIBLE &&
       maxStrength > 1
 
-    brightnessValueLabel?.text = if (showActiveBrightness) {
+    binding.txtBrightnessValue.text = if (showActiveBrightness) {
       brightnessLevelLabel(value, maxStrength)
     } else {
       getString(R.string.brightness_level_max)
     }
-    brightnessValueLabel?.alpha = if (showActiveBrightness) 1f else 0.45f
+    binding.txtBrightnessPreviewValue.setText(R.string.brightness_level_max)
   }
 
   private fun brightnessLevelLabel(value: Int, max: Int): String {
