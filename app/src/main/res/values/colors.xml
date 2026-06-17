@@ -7,6 +7,57 @@
     <color name="md_text">#FFFFFF</color>
     <color name="md_text_dim">#B3FFFFFF</color>
 
+    <!-- segmented controls -->
+    <color name="segmented_control_rail">#FF15191E</color>
+    <color name="segmented_control_button_disabled">#FF191D22</color>
+    <color name="segmented_control_button_checked">#FFE84A00</color>
+    <color name="segmented_control_button_default">#FF22272D</color>
+    <color name="segmented_control_ripple">#33FFB36A</color>
+    <color name="segmented_control_stroke">#44FFFFFF</color>
+
+    <!-- power button -->
+    <color name="power_button_off_shadow">#B82D00</color>
+    <color name="power_button_off_start">#FFFF9A3D</color>
+    <color name="power_button_off_center">#FFFF5A1F</color>
+    <color name="power_button_off_end">#FFE63A00</color>
+    <color name="power_button_off_stroke">#FFFFC18A</color>
+    <color name="power_button_off_highlight_start">#99FFFFFF</color>
+    <color name="power_button_on_shadow">#8F2100</color>
+    <color name="power_button_on_start">#FFFF7A2B</color>
+    <color name="power_button_on_center">#FFE63A00</color>
+    <color name="power_button_on_end">#FFC92800</color>
+    <color name="power_button_on_stroke">#FFFFA15F</color>
+    <color name="power_button_on_highlight_start">#80FFFFFF</color>
+    <color name="power_button_disabled_shadow">#8A8A8A</color>
+    <color name="power_button_disabled_start">#FFBDBDBD</color>
+    <color name="power_button_disabled_end">#FF8E8E8E</color>
+    <color name="power_button_disabled_stroke">#FFE0E0E0</color>
+    <color name="power_button_highlight_end">#00FFFFFF</color>
+
+    <!-- slider hardware -->
+    <color name="slider_halo">#33FF8A3D</color>
+    <color name="slider_thumb">#FFFF8A3D</color>
+    <color name="slider_track_active">#FFFF6A2A</color>
+    <color name="slider_track_inactive">#FF2C343C</color>
+    <color name="slider_well_shadow">#AA090C10</color>
+    <color name="slider_well_start">#FF343B43</color>
+    <color name="slider_well_center">#FF20262D</color>
+    <color name="slider_well_end">#FF11161C</color>
+    <color name="slider_groove_start">#FF11161C</color>
+    <color name="slider_groove_center">#FF182028</color>
+    <color name="slider_groove_end">#FF2C333B</color>
+    <color name="slider_highlight_start">#55FFFFFF</color>
+    <color name="slider_highlight_end">#00FFFFFF</color>
+
+    <!-- screen light -->
+    <color name="screen_light_default">#FFFFFFFF</color>
+    <color name="screen_light_controls_scrim">#66000000</color>
+    <color name="screen_button_bg">#FF22272D</color>
+    <color name="screen_button_ripple">#33FFFFFF</color>
+
+    <!-- dialogs -->
+    <color name="dialog_title_text">#DE000000</color>
+
     <!-- used for adaptive launcher icon background -->
     <color name="ic_launcher_background">#1A237E</color>
 </resources>
