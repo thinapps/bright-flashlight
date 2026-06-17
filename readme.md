@@ -17,6 +17,7 @@
 - renamed the shared segmented control button color selector from `mode_switch_button_bg.xml` to `segmented_control_button_bg.xml`
 - rewired the Mode and Auto-off segmented controls to use the new shared rail drawable and button color names
 - removed the old narrow mode rail drawable and mode button color selector after confirming layout references were updated
+- moved hardcoded resource color literals into `colors.xml` and rewired layouts, drawables, vectors, and color selectors to named colors
 - removed the unused `AppCard` MaterialCardView style and theme hook from `themes.xml`
 - kept the existing visual design and control behavior unchanged while cleaning resource names and orphans
 
