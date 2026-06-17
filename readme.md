@@ -12,6 +12,13 @@
 
 ## Changelog
 
+### 0.8.8
+- cleaned `MainActivity.kt` by splitting the large startup setup into focused helper methods
+- organized Torch, Strobe, and SOS power button handling into smaller mode-specific start and stop helpers
+- added named constants for countdown timing, Auto-off values, Strobe slider bounds, brightness label ratios, disabled alpha, and default torch strength
+- cleaned service intent extras by importing the torch intensity extra directly alongside the other service extras
+- kept the existing permission flow, Auto-off countdown, Strobe/SOS behavior, brightness controls, Screen Light launch, and warning dialog behavior unchanged
+
 ### 0.8.7
 - cleaned `TorchService.kt` with clearer service state, intensity, and notification naming
 - moved foreground notification channel setup into a dedicated helper while keeping the same persistent torch notification behavior
