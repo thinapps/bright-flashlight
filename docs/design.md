@@ -6,6 +6,7 @@ Bright Flashlight should feel like a simple hardware tool: dark, stable, readabl
 
 - Keep the app focused on the main light controls.
 - Avoid extra settings screens, onboarding, dismissible notices, ads, tracking, login, or database features.
+- Do not add a custom Quick Settings tile. Android already provides a built-in flashlight tile, and this app should focus on the full in-app control surface.
 - Keep controls visually stable so switching modes does not rearrange the screen.
 - Use XML Material UI only. Do not introduce Jetpack Compose.
 - Reserve orange for active, selected, or primary controls.
@@ -35,6 +36,7 @@ Bright Flashlight should feel like a simple hardware tool: dark, stable, readabl
 
 - Maintain the current 24dp effective screen gutters.
 - Preserve stable vertical slots for Brightness, Strobe Speed, and Auto-off so the UI does not jump between modes.
+- Keep Brightness and Strobe Speed header and slider well heights matched.
 - Use larger tappable areas around small icons instead of making visible glyphs oversized.
 - Prefer clear text labels and predictable placement over dense controls.
 
