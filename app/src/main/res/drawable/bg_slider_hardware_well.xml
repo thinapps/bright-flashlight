@@ -1,44 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <!-- Soft underside shadow, matching the power button's physical lift without competing with it. -->
+    <!-- soft underside shadow, matching the power button lift without competing with it -->
     <item android:top="4dp" android:left="1dp" android:right="1dp">
         <shape>
-            <solid android:color="#AA090C10" />
+            <solid android:color="@color/slider_well_shadow" />
             <corners android:radius="24dp" />
         </shape>
     </item>
 
-    <!-- Main recessed well: physical and dark so active orange remains the focus. -->
+    <!-- main recessed well: physical and dark so active orange remains the focus -->
     <item android:bottom="3dp">
         <shape>
             <gradient
                 android:angle="270"
-                android:startColor="#FF343B43"
-                android:centerColor="#FF20262D"
-                android:endColor="#FF11161C" />
+                android:startColor="@color/slider_well_start"
+                android:centerColor="@color/slider_well_center"
+                android:endColor="@color/slider_well_end" />
             <corners android:radius="24dp" />
         </shape>
     </item>
 
-    <!-- Inner groove: slightly inset and darker, like a shallow hardware slot. -->
+    <!-- inner groove: slightly inset and darker, like a shallow hardware slot -->
     <item android:left="6dp" android:top="7dp" android:right="6dp" android:bottom="10dp">
         <shape>
             <gradient
                 android:angle="270"
-                android:startColor="#FF11161C"
-                android:centerColor="#FF182028"
-                android:endColor="#FF2C333B" />
+                android:startColor="@color/slider_groove_start"
+                android:centerColor="@color/slider_groove_center"
+                android:endColor="@color/slider_groove_end" />
             <corners android:radius="19dp" />
         </shape>
     </item>
 
-    <!-- Beveled top catchlight, intentionally subtler than the power button highlight. -->
+    <!-- beveled top catchlight, intentionally subtler than the power button highlight -->
     <item android:left="10dp" android:top="3dp" android:right="10dp" android:bottom="42dp">
         <shape>
             <gradient
                 android:angle="270"
-                android:startColor="#55FFFFFF"
-                android:endColor="#00FFFFFF" />
+                android:startColor="@color/slider_highlight_start"
+                android:endColor="@color/slider_highlight_end" />
             <corners android:radius="18dp" />
         </shape>
     </item>
