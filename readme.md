@@ -12,6 +12,12 @@
 
 ## Changelog
 
+### 0.8.6
+- cleaned `AndroidManifest.xml` by removing the manifest package attribute and stale optional notification comment
+- kept Camera and foreground service declarations focused on the active torch service behavior
+- hardened saved preferences so invalid mode, Auto-off, Strobe Speed, and Screen Light color values fall back to supported defaults
+- added a safe DataStore read fallback so preference restore can recover from temporary local read errors
+
 ### 0.8.5
 - removed the unused Camera permission rationale string after keeping the simpler built-in Android permission dialog plus inline recovery message flow
 - removed legacy Jetifier from `gradle.properties` and kept the simple root Gradle buildscript setup
