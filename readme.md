@@ -17,6 +17,9 @@
 - moved foreground notification channel setup into a dedicated helper while keeping the same persistent torch notification behavior
 - added named constants for Auto-off timing, default torch intensity, notification request code, and SOS pattern timing
 - simplified Auto-off scheduling math and removed duplicate handler cleanup while keeping Torch, Strobe, SOS, and notification shutdown behavior unchanged
+- cleaned `ScreenLightActivity.kt` by splitting slider setup and preset button setup into focused helper methods
+- reduced Screen Light RGB slider preference writes by saving custom colors when dragging stops while keeping live color preview
+- added named Screen Light preset/color constants and locale-stable hex color formatting
 
 ### 0.8.6
 - cleaned `AndroidManifest.xml` by removing the manifest package attribute and stale optional notification comment
