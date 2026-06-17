@@ -16,7 +16,7 @@
 - moved the Brightness value labels into `activity_main.xml` and aligned Brightness slider header spacing with Strobe Speed
 - removed the custom Quick Settings tile because Android already provides a built-in flashlight tile and this app is focused on the full in-app control surface
 - cleaned temporary Gradle verbosity settings from `gradle.properties`
-- removed unused AndroidX dependencies that were not referenced by code or layouts
+- removed unused AndroidX dependencies and leftover unused strings that were not referenced by code or layouts
 
 ### 0.8.3
 - renamed Strobe Speed labels to Very Slow, Slow, Medium, Fast, and Very Fast
