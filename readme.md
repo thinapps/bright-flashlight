@@ -13,6 +13,7 @@
 
 ### 0.8.5
 - removed the unused Camera permission rationale string after keeping the simpler built-in Android permission dialog plus inline recovery message flow
+- modernized Gradle plugin and repository configuration while keeping the existing Android Gradle Plugin and Kotlin versions pinned
 
 ### 0.8.4
 - cleaned Auto-off service scheduling so the service uses one reusable Auto-off check instead of stacking repeated delayed checks
