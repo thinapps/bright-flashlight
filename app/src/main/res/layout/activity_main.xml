@@ -72,7 +72,7 @@
               android:includeFontPadding="false"
               android:minHeight="18dp"
               android:text="@string/auto_off_countdown_placeholder"
-              android:textColor="#FFFFFFFF"
+              android:textColor="@color/md_text"
               android:textSize="13sp"
               android:textStyle="bold"
               android:visibility="invisible" />
@@ -86,7 +86,7 @@
               android:letterSpacing="0.08"
               android:text="@string/action_torch_on"
               android:textAllCaps="true"
-              android:textColor="#FFFFFFFF"
+              android:textColor="@color/md_text"
               android:textSize="18sp"
               android:textStyle="bold" />
           </LinearLayout>
@@ -125,13 +125,13 @@
             android:insetBottom="0dp"
             android:text="@string/mode_torch"
             android:textAllCaps="true"
-            android:textColor="#FFFFFFFF"
+            android:textColor="@color/md_text"
             android:textSize="13sp"
             android:textStyle="bold"
             app:backgroundTint="@color/segmented_control_button_bg"
             app:cornerRadius="18dp"
-            app:rippleColor="#33FFB36A"
-            app:strokeColor="#44FFFFFF"
+            app:rippleColor="@color/segmented_control_ripple"
+            app:strokeColor="@color/segmented_control_stroke"
             app:strokeWidth="1dp" />
 
           <com.google.android.material.button.MaterialButton
@@ -144,13 +144,13 @@
             android:insetBottom="0dp"
             android:text="@string/mode_strobe"
             android:textAllCaps="true"
-            android:textColor="#FFFFFFFF"
+            android:textColor="@color/md_text"
             android:textSize="13sp"
             android:textStyle="bold"
             app:backgroundTint="@color/segmented_control_button_bg"
             app:cornerRadius="18dp"
-            app:rippleColor="#33FFB36A"
-            app:strokeColor="#44FFFFFF"
+            app:rippleColor="@color/segmented_control_ripple"
+            app:strokeColor="@color/segmented_control_stroke"
             app:strokeWidth="1dp" />
 
           <com.google.android.material.button.MaterialButton
@@ -163,13 +163,13 @@
             android:insetBottom="0dp"
             android:text="@string/mode_sos"
             android:textAllCaps="true"
-            android:textColor="#FFFFFFFF"
+            android:textColor="@color/md_text"
             android:textSize="13sp"
             android:textStyle="bold"
             app:backgroundTint="@color/segmented_control_button_bg"
             app:cornerRadius="18dp"
-            app:rippleColor="#33FFB36A"
-            app:strokeColor="#44FFFFFF"
+            app:rippleColor="@color/segmented_control_ripple"
+            app:strokeColor="@color/segmented_control_stroke"
             app:strokeWidth="1dp" />
         </com.google.android.material.button.MaterialButtonToggleGroup>
 
@@ -268,14 +268,14 @@
               android:valueTo="10"
               android:stepSize="1"
               android:value="10"
-              app:haloColor="#33FF8A3D"
+              app:haloColor="@color/slider_halo"
               app:haloRadius="22dp"
-              app:thumbColor="#FFFF8A3D"
+              app:thumbColor="@color/slider_thumb"
               app:thumbElevation="6dp"
               app:thumbRadius="15dp"
               app:tickVisible="false"
-              app:trackColorActive="#FFFF6A2A"
-              app:trackColorInactive="#FF2C343C"
+              app:trackColorActive="@color/slider_track_active"
+              app:trackColorInactive="@color/slider_track_inactive"
               app:trackHeight="12dp" />
           </LinearLayout>
         </LinearLayout>
@@ -338,14 +338,14 @@
               android:valueTo="10"
               android:stepSize="1"
               android:value="10"
-              app:haloColor="#33FF8A3D"
+              app:haloColor="@color/slider_halo"
               app:haloRadius="22dp"
-              app:thumbColor="#FFFF8A3D"
+              app:thumbColor="@color/slider_thumb"
               app:thumbElevation="6dp"
               app:thumbRadius="15dp"
               app:tickVisible="false"
-              app:trackColorActive="#FFFF6A2A"
-              app:trackColorInactive="#FF2C343C"
+              app:trackColorActive="@color/slider_track_active"
+              app:trackColorInactive="@color/slider_track_inactive"
               app:trackHeight="12dp" />
           </LinearLayout>
         </LinearLayout>
@@ -423,14 +423,14 @@
               android:valueTo="4"
               android:stepSize="1"
               android:value="1"
-              app:haloColor="#33FF8A3D"
+              app:haloColor="@color/slider_halo"
               app:haloRadius="22dp"
-              app:thumbColor="#FFFF8A3D"
+              app:thumbColor="@color/slider_thumb"
               app:thumbElevation="6dp"
               app:thumbRadius="15dp"
               app:tickVisible="false"
-              app:trackColorActive="#FFFF6A2A"
-              app:trackColorInactive="#FF2C343C"
+              app:trackColorActive="@color/slider_track_active"
+              app:trackColorInactive="@color/slider_track_inactive"
               app:trackHeight="12dp" />
           </LinearLayout>
         </LinearLayout>
@@ -504,14 +504,14 @@
               android:valueTo="4"
               android:stepSize="1"
               android:value="1"
-              app:haloColor="#33FF8A3D"
+              app:haloColor="@color/slider_halo"
               app:haloRadius="22dp"
-              app:thumbColor="#FFFF8A3D"
+              app:thumbColor="@color/slider_thumb"
               app:thumbElevation="6dp"
               app:thumbRadius="15dp"
               app:tickVisible="false"
-              app:trackColorActive="#FFFF6A2A"
-              app:trackColorInactive="#FF2C343C"
+              app:trackColorActive="@color/slider_track_active"
+              app:trackColorInactive="@color/slider_track_inactive"
               app:trackHeight="12dp" />
           </LinearLayout>
         </LinearLayout>
@@ -556,13 +556,13 @@
             android:insetBottom="0dp"
             android:text="@string/timer_off"
             android:textAllCaps="true"
-            android:textColor="#FFFFFFFF"
+            android:textColor="@color/md_text"
             android:textSize="12sp"
             android:textStyle="bold"
             app:backgroundTint="@color/segmented_control_button_bg"
             app:cornerRadius="16dp"
-            app:rippleColor="#33FFB36A"
-            app:strokeColor="#44FFFFFF"
+            app:rippleColor="@color/segmented_control_ripple"
+            app:strokeColor="@color/segmented_control_stroke"
             app:strokeWidth="1dp" />
 
           <com.google.android.material.button.MaterialButton
@@ -575,13 +575,13 @@
             android:insetBottom="0dp"
             android:text="@string/timer_5_min"
             android:textAllCaps="true"
-            android:textColor="#FFFFFFFF"
+            android:textColor="@color/md_text"
             android:textSize="12sp"
             android:textStyle="bold"
             app:backgroundTint="@color/segmented_control_button_bg"
             app:cornerRadius="16dp"
-            app:rippleColor="#33FFB36A"
-            app:strokeColor="#44FFFFFF"
+            app:rippleColor="@color/segmented_control_ripple"
+            app:strokeColor="@color/segmented_control_stroke"
             app:strokeWidth="1dp" />
 
           <com.google.android.material.button.MaterialButton
@@ -594,13 +594,13 @@
             android:insetBottom="0dp"
             android:text="@string/timer_15_min"
             android:textAllCaps="true"
-            android:textColor="#FFFFFFFF"
+            android:textColor="@color/md_text"
             android:textSize="12sp"
             android:textStyle="bold"
             app:backgroundTint="@color/segmented_control_button_bg"
             app:cornerRadius="16dp"
-            app:rippleColor="#33FFB36A"
-            app:strokeColor="#44FFFFFF"
+            app:rippleColor="@color/segmented_control_ripple"
+            app:strokeColor="@color/segmented_control_stroke"
             app:strokeWidth="1dp" />
 
           <com.google.android.material.button.MaterialButton
@@ -613,13 +613,13 @@
             android:insetBottom="0dp"
             android:text="@string/timer_30_min"
             android:textAllCaps="true"
-            android:textColor="#FFFFFFFF"
+            android:textColor="@color/md_text"
             android:textSize="12sp"
             android:textStyle="bold"
             app:backgroundTint="@color/segmented_control_button_bg"
             app:cornerRadius="16dp"
-            app:rippleColor="#33FFB36A"
-            app:strokeColor="#44FFFFFF"
+            app:rippleColor="@color/segmented_control_ripple"
+            app:strokeColor="@color/segmented_control_stroke"
             app:strokeWidth="1dp" />
 
           <com.google.android.material.button.MaterialButton
@@ -632,13 +632,13 @@
             android:insetBottom="0dp"
             android:text="@string/timer_1_hour"
             android:textAllCaps="true"
-            android:textColor="#FFFFFFFF"
+            android:textColor="@color/md_text"
             android:textSize="12sp"
             android:textStyle="bold"
             app:backgroundTint="@color/segmented_control_button_bg"
             app:cornerRadius="16dp"
-            app:rippleColor="#33FFB36A"
-            app:strokeColor="#44FFFFFF"
+            app:rippleColor="@color/segmented_control_ripple"
+            app:strokeColor="@color/segmented_control_stroke"
             app:strokeWidth="1dp" />
         </com.google.android.material.button.MaterialButtonToggleGroup>
       </LinearLayout>
@@ -672,15 +672,15 @@
     android:paddingEnd="18dp"
     android:text="@string/action_open_screen_light"
     android:textAllCaps="true"
-    android:textColor="#FFFFFFFF"
+    android:textColor="@color/md_text"
     android:textSize="12sp"
     android:textStyle="bold"
-    app:backgroundTint="#FF22272D"
+    app:backgroundTint="@color/screen_button_bg"
     app:cornerRadius="24dp"
     app:elevation="6dp"
     app:icon="@drawable/ic_mobile"
     app:iconGravity="textStart"
     app:iconPadding="6dp"
-    app:iconTint="#FFFFFFFF"
-    app:rippleColor="#33FFFFFF" />
+    app:iconTint="@color/md_text"
+    app:rippleColor="@color/screen_button_ripple" />
 </FrameLayout>
