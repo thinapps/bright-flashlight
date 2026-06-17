@@ -12,6 +12,10 @@
 
 ## Changelog
 
+### 0.8.10
+- updated the launcher icon foreground PNG while keeping the existing adaptive launcher icon wiring
+- confirmed the launcher manifest icon still points through the existing `@mipmap/ic_launcher` resource
+
 ### 0.8.9
 - renamed the shared segmented control rail drawable from `bg_mode_switch_rail.xml` to `bg_segmented_control_rail.xml`
 - renamed the shared segmented control button color selector from `mode_switch_button_bg.xml` to `segmented_control_button_bg.xml`
