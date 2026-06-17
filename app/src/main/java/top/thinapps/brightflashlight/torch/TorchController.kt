@@ -13,7 +13,7 @@ import androidx.core.content.ContextCompat
 class TorchController(context: Context) {
 
     private val appContext = context.applicationContext
-    private val cm by lazy { appContext.getSystemService(Context.CAMERA_SERVICE) as CameraManager }
+    private val cameraManager by lazy { appContext.getSystemService(Context.CAMERA_SERVICE) as CameraManager }
 
     private var backCameraId: String? = null
     private var maxStrengthLevel: Int = 1
@@ -28,11 +28,11 @@ class TorchController(context: Context) {
     private fun ensureCameraReady(): Boolean {
         if (backCameraId != null && probed) return true
         return try {
-            val ids = cm.cameraIdList
+            val ids = cameraManager.cameraIdList
 
             val chosenId = ids.firstOrNull { id ->
                 try {
-                    val c = cm.getCameraCharacteristics(id)
+                    val c = cameraManager.getCameraCharacteristics(id)
                     c.get(CameraCharacteristics.FLASH_INFO_AVAILABLE) == true &&
                         c.get(CameraCharacteristics.LENS_FACING) == CameraCharacteristics.LENS_FACING_BACK
                 } catch (_: Throwable) {
@@ -40,7 +40,7 @@ class TorchController(context: Context) {
                 }
             } ?: ids.firstOrNull { id ->
                 try {
-                    cm.getCameraCharacteristics(id)
+                    cameraManager.getCameraCharacteristics(id)
                         .get(CameraCharacteristics.FLASH_INFO_AVAILABLE) == true
                 } catch (_: Throwable) {
                     false
@@ -51,9 +51,7 @@ class TorchController(context: Context) {
             probeStrength(chosenId)
             backCameraId != null
         } catch (_: Throwable) {
-            backCameraId = null
-            strengthSupported = false
-            maxStrengthLevel = 1
+            resetCameraState()
             false
         }
     }
@@ -67,7 +65,7 @@ class TorchController(context: Context) {
         }
         if (probed) return
         try {
-            val c = cm.getCameraCharacteristics(id)
+            val c = cameraManager.getCameraCharacteristics(id)
             maxStrengthLevel = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 c.get(CameraCharacteristics.FLASH_INFO_STRENGTH_MAXIMUM_LEVEL) ?: 1
             } else {
@@ -104,12 +102,12 @@ class TorchController(context: Context) {
             if (on && strengthSupported && Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 val clamped = level.coerceIn(1, getMaxStrength())
                 try {
-                    setTorchStrengthCompat(cm, id, clamped)
+                    setTorchStrength(id, clamped)
                 } catch (_: Throwable) {
-                    cm.setTorchMode(id, true)
+                    cameraManager.setTorchMode(id, true)
                 }
             } else {
-                cm.setTorchMode(id, on)
+                cameraManager.setTorchMode(id, on)
             }
             true
         } catch (_: CameraAccessException) {
@@ -117,7 +115,7 @@ class TorchController(context: Context) {
         } catch (_: SecurityException) {
             false
         } catch (_: IllegalArgumentException) {
-            backCameraId = null
+            resetCameraState()
             false
         } catch (_: IllegalStateException) {
             false
@@ -136,16 +134,16 @@ class TorchController(context: Context) {
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && strengthSupported) {
                 if (level <= 0) {
-                    cm.setTorchMode(id, false)
+                    cameraManager.setTorchMode(id, false)
                 } else {
                     try {
-                        setTorchStrengthCompat(cm, id, level)
+                        setTorchStrength(id, level)
                     } catch (_: Throwable) {
-                        cm.setTorchMode(id, true)
+                        cameraManager.setTorchMode(id, true)
                     }
                 }
             } else {
-                cm.setTorchMode(id, level > 0)
+                cameraManager.setTorchMode(id, level > 0)
             }
             true
         } catch (_: CameraAccessException) {
@@ -153,27 +151,28 @@ class TorchController(context: Context) {
         } catch (_: SecurityException) {
             false
         } catch (_: IllegalArgumentException) {
-            backCameraId = null
+            resetCameraState()
             false
         } catch (_: IllegalStateException) {
             false
         } catch (_: Throwable) {
             try {
-                cm.setTorchMode(backCameraId ?: return false, intensity > 0)
+                cameraManager.setTorchMode(backCameraId ?: return false, intensity > 0)
             } catch (_: Throwable) {}
             false
         }
     }
 
-    private fun setTorchStrengthCompat(cm: CameraManager, id: String, level: Int) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
-            throw NoSuchMethodError("torch strength not available")
+    private fun resetCameraState() {
+        backCameraId = null
+        strengthSupported = false
+        maxStrengthLevel = 1
+        probed = false
+    }
+
+    private fun setTorchStrength(id: String, level: Int) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            cameraManager.setTorchStrengthLevel(id, level)
         }
-        val m = CameraManager::class.java.getMethod(
-            "setTorchStrengthLevel",
-            String::class.java,
-            Int::class.javaPrimitiveType
-        )
-        m.invoke(cm, id, level)
     }
 }
