@@ -1,0 +1,110 @@
+<resources>
+    <!-- app layout -->
+    <dimen name="app_gutter">24dp</dimen>
+    <dimen name="home_top_padding">88dp</dimen>
+    <dimen name="home_bottom_padding">20dp</dimen>
+    <dimen name="main_controls_bottom_padding">18dp</dimen>
+    <dimen name="home_footer_top_margin">24dp</dimen>
+    <dimen name="home_footer_line_spacing">2dp</dimen>
+
+    <!-- power button -->
+    <dimen name="power_button_size">156dp</dimen>
+    <dimen name="power_button_elevation">8dp</dimen>
+    <dimen name="power_button_padding_horizontal">18dp</dimen>
+    <dimen name="power_button_padding_top">22dp</dimen>
+    <dimen name="power_button_padding_bottom">20dp</dimen>
+    <dimen name="power_icon_size">28dp</dimen>
+    <dimen name="power_countdown_top_margin">6dp</dimen>
+    <dimen name="power_countdown_min_height">18dp</dimen>
+    <dimen name="power_countdown_text_size">13sp</dimen>
+    <dimen name="power_label_top_margin">2dp</dimen>
+    <dimen name="power_label_text_size">18sp</dimen>
+
+    <!-- section labels -->
+    <dimen name="mode_label_top_margin">36dp</dimen>
+    <dimen name="section_label_text_size">12sp</dimen>
+    <dimen name="control_label_text_size">13sp</dimen>
+
+    <!-- segmented controls -->
+    <dimen name="segmented_control_height">52dp</dimen>
+    <dimen name="segmented_control_top_margin">8dp</dimen>
+    <dimen name="segmented_control_padding">4dp</dimen>
+    <dimen name="segmented_control_button_height">44dp</dimen>
+    <dimen name="segmented_control_button_corner_radius">18dp</dimen>
+    <dimen name="segmented_control_auto_button_corner_radius">16dp</dimen>
+    <dimen name="segmented_control_stroke_width">1dp</dimen>
+    <dimen name="segmented_control_rail_radius">22dp</dimen>
+
+    <!-- notices -->
+    <dimen name="access_notice_top_margin">18dp</dimen>
+    <dimen name="access_button_height">48dp</dimen>
+    <dimen name="access_button_top_margin">8dp</dimen>
+    <dimen name="no_flash_top_margin">12dp</dimen>
+
+    <!-- slider sections -->
+    <dimen name="slider_section_padding_top">8dp</dimen>
+    <dimen name="slider_section_padding_bottom">12dp</dimen>
+    <dimen name="slider_header_height">32dp</dimen>
+    <dimen name="slider_well_height">56dp</dimen>
+    <dimen name="slider_well_top_margin">4dp</dimen>
+    <dimen name="slider_height">48dp</dimen>
+    <dimen name="slider_halo_radius">22dp</dimen>
+    <dimen name="slider_thumb_elevation">6dp</dimen>
+    <dimen name="slider_thumb_radius">15dp</dimen>
+    <dimen name="slider_track_height">12dp</dimen>
+
+    <!-- warning controls -->
+    <dimen name="warning_button_size">32dp</dimen>
+    <dimen name="warning_button_margin_start">4dp</dimen>
+    <dimen name="warning_button_padding">10dp</dimen>
+
+    <!-- screen light button -->
+    <dimen name="screen_button_height">48dp</dimen>
+    <dimen name="screen_button_margin_top">24dp</dimen>
+    <dimen name="screen_button_margin_end">24dp</dimen>
+    <dimen name="screen_button_padding_start">16dp</dimen>
+    <dimen name="screen_button_padding_end">18dp</dimen>
+    <dimen name="screen_button_corner_radius">24dp</dimen>
+    <dimen name="screen_button_elevation">6dp</dimen>
+    <dimen name="screen_button_icon_padding">6dp</dimen>
+
+    <!-- screen light activity -->
+    <dimen name="screen_light_controls_padding">16dp</dimen>
+    <dimen name="screen_light_label_top_margin">12dp</dimen>
+    <dimen name="screen_light_presets_top_margin">8dp</dimen>
+    <dimen name="screen_light_preset_button_height">48dp</dimen>
+    <dimen name="screen_light_seekbar_top_margin">12dp</dimen>
+
+    <!-- dialog -->
+    <dimen name="dialog_title_padding_horizontal">24dp</dimen>
+    <dimen name="dialog_title_padding_top">24dp</dimen>
+    <dimen name="dialog_title_padding_bottom">4dp</dimen>
+    <dimen name="dialog_title_text_size">20sp</dimen>
+
+    <!-- drawables -->
+    <dimen name="icon_intrinsic_size">24dp</dimen>
+    <dimen name="thin_stroke_width">2dp</dimen>
+    <dimen name="power_shadow_inset_top">8dp</dimen>
+    <dimen name="power_shadow_inset_side">3dp</dimen>
+    <dimen name="power_face_inset_bottom">6dp</dimen>
+    <dimen name="power_highlight_off_side">18dp</dimen>
+    <dimen name="power_highlight_off_top">14dp</dimen>
+    <dimen name="power_highlight_off_bottom">92dp</dimen>
+    <dimen name="power_highlight_on_side">20dp</dimen>
+    <dimen name="power_highlight_on_top">16dp</dimen>
+    <dimen name="power_highlight_on_bottom">94dp</dimen>
+    <dimen name="power_disabled_shadow_top">6dp</dimen>
+    <dimen name="power_disabled_face_bottom">4dp</dimen>
+    <dimen name="slider_well_shadow_top">4dp</dimen>
+    <dimen name="slider_well_shadow_side">1dp</dimen>
+    <dimen name="slider_well_radius">24dp</dimen>
+    <dimen name="slider_well_body_bottom">3dp</dimen>
+    <dimen name="slider_groove_side">6dp</dimen>
+    <dimen name="slider_groove_top">7dp</dimen>
+    <dimen name="slider_groove_bottom">10dp</dimen>
+    <dimen name="slider_groove_radius">19dp</dimen>
+    <dimen name="slider_highlight_side">10dp</dimen>
+    <dimen name="slider_highlight_top">3dp</dimen>
+    <dimen name="slider_highlight_bottom">42dp</dimen>
+    <dimen name="slider_highlight_radius">18dp</dimen>
+</resources>
