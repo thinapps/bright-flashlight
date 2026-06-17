@@ -8,7 +8,7 @@
 
     <LinearLayout
         android:orientation="vertical"
-        android:padding="16dp"
+        android:padding="@dimen/screen_light_controls_padding"
         android:layout_gravity="bottom"
         android:background="@color/screen_light_controls_scrim"
         android:layout_width="match_parent"
@@ -26,19 +26,19 @@
             android:textColor="@color/md_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp" />
+            android:layout_marginTop="@dimen/screen_light_label_top_margin" />
 
         <com.google.android.material.button.MaterialButtonToggleGroup
             android:id="@+id/groupScreenPresets"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="@dimen/screen_light_presets_top_margin"
             app:singleSelection="true">
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnPresetWhite"
                 android:layout_width="0dp"
-                android:layout_height="48dp"
+                android:layout_height="@dimen/screen_light_preset_button_height"
                 android:layout_weight="1"
                 android:text="@string/screen_preset_white"
                 android:checkable="true" />
@@ -46,7 +46,7 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnPresetWarm"
                 android:layout_width="0dp"
-                android:layout_height="48dp"
+                android:layout_height="@dimen/screen_light_preset_button_height"
                 android:layout_weight="1"
                 android:text="@string/screen_preset_warm"
                 android:checkable="true" />
@@ -54,7 +54,7 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnPresetRed"
                 android:layout_width="0dp"
-                android:layout_height="48dp"
+                android:layout_height="@dimen/screen_light_preset_button_height"
                 android:layout_weight="1"
                 android:text="@string/screen_preset_red"
                 android:checkable="true" />
@@ -62,7 +62,7 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnPresetBlue"
                 android:layout_width="0dp"
-                android:layout_height="48dp"
+                android:layout_height="@dimen/screen_light_preset_button_height"
                 android:layout_weight="1"
                 android:text="@string/screen_preset_blue"
                 android:checkable="true" />
@@ -73,7 +73,7 @@
             android:max="255"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp" />
+            android:layout_marginTop="@dimen/screen_light_seekbar_top_margin" />
 
         <SeekBar
             android:id="@+id/seekG"
