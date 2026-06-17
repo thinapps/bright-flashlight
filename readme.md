@@ -6,6 +6,7 @@
 | --- | --- |
 | [Main Controls](docs/main-controls.md) | Explains the main flashlight, screen light, mode, slider, and auto-off controls. |
 | [App Preferences](docs/app-preferences.md) | Documents saved app preferences and how user choices persist locally. |
+| [Build](docs/build.md) | Explains Gradle, R8, and ProGuard choices for the current GitHub Actions build. |
 | [Design](docs/design.md) | Defines icon, dimming, layout, and visual design rules for the app. |
 | [Permissions](docs/permissions.md) | Explains Camera permission behavior, fallback states, and recovery prompts. |
 
@@ -15,6 +16,7 @@
 - removed the unused Camera permission rationale string after keeping the simpler built-in Android permission dialog plus inline recovery message flow
 - removed legacy Jetifier from `gradle.properties` and kept the simple root Gradle buildscript setup
 - tightened the Android release workflow with safer Gradle download and keystore restore steps while keeping manual GitHub Actions releases simple
+- deleted the unused empty `app/proguard-rules.pro` file because release minification and resource shrinking are disabled
 
 ### 0.8.4
 - cleaned Auto-off service scheduling so the service uses one reusable Auto-off check instead of stacking repeated delayed checks
