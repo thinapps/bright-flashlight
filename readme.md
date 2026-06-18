@@ -12,6 +12,11 @@
 
 ## Changelog
 
+### 0.9.2
+- changed Screen Light color swatches to square corners
+- expanded Screen Light from sixteen fixed color presets to twenty common color presets
+- kept the Screen Light swatch grid unlabeled and accessibility-named
+
 ### 0.9.1
 - removed visible labels from the Screen Light color swatches while keeping accessibility names intact
 - replaced the rail-style Screen Light swatch group with compact unlabeled rectangle tiles
