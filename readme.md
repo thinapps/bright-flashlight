@@ -12,6 +12,10 @@
 
 ## Changelog
 
+### 0.9.4
+- fixed the Screen Light back button press feedback so it uses an oval ripple instead of a faint square foreground flash
+- kept the floating back button position, size, icon, and behavior unchanged
+
 ### 0.9.3
 - removed inactive and selected borders from Screen Light color swatches
 - tightened Screen Light swatch spacing from 3dp to 2dp
@@ -242,7 +246,7 @@
 
 ### 0.5.6
 - fixed startup crash on devices without torch strength support by hiding the brightness slider instead of setting an invalid `1..1` slider range
-- corrected Camera runtime permission handling across the activity, torch controller, service, and Quick Settings tile paths
+- corrected Camera runtime permission handling across the activity, torch controller, and service paths
 
 ### 0.5.5  
 - fixed app crash on startup caused by `lateinit` UI binding and Camera2 vendor issues  
