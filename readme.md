@@ -246,7 +246,7 @@
 
 ### 0.5.6
 - fixed startup crash on devices without torch strength support by hiding the brightness slider instead of setting an invalid `1..1` slider range
-- corrected Camera runtime permission handling across the activity, torch controller, and service paths
+- corrected Camera runtime permission handling across the activity, torch controller, service, and Quick Settings tile paths
 
 ### 0.5.5  
 - fixed app crash on startup caused by `lateinit` UI binding and Camera2 vendor issues  
