@@ -69,12 +69,14 @@
     <dimen name="screen_button_icon_padding">6dp</dimen>
 
     <!-- screen light activity -->
-    <dimen name="screen_light_controls_padding">16dp</dimen>
-    <dimen name="screen_light_label_top_margin">12dp</dimen>
-    <dimen name="screen_light_presets_top_margin">8dp</dimen>
-    <dimen name="screen_light_preset_button_height">56dp</dimen>
-    <dimen name="screen_light_preset_corner_radius">14dp</dimen>
+    <dimen name="screen_light_controls_padding">12dp</dimen>
+    <dimen name="screen_light_presets_top_margin">10dp</dimen>
+    <dimen name="screen_light_preset_button_height">42dp</dimen>
+    <dimen name="screen_light_preset_corner_radius">10dp</dimen>
+    <dimen name="screen_light_preset_tile_margin">3dp</dimen>
+    <dimen name="screen_light_preset_row_top_margin">6dp</dimen>
     <dimen name="screen_light_preset_tile_stroke_width">1dp</dimen>
+    <dimen name="screen_light_preset_selected_stroke_width">3dp</dimen>
 
     <!-- dialog -->
     <dimen name="dialog_title_padding_horizontal">24dp</dimen>
