@@ -109,7 +109,7 @@ Screen Light uses fixed color preset tiles instead of exposing RGB sliders on th
 Supported user-facing presets:
 
 ```text
-White, Cool White, Warm, Candle, Amber, Yellow, Orange, Red, Pink, Purple, Blue, Cyan, Aqua, Green, Mint, Lime
+White, Cool White, Warm, Candle, Amber, Yellow, Orange, Red, Pink, Magenta, Lavender, Purple, Blue, Sky, Cyan, Aqua, Teal, Green, Mint, Lime
 ```
 
 Tapping a Screen Light preset saves:
