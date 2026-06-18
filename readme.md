@@ -12,6 +12,10 @@
 
 ## Changelog
 
+### 0.9.0
+- converted `ScreenLightActivity.kt` from manual `findViewById` view lookup to generated View Binding
+- kept Screen Light color restore, preset selection, RGB slider behavior, and keep-screen-on behavior unchanged
+
 ### 0.8.10
 - updated the launcher icon foreground PNG while keeping the existing adaptive launcher icon wiring
 - confirmed the launcher manifest icon still points through the existing `@mipmap/ic_launcher` resource
@@ -240,7 +244,7 @@
 - fixed app crash caused by unguarded access to `sliderBrightness` during activity startup
 - made brightness slider nullable and safely initialized to prevent null pointer exceptions
 - updated `activity_main.xml` to use explicit Material3.Slider style for consistent rendering across Android 12–14
-- cleaned `AndroidManifest.xml` by removing deprecated `android.permission.FLASHLIGHT`
+- cleaned `AndroidManifest.xml` by removing deprecated `android.permission.FLIGHTLIGHT`
 
 ### 0.5.0
 - rebuilt torch brightness control using reflection-safe shim to `setTorchStrengthLevel()` on Android 13+ (API 33+) while maintaining compatibility with older devices
