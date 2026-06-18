@@ -15,8 +15,8 @@
 ### 0.9.0
 - converted `ScreenLightActivity.kt` from manual `findViewById` view lookup to generated View Binding
 - moved the Screen Light color label into a formatted string resource instead of building it with Kotlin string concatenation
-- replaced always-visible Screen Light RGB sliders with simple fixed color preset tiles
-- kept Screen Light color restore, preset selection, and keep-screen-on behavior intact
+- replaced always-visible Screen Light RGB sliders with simple unlabeled fixed color swatches
+- kept Screen Light color restore, preset selection, accessibility names, and keep-screen-on behavior intact
 
 ### 0.8.10
 - updated the launcher icon foreground PNG while keeping the existing adaptive launcher icon wiring
