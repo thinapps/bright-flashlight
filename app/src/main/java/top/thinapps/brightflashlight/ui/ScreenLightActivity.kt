@@ -78,7 +78,10 @@ class ScreenLightActivity : ComponentActivity() {
 
     private fun setupPresetButtons() {
         presets.forEach { preset ->
-            buttonForPreset(preset).setOnClickListener { applyPreset(preset.key) }
+            buttonForPreset(preset).setOnClickListener { view ->
+                view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY)
+                applyPreset(preset.key)
+            }
         }
     }
 
