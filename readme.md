@@ -14,6 +14,9 @@
 
 ### 0.9.1
 - removed visible labels from the Screen Light color swatches while keeping accessibility names intact
+- replaced the rail-style Screen Light swatch group with compact unlabeled rectangle tiles
+- expanded Screen Light from four fixed color presets to sixteen common color presets
+- removed the extra `Presets` label from the Screen Light panel
 - removed unused Screen Light swatch text color resources after the labels were removed
 
 ### 0.9.0
