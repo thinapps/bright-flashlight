@@ -37,6 +37,7 @@
 
     <string name="screen_light_title">Screen Light</string>
     <string name="screen_color">Screen Color</string>
+    <string name="screen_color_value">Screen Color: %1$s</string>
     <string name="screen_presets">Presets</string>
     <string name="screen_preset_white">White</string>
     <string name="screen_preset_warm">Warm</string>
