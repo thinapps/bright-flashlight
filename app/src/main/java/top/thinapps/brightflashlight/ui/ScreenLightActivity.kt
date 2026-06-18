@@ -3,7 +3,6 @@ package top.thinapps.brightflashlight.ui
 import android.graphics.Color
 import android.os.Bundle
 import android.view.WindowManager
-import android.widget.SeekBar
 import androidx.activity.ComponentActivity
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.flow.first
@@ -26,8 +25,6 @@ class ScreenLightActivity : ComponentActivity() {
     private lateinit var binding: ActivityScreenLightBinding
     private lateinit var appPreferences: AppPreferences
 
-    private var settingColor = false
-
     private val presets = listOf(
         ScreenPreset(PRESET_WHITE, R.id.btnPresetWhite, COLOR_MAX, COLOR_MAX, COLOR_MAX),
         ScreenPreset(PRESET_WARM, R.id.btnPresetWarm, COLOR_MAX, 196, 120),
@@ -42,31 +39,10 @@ class ScreenLightActivity : ComponentActivity() {
         binding = ActivityScreenLightBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setupColorSliders()
         setupPresetButtons()
-
-        setColor(COLOR_MAX, COLOR_MAX, COLOR_MAX)
+        showColor(COLOR_MAX, COLOR_MAX, COLOR_MAX)
         restorePreferences()
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-    }
-
-    private fun setupColorSliders() {
-        val listener = object : SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                if (!settingColor) applyColor()
-                if (fromUser) binding.groupScreenPresets.clearChecked()
-            }
-
-            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
-
-            override fun onStopTrackingTouch(seekBar: SeekBar?) {
-                saveColorPreference(preset = null)
-            }
-        }
-
-        binding.seekR.setOnSeekBarChangeListener(listener)
-        binding.seekG.setOnSeekBarChangeListener(listener)
-        binding.seekB.setOnSeekBarChangeListener(listener)
     }
 
     private fun setupPresetButtons() {
@@ -79,51 +55,47 @@ class ScreenLightActivity : ComponentActivity() {
     private fun restorePreferences() {
         lifecycleScope.launch {
             val saved = appPreferences.preferences.first()
-            setColor(saved.screenLightR, saved.screenLightG, saved.screenLightB)
             val preset = presetForKey(saved.screenLightPreset)
             if (preset == null) {
+                showColor(saved.screenLightR, saved.screenLightG, saved.screenLightB)
                 binding.groupScreenPresets.clearChecked()
             } else {
-                binding.groupScreenPresets.check(preset.buttonId)
+                showPreset(preset)
             }
         }
     }
 
     private fun applyPreset(key: String) {
         val preset = presetForKey(key) ?: return
+        showPreset(preset)
+        saveColorPreference(preset)
+    }
+
+    private fun showPreset(preset: ScreenPreset) {
         binding.groupScreenPresets.check(preset.buttonId)
-        setColor(preset.r, preset.g, preset.b)
-        saveColorPreference(preset = preset.key)
+        showColor(preset.r, preset.g, preset.b)
     }
 
     private fun presetForKey(key: String?): ScreenPreset? {
         return presets.firstOrNull { it.key == key }
     }
 
-    private fun setColor(r: Int, g: Int, b: Int) {
-        settingColor = true
-        binding.seekR.progress = normalizeColor(r)
-        binding.seekG.progress = normalizeColor(g)
-        binding.seekB.progress = normalizeColor(b)
-        settingColor = false
-        applyColor()
-    }
-
-    private fun saveColorPreference(preset: String?) {
+    private fun saveColorPreference(preset: ScreenPreset) {
         lifecycleScope.launch {
-            binding.apply {
-                appPreferences.saveScreenLightColor(seekR.progress, seekG.progress, seekB.progress, preset)
-            }
+            appPreferences.saveScreenLightColor(preset.r, preset.g, preset.b, preset.key)
         }
     }
 
-    private fun applyColor() {
-        val r = binding.seekR.progress
-        val g = binding.seekG.progress
-        val b = binding.seekB.progress
-        val color = Color.rgb(r, g, b)
+    private fun showColor(r: Int, g: Int, b: Int) {
+        val normalizedR = normalizeColor(r)
+        val normalizedG = normalizeColor(g)
+        val normalizedB = normalizeColor(b)
+        val color = Color.rgb(normalizedR, normalizedG, normalizedB)
         binding.root.setBackgroundColor(color)
-        binding.tvColor.text = getString(R.string.screen_color_value, formatColorHex(r, g, b))
+        binding.tvColor.text = getString(
+            R.string.screen_color_value,
+            formatColorHex(normalizedR, normalizedG, normalizedB)
+        )
     }
 
     private fun normalizeColor(value: Int): Int {
