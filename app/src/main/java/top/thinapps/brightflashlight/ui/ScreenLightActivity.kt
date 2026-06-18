@@ -123,7 +123,7 @@ class ScreenLightActivity : ComponentActivity() {
         val b = binding.seekB.progress
         val color = Color.rgb(r, g, b)
         binding.root.setBackgroundColor(color)
-        binding.tvColor.text = getString(R.string.screen_color) + ": " + formatColorHex(r, g, b)
+        binding.tvColor.text = getString(R.string.screen_color_value, formatColorHex(r, g, b))
     }
 
     private fun normalizeColor(value: Int): Int {
