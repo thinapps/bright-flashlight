@@ -54,6 +54,13 @@
     <color name="screen_light_controls_scrim">#66000000</color>
     <color name="screen_button_bg">#FF22272D</color>
     <color name="screen_button_ripple">#33FFFFFF</color>
+    <color name="screen_preset_white">#FFFFFFFF</color>
+    <color name="screen_preset_warm">#FFFFC478</color>
+    <color name="screen_preset_red">#FFFF3030</color>
+    <color name="screen_preset_blue">#FF0060FF</color>
+    <color name="screen_preset_text_dark">#FF101316</color>
+    <color name="screen_preset_text_light">#FFFFFFFF</color>
+    <color name="screen_preset_tile_stroke">#66FFFFFF</color>
 
     <!-- dialogs -->
     <color name="dialog_title_text">#DE000000</color>
