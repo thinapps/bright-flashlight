@@ -3,6 +3,7 @@ package top.thinapps.brightflashlight.ui
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
+import android.view.HapticFeedbackConstants
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.core.content.ContextCompat
@@ -68,7 +69,10 @@ class ScreenLightActivity : ComponentActivity() {
 
     private fun setupBackButton() {
         val backButton = layoutInflater.inflate(R.layout.view_screen_light_back_button, binding.root, false)
-        backButton.setOnClickListener { finish() }
+        backButton.setOnClickListener { view ->
+            view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY)
+            finish()
+        }
         binding.root.addView(backButton)
     }
 
