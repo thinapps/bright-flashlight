@@ -49,7 +49,7 @@ Bright Flashlight should feel like a simple hardware tool: dark, stable, readabl
 - Do not use a segmented-control rail or toggle-bar layout for Screen Light color swatches.
 - Use compact square-corner swatch tiles so the color choices stay visual instead of reading like navigation buttons.
 - Do not use rounded corners on Screen Light color swatches.
-- Do not show light inactive borders around Screen Light color swatches; only the selected swatch should get the orange selected stroke.
+- Do not show inactive or selected borders around Screen Light color swatches.
 - Do not show an extra `Presets` label above the swatches.
 - Do not add custom color input, color wheels, or advanced controls unless there is a clear user need.
 
