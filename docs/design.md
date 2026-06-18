@@ -46,6 +46,9 @@ Bright Flashlight should feel like a simple hardware tool: dark, stable, readabl
 - Keep Screen Light simpler than the main flashlight controls.
 - Prefer fixed, tappable color preset tiles over always-visible RGB sliders.
 - Keep color preset tiles visually unlabeled so they read as simple swatches, while preserving accessibility names with content descriptions.
+- Do not use a segmented-control rail or toggle-bar layout for Screen Light color swatches.
+- Use compact square or rectangular swatch tiles so the color choices stay visual instead of reading like navigation buttons.
+- Do not show an extra `Presets` label above the swatches.
 - Do not add custom color input, color wheels, or advanced controls unless there is a clear user need.
 
 ## Safety and clarity
