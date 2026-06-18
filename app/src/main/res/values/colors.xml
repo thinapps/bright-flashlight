@@ -51,7 +51,7 @@
 
     <!-- screen light -->
     <color name="screen_light_default">#FFFFFFFF</color>
-    <color name="screen_light_controls_scrim">#66000000</color>
+    <color name="screen_light_controls_scrim">#73000000</color>
     <color name="screen_button_bg">#FF22272D</color>
     <color name="screen_button_ripple">#33FFFFFF</color>
     <color name="screen_preset_white">#FFFFFFFF</color>
