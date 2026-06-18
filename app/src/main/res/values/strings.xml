@@ -47,10 +47,14 @@
     <string name="screen_preset_orange">Orange</string>
     <string name="screen_preset_red">Red</string>
     <string name="screen_preset_pink">Pink</string>
+    <string name="screen_preset_magenta">Magenta</string>
+    <string name="screen_preset_lavender">Lavender</string>
     <string name="screen_preset_purple">Purple</string>
     <string name="screen_preset_blue">Blue</string>
+    <string name="screen_preset_sky">Sky</string>
     <string name="screen_preset_cyan">Cyan</string>
     <string name="screen_preset_aqua">Aqua</string>
+    <string name="screen_preset_teal">Teal</string>
     <string name="screen_preset_green">Green</string>
     <string name="screen_preset_mint">Mint</string>
     <string name="screen_preset_lime">Lime</string>
