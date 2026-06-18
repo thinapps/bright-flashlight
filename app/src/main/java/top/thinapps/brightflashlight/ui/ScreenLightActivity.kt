@@ -3,8 +3,12 @@ package top.thinapps.brightflashlight.ui
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
+import android.view.Gravity
 import android.view.HapticFeedbackConstants
+import android.view.View
 import android.view.WindowManager
+import android.widget.ImageButton
+import android.widget.LinearLayout
 import androidx.activity.ComponentActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
@@ -28,6 +32,8 @@ class ScreenLightActivity : ComponentActivity() {
 
     private lateinit var binding: ActivityScreenLightBinding
     private lateinit var appPreferences: AppPreferences
+    private lateinit var trayToggleButton: ImageButton
+    private var colorTrayCollapsed = false
 
     private val presets = listOf(
         ScreenPreset(PRESET_WHITE, R.id.btnPresetWhite, COLOR_MAX, COLOR_MAX, COLOR_MAX),
@@ -60,6 +66,7 @@ class ScreenLightActivity : ComponentActivity() {
         setContentView(binding.root)
 
         setupBackButton()
+        setupColorTrayToggle()
         setupPresetButtons()
         clearPresetSelection()
         showColor(COLOR_MAX, COLOR_MAX, COLOR_MAX)
@@ -74,6 +81,66 @@ class ScreenLightActivity : ComponentActivity() {
             finish()
         }
         binding.root.addView(backButton)
+    }
+
+    private fun setupColorTrayToggle() {
+        val tray = binding.layoutScreenPresets.parent as? LinearLayout ?: return
+        val colorTextIndex = tray.indexOfChild(binding.tvColor)
+        val colorRow = LinearLayout(this).apply {
+            orientation = LinearLayout.HORIZONTAL
+            gravity = Gravity.CENTER_VERTICAL
+            layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            )
+        }
+
+        tray.removeView(binding.tvColor)
+        binding.tvColor.layoutParams = LinearLayout.LayoutParams(
+            0,
+            LinearLayout.LayoutParams.WRAP_CONTENT,
+            1f
+        )
+        colorRow.addView(binding.tvColor)
+
+        trayToggleButton = ImageButton(this).apply {
+            layoutParams = LinearLayout.LayoutParams(
+                resources.getDimensionPixelSize(R.dimen.warning_button_size),
+                resources.getDimensionPixelSize(R.dimen.warning_button_size)
+            )
+            setBackgroundColor(Color.TRANSPARENT)
+            setPadding(
+                resources.getDimensionPixelSize(R.dimen.screen_button_icon_padding),
+                resources.getDimensionPixelSize(R.dimen.screen_button_icon_padding),
+                resources.getDimensionPixelSize(R.dimen.screen_button_icon_padding),
+                resources.getDimensionPixelSize(R.dimen.screen_button_icon_padding)
+            )
+            scaleType = ImageButton.ScaleType.CENTER
+            setOnClickListener { view ->
+                view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY)
+                toggleColorTray()
+            }
+        }
+        colorRow.addView(trayToggleButton)
+        tray.addView(colorRow, colorTextIndex)
+        updateColorTrayToggle()
+    }
+
+    private fun toggleColorTray() {
+        colorTrayCollapsed = !colorTrayCollapsed
+        binding.layoutScreenPresets.visibility = if (colorTrayCollapsed) View.GONE else View.VISIBLE
+        updateColorTrayToggle()
+    }
+
+    private fun updateColorTrayToggle() {
+        if (!::trayToggleButton.isInitialized) return
+        if (colorTrayCollapsed) {
+            trayToggleButton.setImageResource(R.drawable.ic_expand_less)
+            trayToggleButton.contentDescription = "Show color tray"
+        } else {
+            trayToggleButton.setImageResource(R.drawable.ic_expand_more)
+            trayToggleButton.contentDescription = "Hide color tray"
+        }
     }
 
     private fun setupPresetButtons() {
