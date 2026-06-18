@@ -12,6 +12,10 @@
 
 ## Changelog
 
+### 0.9.3
+- removed the light inactive border from Screen Light color swatches
+- kept the orange selected swatch stroke so the current preset remains visible
+
 ### 0.9.2
 - changed Screen Light color swatches to square corners
 - expanded Screen Light from sixteen fixed color presets to twenty common color presets
