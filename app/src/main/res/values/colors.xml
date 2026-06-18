@@ -63,10 +63,14 @@
     <color name="screen_preset_orange">#FFFF7A00</color>
     <color name="screen_preset_red">#FFFF0000</color>
     <color name="screen_preset_pink">#FFFF4FA3</color>
+    <color name="screen_preset_magenta">#FFFF00FF</color>
+    <color name="screen_preset_lavender">#FFB484FF</color>
     <color name="screen_preset_purple">#FF8E44FF</color>
     <color name="screen_preset_blue">#FF0060FF</color>
+    <color name="screen_preset_sky">#FF40BFFF</color>
     <color name="screen_preset_cyan">#FF00C8FF</color>
     <color name="screen_preset_aqua">#FF00FFD0</color>
+    <color name="screen_preset_teal">#FF00A080</color>
     <color name="screen_preset_green">#FF00C853</color>
     <color name="screen_preset_mint">#FF7CFFB2</color>
     <color name="screen_preset_lime">#FFB6FF00</color>
