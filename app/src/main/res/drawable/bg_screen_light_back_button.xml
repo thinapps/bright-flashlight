@@ -2,7 +2,7 @@
     android:color="@color/screen_button_ripple">
     <item>
         <shape android:shape="oval">
-            <solid android:color="@color/screen_light_controls_scrim" />
+            <solid android:color="@color/screen_light_back_button_bg" />
         </shape>
     </item>
     <item android:id="@android:id/mask">
