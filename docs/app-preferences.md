@@ -102,6 +102,17 @@ Use `StrobeSpeedPreset` for:
 
 This keeps `MainActivity`, `AppPreferences`, and `TorchService` aligned when strobe behavior changes.
 
+## Screen Light presets
+
+Screen Light uses fixed color preset tiles instead of exposing RGB sliders on the main Screen Light panel.
+
+Tapping a Screen Light preset saves:
+
+- the preset key in `screen_light_preset`
+- the matching RGB values in `screen_light_r`, `screen_light_g`, and `screen_light_b`
+
+The RGB keys remain because they are the simplest persisted color format and preserve compatibility with older installs that may already have a custom RGB color saved. If an older saved color has no preset key, Screen Light can still display that saved color, but new user-facing color changes should come from the fixed preset tiles.
+
 ## Intentionally not saved
 
 The app should **not** save active flashlight state.
@@ -137,7 +148,6 @@ The app saves preferences when the user changes normal UI choices:
 - changing Auto-off while unlocked saves `auto_off_minutes`
 - changing Strobe speed saves `strobe_speed`
 - tapping a Screen Light preset saves RGB values and `screen_light_preset`
-- manually changing Screen Light RGB sliders saves RGB values and clears `screen_light_preset`
 
 Locked or restored UI state should not save preferences as if the user changed them. In particular, Auto-off should not save when the dimmed locked bar rejects touches while Torch, Strobe, or SOS is active.
 
@@ -165,6 +175,5 @@ Before shipping preference changes, test:
 - change Strobe speed, close app, reopen app
 - confirm Strobe speed restores to the same named preset
 - change Screen Light preset, close Screen Light, reopen Screen Light
-- change Screen Light sliders manually, close Screen Light, reopen Screen Light
-- confirm manual Screen Light slider changes clear the selected preset button
+- confirm Screen Light restores the selected preset tile and matching color
 - confirm flashlight does not turn on automatically after reopening the app
