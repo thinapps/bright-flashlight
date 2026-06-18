@@ -15,6 +15,7 @@
 ### 0.9.3
 - removed inactive and selected borders from Screen Light color swatches
 - tightened Screen Light swatch spacing from 3dp to 2dp
+- matched the Screen Light swatch panel scrim to 45% black
 - kept the Screen Light swatches as clean borderless square color blocks
 
 ### 0.9.2
