@@ -52,6 +52,7 @@ Bright Flashlight should feel like a simple hardware tool: dark, stable, readabl
 - Do not show inactive or selected borders around Screen Light color swatches.
 - Use a floating top-left back button for Screen Light instead of adding a header or toolbar.
 - Keep the Screen Light back button press feedback masked to its oval background; do not use a square foreground ripple.
+- Give the Screen Light back button the same tap haptic style as the main app controls.
 - Do not show an extra `Presets` label above the swatches.
 - Do not add custom color input, color wheels, or advanced controls unless there is a clear user need.
 
