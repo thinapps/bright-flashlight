@@ -17,6 +17,7 @@
 - lightened the Screen Light back button background so it stays less distracting than the bottom control panel
 - added tap haptic feedback to the Screen Light back button
 - added tap haptic feedback to all Screen Light color swatches
+- added a color-row chevron toggle to collapse and reopen the Screen Light color tray
 - kept the floating back button position, size, icon, and behavior unchanged
 
 ### 0.9.3
