@@ -115,7 +115,6 @@ class ScreenLightActivity : ComponentActivity() {
                 resources.getDimensionPixelSize(R.dimen.screen_button_icon_padding),
                 resources.getDimensionPixelSize(R.dimen.screen_button_icon_padding)
             )
-            scaleType = ImageButton.ScaleType.CENTER
             setOnClickListener { view ->
                 view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY)
                 toggleColorTray()
