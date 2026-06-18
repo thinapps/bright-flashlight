@@ -45,6 +45,7 @@ Bright Flashlight should feel like a simple hardware tool: dark, stable, readabl
 - Screen Light should stay available even when Camera permission or flash hardware is unavailable.
 - Keep Screen Light simpler than the main flashlight controls.
 - Prefer fixed, tappable color preset tiles over always-visible RGB sliders.
+- Keep color preset tiles visually unlabeled so they read as simple swatches, while preserving accessibility names with content descriptions.
 - Do not add custom color input, color wheels, or advanced controls unless there is a clear user need.
 
 ## Safety and clarity
