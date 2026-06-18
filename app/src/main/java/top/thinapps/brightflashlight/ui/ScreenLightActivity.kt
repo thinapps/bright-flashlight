@@ -67,7 +67,9 @@ class ScreenLightActivity : ComponentActivity() {
     }
 
     private fun setupBackButton() {
-        binding.btnBack.setOnClickListener { finish() }
+        val backButton = layoutInflater.inflate(R.layout.view_screen_light_back_button, binding.root, false)
+        backButton.setOnClickListener { finish() }
+        binding.root.addView(backButton)
     }
 
     private fun setupPresetButtons() {
