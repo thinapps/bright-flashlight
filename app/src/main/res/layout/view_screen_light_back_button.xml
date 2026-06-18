@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ImageButton xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/screen_button_height"
+    android:layout_height="@dimen/screen_button_height"
+    android:layout_gravity="top|start"
+    android:layout_marginStart="@dimen/screen_button_margin_end"
+    android:layout_marginTop="@dimen/screen_button_margin_top"
+    android:background="@drawable/bg_screen_light_back_button"
+    android:contentDescription="@string/action_back"
+    android:elevation="@dimen/screen_button_elevation"
+    android:foreground="?attr/selectableItemBackgroundBorderless"
+    android:padding="@dimen/screen_light_controls_padding"
+    android:scaleType="center"
+    android:src="@drawable/ic_arrow_back" />
