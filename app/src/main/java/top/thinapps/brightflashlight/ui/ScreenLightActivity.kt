@@ -58,11 +58,16 @@ class ScreenLightActivity : ComponentActivity() {
         binding = ActivityScreenLightBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        setupBackButton()
         setupPresetButtons()
         clearPresetSelection()
         showColor(COLOR_MAX, COLOR_MAX, COLOR_MAX)
         restorePreferences()
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+    }
+
+    private fun setupBackButton() {
+        binding.btnBack.setOnClickListener { finish() }
     }
 
     private fun setupPresetButtons() {
