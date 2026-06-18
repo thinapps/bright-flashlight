@@ -38,11 +38,22 @@
     <string name="screen_light_title">Screen Light</string>
     <string name="screen_color">Screen Color</string>
     <string name="screen_color_value">Screen Color: %1$s</string>
-    <string name="screen_presets">Presets</string>
     <string name="screen_preset_white">White</string>
+    <string name="screen_preset_cool_white">Cool White</string>
     <string name="screen_preset_warm">Warm</string>
+    <string name="screen_preset_candle">Candle</string>
+    <string name="screen_preset_amber">Amber</string>
+    <string name="screen_preset_yellow">Yellow</string>
+    <string name="screen_preset_orange">Orange</string>
     <string name="screen_preset_red">Red</string>
+    <string name="screen_preset_pink">Pink</string>
+    <string name="screen_preset_purple">Purple</string>
     <string name="screen_preset_blue">Blue</string>
+    <string name="screen_preset_cyan">Cyan</string>
+    <string name="screen_preset_aqua">Aqua</string>
+    <string name="screen_preset_green">Green</string>
+    <string name="screen_preset_mint">Mint</string>
+    <string name="screen_preset_lime">Lime</string>
 
     <string name="notification_channel_name">Flashlight</string>
     <string name="notification_channel_desc">Running flashlight or strobe mode</string>
