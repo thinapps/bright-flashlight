@@ -49,7 +49,7 @@ Current saved values:
 | `screen_light_r` | Int | `255` | Restores the red channel for Screen Light. |
 | `screen_light_g` | Int | `255` | Restores the green channel for Screen Light. |
 | `screen_light_b` | Int | `255` | Restores the blue channel for Screen Light. |
-| `screen_light_preset` | String | none | Restores the selected Screen Light preset button when a preset was tapped. |
+| `screen_light_preset` | String | none | Restores the selected Screen Light preset tile when a preset was tapped. |
 
 ## Auto-off presets
 
@@ -106,6 +106,12 @@ This keeps `MainActivity`, `AppPreferences`, and `TorchService` aligned when str
 
 Screen Light uses fixed color preset tiles instead of exposing RGB sliders on the main Screen Light panel.
 
+Supported user-facing presets:
+
+```text
+White, Cool White, Warm, Candle, Amber, Yellow, Orange, Red, Pink, Purple, Blue, Cyan, Aqua, Green, Mint, Lime
+```
+
 Tapping a Screen Light preset saves:
 
 - the preset key in `screen_light_preset`
@@ -138,7 +144,7 @@ On app launch, `MainActivity` restores:
 On Screen Light launch, `ScreenLightActivity` restores:
 
 - last RGB color
-- selected preset button, when the saved color came from a preset
+- selected preset tile, when the saved color came from a preset
 
 ## Save behavior
 
