@@ -8,7 +8,6 @@
     android:background="@drawable/bg_screen_light_back_button"
     android:contentDescription="@string/action_back"
     android:elevation="@dimen/screen_button_elevation"
-    android:foreground="?attr/selectableItemBackgroundBorderless"
     android:padding="@dimen/screen_light_controls_padding"
     android:scaleType="center"
     android:src="@drawable/ic_arrow_back" />
