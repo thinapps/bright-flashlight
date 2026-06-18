@@ -38,10 +38,14 @@ class ScreenLightActivity : ComponentActivity() {
         ScreenPreset(PRESET_ORANGE, R.id.btnPresetOrange, COLOR_MAX, 122, COLOR_MIN),
         ScreenPreset(PRESET_RED, R.id.btnPresetRed, COLOR_MAX, COLOR_MIN, COLOR_MIN),
         ScreenPreset(PRESET_PINK, R.id.btnPresetPink, COLOR_MAX, 79, 163),
+        ScreenPreset(PRESET_MAGENTA, R.id.btnPresetMagenta, COLOR_MAX, COLOR_MIN, COLOR_MAX),
+        ScreenPreset(PRESET_LAVENDER, R.id.btnPresetLavender, 180, 132, COLOR_MAX),
         ScreenPreset(PRESET_PURPLE, R.id.btnPresetPurple, 142, 68, COLOR_MAX),
         ScreenPreset(PRESET_BLUE, R.id.btnPresetBlue, COLOR_MIN, 96, COLOR_MAX),
+        ScreenPreset(PRESET_SKY, R.id.btnPresetSky, 64, 191, COLOR_MAX),
         ScreenPreset(PRESET_CYAN, R.id.btnPresetCyan, COLOR_MIN, 200, COLOR_MAX),
         ScreenPreset(PRESET_AQUA, R.id.btnPresetAqua, COLOR_MIN, COLOR_MAX, 208),
+        ScreenPreset(PRESET_TEAL, R.id.btnPresetTeal, COLOR_MIN, 160, 128),
         ScreenPreset(PRESET_GREEN, R.id.btnPresetGreen, COLOR_MIN, 200, 83),
         ScreenPreset(PRESET_MINT, R.id.btnPresetMint, 124, COLOR_MAX, 178),
         ScreenPreset(PRESET_LIME, R.id.btnPresetLime, 182, COLOR_MAX, COLOR_MIN)
@@ -154,10 +158,14 @@ class ScreenLightActivity : ComponentActivity() {
         const val PRESET_ORANGE = "ORANGE"
         const val PRESET_RED = "RED"
         const val PRESET_PINK = "PINK"
+        const val PRESET_MAGENTA = "MAGENTA"
+        const val PRESET_LAVENDER = "LAVENDER"
         const val PRESET_PURPLE = "PURPLE"
         const val PRESET_BLUE = "BLUE"
+        const val PRESET_SKY = "SKY"
         const val PRESET_CYAN = "CYAN"
         const val PRESET_AQUA = "AQUA"
+        const val PRESET_TEAL = "TEAL"
         const val PRESET_GREEN = "GREEN"
         const val PRESET_MINT = "MINT"
         const val PRESET_LIME = "LIME"
