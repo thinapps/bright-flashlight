@@ -14,6 +14,7 @@
 
 ### 0.9.0
 - converted `ScreenLightActivity.kt` from manual `findViewById` view lookup to generated View Binding
+- moved the Screen Light color label into a formatted string resource instead of building it with Kotlin string concatenation
 - kept Screen Light color restore, preset selection, RGB slider behavior, and keep-screen-on behavior unchanged
 
 ### 0.8.10
@@ -227,7 +228,7 @@
 - fixed app crash on startup caused by `lateinit` UI binding and Camera2 vendor issues  
 - migrated `MainActivity` to View Binding for safer and cleaner UI access  
 - ensured Camera permission check runs reliably before any torch actions on Android 13+  
-- updated `TorchController` with lazy camera initialization, safe strength detection, and fallback to on/off when vendors misbehave  
+- updated `TorchController` with lazy camera initialization, safe strength detection, and fallback when vendors misbehave  
 - refactored brightness slider setup to be null-safe and stable on all devices  
 
 ### 0.5.4
@@ -244,7 +245,7 @@
 - fixed app crash caused by unguarded access to `sliderBrightness` during activity startup
 - made brightness slider nullable and safely initialized to prevent null pointer exceptions
 - updated `activity_main.xml` to use explicit Material3.Slider style for consistent rendering across Android 12–14
-- cleaned `AndroidManifest.xml` by removing deprecated `android.permission.FLIGHTLIGHT`
+- cleaned `AndroidManifest.xml` by removing deprecated `android.permission.FLASHLIGHT`
 
 ### 0.5.0
 - rebuilt torch brightness control using reflection-safe shim to `setTorchStrengthLevel()` on Android 13+ (API 33+) while maintaining compatibility with older devices
