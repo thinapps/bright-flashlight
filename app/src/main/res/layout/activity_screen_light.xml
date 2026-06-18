@@ -40,51 +40,72 @@
                 android:layout_width="0dp"
                 android:layout_height="@dimen/screen_light_preset_button_height"
                 android:layout_weight="1"
+                android:checkable="true"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:minHeight="0dp"
+                android:minWidth="0dp"
                 android:text="@string/screen_preset_white"
-                android:checkable="true" />
+                android:textColor="@color/screen_preset_text_dark"
+                app:backgroundTint="@color/screen_preset_white"
+                app:cornerRadius="@dimen/screen_light_preset_corner_radius"
+                app:rippleColor="@color/screen_button_ripple"
+                app:strokeColor="@color/screen_preset_tile_stroke"
+                app:strokeWidth="@dimen/screen_light_preset_tile_stroke_width" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnPresetWarm"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/screen_light_preset_button_height"
                 android:layout_weight="1"
+                android:checkable="true"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:minHeight="0dp"
+                android:minWidth="0dp"
                 android:text="@string/screen_preset_warm"
-                android:checkable="true" />
+                android:textColor="@color/screen_preset_text_dark"
+                app:backgroundTint="@color/screen_preset_warm"
+                app:cornerRadius="@dimen/screen_light_preset_corner_radius"
+                app:rippleColor="@color/screen_button_ripple"
+                app:strokeColor="@color/screen_preset_tile_stroke"
+                app:strokeWidth="@dimen/screen_light_preset_tile_stroke_width" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnPresetRed"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/screen_light_preset_button_height"
                 android:layout_weight="1"
+                android:checkable="true"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:minHeight="0dp"
+                android:minWidth="0dp"
                 android:text="@string/screen_preset_red"
-                android:checkable="true" />
+                android:textColor="@color/screen_preset_text_light"
+                app:backgroundTint="@color/screen_preset_red"
+                app:cornerRadius="@dimen/screen_light_preset_corner_radius"
+                app:rippleColor="@color/screen_button_ripple"
+                app:strokeColor="@color/screen_preset_tile_stroke"
+                app:strokeWidth="@dimen/screen_light_preset_tile_stroke_width" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnPresetBlue"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/screen_light_preset_button_height"
                 android:layout_weight="1"
+                android:checkable="true"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:minHeight="0dp"
+                android:minWidth="0dp"
                 android:text="@string/screen_preset_blue"
-                android:checkable="true" />
+                android:textColor="@color/screen_preset_text_light"
+                app:backgroundTint="@color/screen_preset_blue"
+                app:cornerRadius="@dimen/screen_light_preset_corner_radius"
+                app:rippleColor="@color/screen_button_ripple"
+                app:strokeColor="@color/screen_preset_tile_stroke"
+                app:strokeWidth="@dimen/screen_light_preset_tile_stroke_width" />
         </com.google.android.material.button.MaterialButtonToggleGroup>
-
-        <SeekBar
-            android:id="@+id/seekR"
-            android:max="255"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/screen_light_seekbar_top_margin" />
-
-        <SeekBar
-            android:id="@+id/seekG"
-            android:max="255"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <SeekBar
-            android:id="@+id/seekB"
-            android:max="255"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
     </LinearLayout>
 </FrameLayout>
