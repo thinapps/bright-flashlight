@@ -40,9 +40,15 @@ Bright Flashlight should feel like a simple hardware tool: dark, stable, readabl
 - Use larger tappable areas around small icons instead of making visible glyphs oversized.
 - Prefer clear text labels and predictable placement over dense controls.
 
+## Screen Light
+
+- Screen Light should stay available even when Camera permission or flash hardware is unavailable.
+- Keep Screen Light simpler than the main flashlight controls.
+- Prefer fixed, tappable color preset tiles over always-visible RGB sliders.
+- Do not add custom color input, color wheels, or advanced controls unless there is a clear user need.
+
 ## Safety and clarity
 
 - Strobe controls should keep the flashing-light warning visible and easy to open.
 - Strobe Speed should use simple numbered presets with hertz shown in the header.
 - Auto-off should always show one selected value and should lock while a light mode is active.
-- Screen Light should stay available even when Camera permission or flash hardware is unavailable.
