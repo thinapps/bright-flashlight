@@ -14,6 +14,7 @@
 
 ### 0.9.4
 - fixed the Screen Light back button press feedback so it uses an oval ripple instead of a faint square foreground flash
+- lightened the Screen Light back button background so it stays less distracting than the bottom control panel
 - added tap haptic feedback to the Screen Light back button
 - added tap haptic feedback to all Screen Light color swatches
 - kept the floating back button position, size, icon, and behavior unchanged
