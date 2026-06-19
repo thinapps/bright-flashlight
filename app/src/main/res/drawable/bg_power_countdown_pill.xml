@@ -1,0 +1,5 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="@color/power_countdown_pill_bg" />
+    <corners android:radius="@dimen/power_countdown_pill_radius" />
+</shape>
