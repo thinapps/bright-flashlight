@@ -9,7 +9,6 @@
 
     <!-- power button -->
     <dimen name="power_button_size">156dp</dimen>
-    <dimen name="power_glow_frame_size">176dp</dimen>
     <dimen name="power_button_elevation">8dp</dimen>
     <dimen name="power_button_padding_horizontal">18dp</dimen>
     <dimen name="power_button_padding_top">22dp</dimen>
@@ -90,6 +89,11 @@
     <dimen name="power_shadow_inset_top">8dp</dimen>
     <dimen name="power_shadow_inset_side">3dp</dimen>
     <dimen name="power_face_inset_bottom">6dp</dimen>
+    <dimen name="power_button_on_glow_gap">8dp</dimen>
+    <dimen name="power_button_on_glow_face_bottom">14dp</dimen>
+    <dimen name="power_button_on_glow_highlight_side">28dp</dimen>
+    <dimen name="power_button_on_glow_highlight_top">24dp</dimen>
+    <dimen name="power_button_on_glow_highlight_bottom">102dp</dimen>
     <dimen name="power_highlight_off_side">18dp</dimen>
     <dimen name="power_highlight_off_top">14dp</dimen>
     <dimen name="power_highlight_off_bottom">92dp</dimen>
