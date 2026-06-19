@@ -1,11 +1,20 @@
 <ripple xmlns:android="http://schemas.android.com/apk/res/android"
     android:color="@color/screen_back_button_ripple">
-    <item>
+    <item
+        android:left="@dimen/screen_back_button_background_inset"
+        android:top="@dimen/screen_back_button_background_inset"
+        android:right="@dimen/screen_back_button_background_inset"
+        android:bottom="@dimen/screen_back_button_background_inset">
         <shape android:shape="oval">
             <solid android:color="@color/screen_light_back_button_bg" />
         </shape>
     </item>
-    <item android:id="@android:id/mask">
+    <item
+        android:id="@android:id/mask"
+        android:left="@dimen/screen_back_button_background_inset"
+        android:top="@dimen/screen_back_button_background_inset"
+        android:right="@dimen/screen_back_button_background_inset"
+        android:bottom="@dimen/screen_back_button_background_inset">
         <shape android:shape="oval">
             <solid android:color="@color/md_text" />
         </shape>
