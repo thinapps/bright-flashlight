@@ -22,7 +22,9 @@ The main power control uses a clickable circular layout, not a plain text `Butto
 
 The ON/OFF label should stay large and simple. The current label size is `18sp`.
 
-A reserved countdown slot lives above the ON/OFF label. It stays invisible when no Auto-off countdown is active so the power button layout does not shift. When a light mode is running and Auto-off is enabled, the slot shows a small white `MM:SS` countdown.
+A reserved countdown pill lives above the ON/OFF label. It stays invisible when no Auto-off countdown is active so the power button layout does not shift. When a light mode is running and Auto-off is enabled, the slot shows a compact dark glass `MM:SS` pill with `4dp` spacing above and below.
+
+The ON power button state can use a subtle separated upper arc glow. Keep it static, keep the orange button face separated from the glow with a dark gap, and avoid full-circle halos or animation unless the design is intentionally revisited.
 
 ## Haptics
 
@@ -166,7 +168,7 @@ When locked, the whole Auto-off section dims to `0.45` alpha so it matches the v
 
 The locked Auto-off section should preserve the selected value visually but reject interaction. Touches on the dimmed Auto-off bar or any Auto-off option should not change the value, clear the checked option, trigger haptics, or save a new preference.
 
-When Auto-off is enabled before starting Torch, Strobe, or SOS, the power button shows a small white `MM:SS` countdown above the ON/OFF label. The countdown is Activity-side UI only; `TorchService` still owns the real shutdown timer.
+When Auto-off is enabled before starting Torch, Strobe, or SOS, the power button shows a compact dark glass `MM:SS` countdown pill between the icon and the ON/OFF label. The countdown is Activity-side UI only; `TorchService` still owns the real shutdown timer.
 
 `TorchService` should use a single reusable Auto-off check runnable and clear any pending check before posting the next one. Do not stack anonymous delayed Auto-off checks.
 
@@ -181,7 +183,8 @@ Before shipping main-control changes, test:
 - power, Screen, Mode, Auto-off, Brightness, and Strobe Speed provide haptic feedback on user interactions
 - power button ON/OFF label is clear at `18sp`
 - power button keeps the countdown slot above ON/OFF without shifting the layout
-- Auto-off countdown appears as small white `MM:SS` text only when a light mode is active and Auto-off is enabled
+- Auto-off countdown appears as a compact dark glass `MM:SS` pill only when a light mode is active and Auto-off is enabled
+- ON power button glow appears only in the active ON state and stays separated from the button face
 - Auto-off controls lock while Torch, Strobe, or SOS is active, dim to match the disabled slider placeholders, keep the selected Auto-off value highlighted, reject all touches while locked, then unlock and return to full opacity when the light mode stops
 - Auto-off always has exactly one selected option; no interaction should leave the Auto-off bar with nothing highlighted
 - all intentional dimmed sections use `0.45` alpha unless a documented reason says otherwise
