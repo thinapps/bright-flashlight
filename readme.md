@@ -12,6 +12,11 @@
 
 ## Changelog
 
+### 0.9.6
+- added a separated upper arc glow to the ON power button state
+- kept the glow static and inside the existing button bounds so the home layout does not expand
+- inset the ON button face so the glow has a visible gap from the actual button surface
+
 ### 0.9.5
 - changed the Screen Light back button ripple from translucent white to translucent black
 - kept the Screen Light color swatch ripple behavior unchanged
