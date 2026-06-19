@@ -45,7 +45,11 @@ Bright Flashlight should feel like a simple hardware tool: dark, stable, readabl
 - Screen Light should stay available even when Camera permission or flash hardware is unavailable.
 - Keep Screen Light simpler than the main flashlight controls.
 - Prefer fixed, tappable color preset tiles over always-visible RGB sliders.
+- Keep exactly 20 color preset tiles for the current compact grid unless the Screen Light panel is intentionally redesigned.
+- Keep the 20-color palette balanced across utility light, reading/study light, night light, emergency/alert colors, and playful color testing.
+- Avoid near-duplicate preset colors, especially crowded warm-orange, cyan-blue, or green-mint clusters.
 - Keep color preset tiles visually unlabeled so they read as simple swatches, while preserving accessibility names with content descriptions.
+- Keep Screen Light preset RGB values in `ScreenLightActivity.kt` matched to the visible swatch colors in `colors.xml`.
 - Give Screen Light color preset tiles the same tap haptic style as the main app controls.
 - Keep the Screen Light color tray expanded by default each time the screen opens.
 - Let users collapse the Screen Light color tray from the color row with a chevron button instead of adding another floating control.
@@ -55,7 +59,9 @@ Bright Flashlight should feel like a simple hardware tool: dark, stable, readabl
 - Do not use rounded corners on Screen Light color swatches.
 - Do not show inactive or selected borders around Screen Light color swatches.
 - Use a floating top-left back button for Screen Light instead of adding a header or toolbar.
-- Keep the Screen Light back button background lighter than the bottom control panel so it stays visible without feeling distracting.
+- Keep the Screen Light back button as a `48dp` tap target with a `24dp` icon.
+- Keep the visible Screen Light back button oval and ripple inset to about `40dp` so the control is easy to tap without feeling oversized.
+- Keep the Screen Light back button background visible without feeling more dominant than the bottom control panel.
 - Keep the Screen Light back button press feedback masked to its oval background; do not use a square foreground ripple.
 - Give the Screen Light back button the same tap haptic style as the main app controls.
 - Do not show an extra `Presets` label above the swatches.
