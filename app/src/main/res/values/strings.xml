@@ -6,6 +6,7 @@
     <string name="action_torch_on">ON</string>
     <string name="action_torch_off">OFF</string>
     <string name="action_open_screen_light">Screen</string>
+    <string name="action_back">Back</string>
     <string name="auto_off_countdown_placeholder">00:00</string>
 
     <string name="mode_label">Mode</string>
