@@ -12,6 +12,10 @@
 
 ## Changelog
 
+### 0.9.5
+- changed the Screen Light back button ripple from translucent white to translucent black
+- kept the Screen Light color swatch ripple behavior unchanged
+
 ### 0.9.4
 - fixed the Screen Light back button press feedback so it uses an oval ripple instead of a faint square foreground flash
 - lightened the Screen Light back button background so it stays less distracting than the bottom control panel
@@ -318,4 +322,3 @@
 - includes auto-off timer to save battery
 - uses Foreground Service for stable background operation
 - adds Quick Settings tile for fast torch control (Android 7.0+)
-- XML-based Material UI (no Jetpack Compose)
