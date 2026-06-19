@@ -40,6 +40,14 @@ Bright Flashlight should feel like a simple hardware tool: dark, stable, readabl
 - Use larger tappable areas around small icons instead of making visible glyphs oversized.
 - Prefer clear text labels and predictable placement over dense controls.
 
+## Power button
+
+- Keep the main power button size stable so the home layout does not shift between OFF, ON, and disabled states.
+- The ON state may use a static upper arc glow, but it should not become a full-circle halo.
+- Keep the ON glow separated from the orange button face with a visible dark gap.
+- Keep the glow subtle, warm, and mostly around the upper 75–85% of the button.
+- Do not animate the glow unless there is a clear reason and lifecycle handling stays simple.
+
 ## Screen Light
 
 - Screen Light should stay available even when Camera permission or flash hardware is unavailable.
