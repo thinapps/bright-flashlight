@@ -47,6 +47,9 @@ Bright Flashlight should feel like a simple hardware tool: dark, stable, readabl
 - Keep the ON glow separated from the orange button face with a visible dark gap.
 - Keep the glow subtle, warm, and mostly around the upper 75–85% of the button.
 - Do not animate the glow unless there is a clear reason and lifecycle handling stays simple.
+- Show the Auto-off countdown as a compact dark glass pill inside the power button.
+- Keep the countdown pill between the power icon and ON/OFF label with matching 4dp gaps above and below.
+- Keep the countdown pill small: 20dp minimum height, 8dp horizontal padding, 2dp vertical padding, 8dp radius, and 12sp monospace text.
 
 ## Screen Light
 
