@@ -1,0 +1,3 @@
+<resources>
+    <dimen name="screen_back_button_background_inset">4dp</dimen>
+</resources>
