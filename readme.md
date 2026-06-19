@@ -16,6 +16,10 @@
 - changed the Screen Light back button ripple from translucent white to translucent black
 - kept the Screen Light color swatch ripple behavior unchanged
 - reduced the visible Screen Light back button oval and ripple to 40dp while keeping the 48dp tap target
+- rebalanced the 20 Screen Light preset colors to reduce near-duplicates across warm, alert, blue-green, and playful tones
+- updated Screen Light preset accessibility names to match the new color roles
+- matched the Screen Light preset RGB values used when tapping swatches to the visible swatch colors
+- defined the Screen Light back button background color resource explicitly
 
 ### 0.9.4
 - fixed the Screen Light back button press feedback so it uses an oval ripple instead of a faint square foreground flash
