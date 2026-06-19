@@ -1,6 +1,24 @@
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="176dp"
     android:height="176dp"
-    android:viewportWidth="176"
-    android:viewportHeight="176">
+    android:viewportWidth="200"
+    android:viewportHeight="200">
+    <path
+        android:fillColor="@android:color/transparent"
+        android:pathData="M32,140 C18,68 58,22 100,20 C142,22 182,68 168,140"
+        android:strokeColor="@color/button_active_glow_outer"
+        android:strokeLineCap="round"
+        android:strokeWidth="20" />
+    <path
+        android:fillColor="@android:color/transparent"
+        android:pathData="M32,140 C18,68 58,22 100,20 C142,22 182,68 168,140"
+        android:strokeColor="@color/button_active_glow_mid"
+        android:strokeLineCap="round"
+        android:strokeWidth="12" />
+    <path
+        android:fillColor="@android:color/transparent"
+        android:pathData="M32,140 C18,68 58,22 100,20 C142,22 182,68 168,140"
+        android:strokeColor="@color/button_active_glow_inner"
+        android:strokeLineCap="round"
+        android:strokeWidth="4" />
 </vector>
