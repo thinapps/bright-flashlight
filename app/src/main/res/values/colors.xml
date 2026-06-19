@@ -28,9 +28,6 @@
     <color name="power_button_on_end">#FFC92800</color>
     <color name="power_button_on_stroke">#FFFFA15F</color>
     <color name="power_button_on_highlight_start">#80FFFFFF</color>
-    <color name="power_button_on_glow_outer">#22FF6A2A</color>
-    <color name="power_button_on_glow_mid">#4DFF8A3D</color>
-    <color name="power_button_on_glow_inner">#99FFC18A</color>
     <color name="button_active_glow_outer">#22FF6A2A</color>
     <color name="button_active_glow_mid">#4DFF8A3D</color>
     <color name="button_active_glow_inner">#99FFC18A</color>
