@@ -14,10 +14,13 @@
     <dimen name="power_button_padding_top">22dp</dimen>
     <dimen name="power_button_padding_bottom">20dp</dimen>
     <dimen name="power_icon_size">28dp</dimen>
-    <dimen name="power_countdown_top_margin">6dp</dimen>
-    <dimen name="power_countdown_min_height">18dp</dimen>
-    <dimen name="power_countdown_text_size">13sp</dimen>
-    <dimen name="power_label_top_margin">2dp</dimen>
+    <dimen name="power_countdown_top_margin">4dp</dimen>
+    <dimen name="power_countdown_min_height">20dp</dimen>
+    <dimen name="power_countdown_text_size">12sp</dimen>
+    <dimen name="power_countdown_pill_padding_horizontal">8dp</dimen>
+    <dimen name="power_countdown_pill_padding_vertical">2dp</dimen>
+    <dimen name="power_countdown_pill_radius">8dp</dimen>
+    <dimen name="power_label_top_margin">4dp</dimen>
     <dimen name="power_label_text_size">18sp</dimen>
 
     <!-- section labels -->
