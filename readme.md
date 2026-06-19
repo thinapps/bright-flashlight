@@ -16,6 +16,8 @@
 - added a separated upper arc glow to the ON power button state
 - kept the glow static and inside the existing button bounds so the home layout does not expand
 - inset the ON button face so the glow has a visible gap from the actual button surface
+- added a dark glass Auto-off countdown pill inside the power button
+- tightened countdown spacing to 4dp above and below while keeping the icon and ON/OFF label sizes unchanged
 
 ### 0.9.5
 - changed the Screen Light back button ripple from translucent white to translucent black
