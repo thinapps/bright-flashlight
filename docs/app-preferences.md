@@ -109,13 +109,17 @@ Screen Light uses fixed color preset tiles instead of exposing RGB sliders on th
 Supported user-facing presets:
 
 ```text
-White, Cool White, Warm, Candle, Amber, Yellow, Orange, Red, Pink, Magenta, Lavender, Purple, Blue, Sky, Cyan, Aqua, Teal, Green, Mint, Lime
+White, Soft White, Study White, Warm White, Candle, Amber, Orange, Red, Rose, Magenta, Violet, Indigo, Blue, Sky Blue, Cyan, Turquoise, Green, Soft Green, Lime, Gray
 ```
+
+The current palette is intentionally balanced across utility light, reading/study light, night light, emergency/alert colors, and playful color testing. Avoid adding multiple near-duplicate warm, cyan, or green tones unless the preset grid is intentionally expanded.
 
 Tapping a Screen Light preset saves:
 
 - the preset key in `screen_light_preset`
 - the matching RGB values in `screen_light_r`, `screen_light_g`, and `screen_light_b`
+
+The user-facing labels can change without changing the saved preset keys. Keep the current keys stable unless a migration is intentionally added, because existing installs may already have one of those keys saved.
 
 The RGB keys remain because they are the simplest persisted color format and preserve compatibility with older installs that may already have a custom RGB color saved. If an older saved color has no preset key, Screen Light can still display that saved color, but new user-facing color changes should come from the fixed preset tiles.
 
