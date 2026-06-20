@@ -12,6 +12,12 @@
 
 ## Changelog
 
+### 0.9.9
+- enlarged the active power halo from 196dp to 228dp so the glow has enough room to bloom outside the 156dp button
+- added a dark oval gap mask between the halo and the button so the glow no longer appears to touch the button edge
+- widened the XML radial halo and reduced the lower crop so the glow wraps farther down the button while still fading out near the bottom
+- increased the active halo alpha so the ON state reads clearly on the dark background
+
 ### 0.9.8
 - moved the active power glow into a separate larger halo layer behind the unchanged 156dp power button
 - kept the halo as a plain decorative view controlled by `MainActivity.kt` instead of a custom self-watching view
