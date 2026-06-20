@@ -12,6 +12,11 @@
 
 ## Changelog
 
+### 0.9.8
+- moved the active power glow into a separate larger halo layer behind the unchanged 156dp power button
+- kept the halo decorative and non-clickable while preserving the original power button touch target
+- kept the ON power button background face-only so the button shape does not change between OFF and ON states
+
 ### 0.9.7
 - restored the ON power button face sizing so the button does not visually shrink when active
 - replaced the hard active glow arc strokes with a soft radial haze
