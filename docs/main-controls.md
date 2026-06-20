@@ -24,7 +24,9 @@ The ON/OFF label should stay large and simple. The current label size is `18sp`.
 
 A reserved countdown pill lives above the ON/OFF label. It stays invisible when no Auto-off countdown is active so the power button layout does not shift. When a light mode is running and Auto-off is enabled, the slot shows a compact dark glass `MM:SS` pill with `4dp` spacing above and below.
 
-The ON power button state can use a soft warm radial haze as a subtle active-light accent. Keep it static, low-alpha, and free of hard rings, hard arc strokes, button-face insets, or animation unless the design is intentionally revisited.
+The ON power button state can use a soft warm radial haze as a subtle active-light accent. Keep it static, separate from the actual button face, and free of hard rings, hard arc strokes, button-face insets, or animation unless the design is intentionally revisited.
+
+The active halo should sit behind a dark oval gap mask so the glow reads as light spill around the button instead of touching the button edge.
 
 ## Haptics
 
@@ -178,13 +180,13 @@ Before shipping main-control changes, test:
 
 - normal portrait screen has little or no scrolling
 - full-width controls align to a `24dp` effective screen gutter
-- Screen Light appears as a real top-right `Screen` overlay pill, not a full-width primary button or part of the bottom stack
+- Screen Light appears as a real top-right `Screen` overlay pill, not as a full-width primary button or part of the bottom stack
 - Screen Light remains available without Camera permission
 - power, Screen, Mode, Auto-off, Brightness, and Strobe Speed provide haptic feedback on user interactions
 - power button ON/OFF label is clear at `18sp`
 - power button keeps the countdown slot above ON/OFF without shifting the layout
 - Auto-off countdown appears as a compact dark glass `MM:SS` pill only when a light mode is active and Auto-off is enabled
-- ON power button glow appears only in the active ON state as a soft radial haze, not a hard arc, border, or face-size change
+- ON power button glow appears only in the active ON state as a separated soft radial haze around the upper 75% of the button, not a hard arc, border, face-size change, or glow touching the button edge
 - Auto-off controls lock while Torch, Strobe, or SOS is active, dim to match the disabled slider placeholders, keep the selected Auto-off value highlighted, reject all touches while locked, then unlock and return to full opacity when the light mode stops
 - Auto-off always has exactly one selected option; no interaction should leave the Auto-off bar with nothing highlighted
 - all intentional dimmed sections use `0.45` alpha unless a documented reason says otherwise
