@@ -1,24 +1,48 @@
-<vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="176dp"
-    android:height="176dp"
-    android:viewportWidth="200"
-    android:viewportHeight="200">
-    <path
-        android:fillColor="@android:color/transparent"
-        android:pathData="M12,138 C-6,58 50,0 100,0 C150,0 206,58 188,138"
-        android:strokeColor="@color/button_active_glow_outer"
-        android:strokeLineCap="round"
-        android:strokeWidth="16" />
-    <path
-        android:fillColor="@android:color/transparent"
-        android:pathData="M12,138 C-6,58 50,0 100,0 C150,0 206,58 188,138"
-        android:strokeColor="@color/button_active_glow_mid"
-        android:strokeLineCap="round"
-        android:strokeWidth="8" />
-    <path
-        android:fillColor="@android:color/transparent"
-        android:pathData="M12,138 C-6,58 50,0 100,0 C150,0 206,58 188,138"
-        android:strokeColor="@color/button_active_glow_inner"
-        android:strokeLineCap="round"
-        android:strokeWidth="3" />
-</vector>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:bottom="24dp">
+        <shape android:shape="oval">
+            <gradient
+                android:type="radial"
+                android:centerX="0.5"
+                android:centerY="0.42"
+                android:gradientRadius="92dp"
+                android:startColor="@color/button_active_glow_clear"
+                android:centerColor="@color/button_active_glow_outer"
+                android:endColor="@color/button_active_glow_clear" />
+        </shape>
+    </item>
+
+    <item
+        android:left="8dp"
+        android:top="2dp"
+        android:right="8dp"
+        android:bottom="34dp">
+        <shape android:shape="oval">
+            <gradient
+                android:type="radial"
+                android:centerX="0.5"
+                android:centerY="0.42"
+                android:gradientRadius="76dp"
+                android:startColor="@color/button_active_glow_clear"
+                android:centerColor="@color/button_active_glow_mid"
+                android:endColor="@color/button_active_glow_clear" />
+        </shape>
+    </item>
+
+    <item
+        android:left="18dp"
+        android:top="10dp"
+        android:right="18dp"
+        android:bottom="46dp">
+        <shape android:shape="oval">
+            <gradient
+                android:type="radial"
+                android:centerX="0.5"
+                android:centerY="0.42"
+                android:gradientRadius="58dp"
+                android:startColor="@color/button_active_glow_clear"
+                android:centerColor="@color/button_active_glow_inner"
+                android:endColor="@color/button_active_glow_clear" />
+        </shape>
+    </item>
+</layer-list>
