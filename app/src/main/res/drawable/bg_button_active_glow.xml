@@ -1,11 +1,11 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:bottom="24dp">
+    <item android:bottom="4dp">
         <shape android:shape="oval">
             <gradient
                 android:type="radial"
                 android:centerX="0.5"
-                android:centerY="0.42"
-                android:gradientRadius="92dp"
+                android:centerY="0.46"
+                android:gradientRadius="300dp"
                 android:startColor="@color/button_active_glow_clear"
                 android:centerColor="@color/button_active_glow_outer"
                 android:endColor="@color/button_active_glow_clear" />
@@ -14,15 +14,15 @@
 
     <item
         android:left="8dp"
-        android:top="2dp"
+        android:top="0dp"
         android:right="8dp"
-        android:bottom="34dp">
+        android:bottom="18dp">
         <shape android:shape="oval">
             <gradient
                 android:type="radial"
                 android:centerX="0.5"
-                android:centerY="0.42"
-                android:gradientRadius="76dp"
+                android:centerY="0.43"
+                android:gradientRadius="250dp"
                 android:startColor="@color/button_active_glow_clear"
                 android:centerColor="@color/button_active_glow_mid"
                 android:endColor="@color/button_active_glow_clear" />
@@ -31,15 +31,15 @@
 
     <item
         android:left="18dp"
-        android:top="10dp"
+        android:top="4dp"
         android:right="18dp"
-        android:bottom="46dp">
+        android:bottom="34dp">
         <shape android:shape="oval">
             <gradient
                 android:type="radial"
                 android:centerX="0.5"
-                android:centerY="0.42"
-                android:gradientRadius="58dp"
+                android:centerY="0.40"
+                android:gradientRadius="210dp"
                 android:startColor="@color/button_active_glow_clear"
                 android:centerColor="@color/button_active_glow_inner"
                 android:endColor="@color/button_active_glow_clear" />
