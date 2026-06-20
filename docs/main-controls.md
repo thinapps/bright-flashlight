@@ -26,7 +26,7 @@ A reserved countdown pill lives above the ON/OFF label. It stays invisible when 
 
 The ON power button state can use a soft warm radial haze as a subtle active-light accent. Keep it static, separate from the actual button face, and free of hard rings, hard arc strokes, button-face insets, or animation unless the design is intentionally revisited.
 
-The active halo should sit behind a dark oval gap mask so the glow reads as light spill around the button instead of touching the button edge.
+The active halo should sit behind the button face, which naturally covers the glow center so the halo does not render as a ring or donut.
 
 ## Haptics
 
@@ -186,7 +186,7 @@ Before shipping main-control changes, test:
 - power button ON/OFF label is clear at `18sp`
 - power button keeps the countdown slot above ON/OFF without shifting the layout
 - Auto-off countdown appears as a compact dark glass `MM:SS` pill only when a light mode is active and Auto-off is enabled
-- ON power button glow appears only in the active ON state as a separated soft radial haze around the upper 75% of the button, not a hard arc, border, face-size change, or glow touching the button edge
+- ON power button glow appears only in the active ON state as a separated soft radial haze around the upper 75% of the button, not a hard arc, border, face-size change, or donut ring
 - Auto-off controls lock while Torch, Strobe, or SOS is active, dim to match the disabled slider placeholders, keep the selected Auto-off value highlighted, reject all touches while locked, then unlock and return to full opacity when the light mode stops
 - Auto-off always has exactly one selected option; no interaction should leave the Auto-off bar with nothing highlighted
 - all intentional dimmed sections use `0.45` alpha unless a documented reason says otherwise
