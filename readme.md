@@ -12,6 +12,12 @@
 
 ## Changelog
 
+### 0.9.10
+- fixed the active power halo gradient so it no longer renders as a donut ring
+- disabled the dark halo gap mask after testing showed it created a visible black ring around the power button
+- kept the halo behind the unchanged 156dp power button while letting the button face naturally cover the glow center
+- kept the active halo XML-only with no image assets
+
 ### 0.9.9
 - enlarged the active power halo from 196dp to 228dp so the glow has enough room to bloom outside the 156dp button
 - added a dark oval gap mask between the halo and the button so the glow no longer appears to touch the button edge
