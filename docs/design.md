@@ -43,10 +43,10 @@ Bright Flashlight should feel like a simple hardware tool: dark, stable, readabl
 ## Power button
 
 - Keep the main power button size stable so the home layout does not shift between OFF, ON, and disabled states.
-- The ON state may use a static upper arc glow, but it should not become a full-circle halo.
-- Keep the ON glow behind the original orange button face, not as an inset border that changes the button shape.
+- The ON state may use a static upper glow, but it should not become a full-circle halo.
+- Make the active glow feel like a soft CSS-style light spill, not a hard vector line, border, or ring.
+- Keep the ON glow as a low-alpha radial haze around the upper 75–85% of the button.
 - Do not shrink, inset, or reshape the ON button face to make room for the glow.
-- Keep the glow subtle, warm, and mostly around the upper 75–85% of the button.
 - Do not animate the glow unless there is a clear reason and lifecycle handling stays simple.
 - Show the Auto-off countdown as a compact dark glass pill inside the power button.
 - Keep the countdown pill between the power icon and ON/OFF label with matching 4dp gaps above and below.
