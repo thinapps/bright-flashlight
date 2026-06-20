@@ -623,6 +623,7 @@ class MainActivity : ComponentActivity() {
     binding.btnToggle.setBackgroundResource(
       if (off) R.drawable.bg_power_button_off else R.drawable.bg_power_button_on
     )
+    binding.viewPowerHalo.visibility = if (off) View.INVISIBLE else View.VISIBLE
   }
 
   private fun syncUiEnabledState(enabled: Boolean) {
@@ -651,6 +652,7 @@ class MainActivity : ComponentActivity() {
       binding.txtPowerState.setText(R.string.action_torch_on)
       binding.btnToggle.contentDescription = getString(R.string.action_torch_on)
       binding.btnToggle.setBackgroundResource(R.drawable.bg_power_button_disabled)
+      binding.viewPowerHalo.visibility = View.INVISIBLE
     } else {
       setPowerLabel(off = !lightActive)
     }
