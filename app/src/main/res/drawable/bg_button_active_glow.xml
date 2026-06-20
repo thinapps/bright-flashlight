@@ -5,20 +5,20 @@
     android:viewportHeight="200">
     <path
         android:fillColor="@android:color/transparent"
-        android:pathData="M32,140 C18,68 58,22 100,20 C142,22 182,68 168,140"
+        android:pathData="M12,138 C-6,58 50,0 100,0 C150,0 206,58 188,138"
         android:strokeColor="@color/button_active_glow_outer"
         android:strokeLineCap="round"
-        android:strokeWidth="20" />
+        android:strokeWidth="16" />
     <path
         android:fillColor="@android:color/transparent"
-        android:pathData="M32,140 C18,68 58,22 100,20 C142,22 182,68 168,140"
+        android:pathData="M12,138 C-6,58 50,0 100,0 C150,0 206,58 188,138"
         android:strokeColor="@color/button_active_glow_mid"
         android:strokeLineCap="round"
-        android:strokeWidth="12" />
+        android:strokeWidth="8" />
     <path
         android:fillColor="@android:color/transparent"
-        android:pathData="M32,140 C18,68 58,22 100,20 C142,22 182,68 168,140"
+        android:pathData="M12,138 C-6,58 50,0 100,0 C150,0 206,58 188,138"
         android:strokeColor="@color/button_active_glow_inner"
         android:strokeLineCap="round"
-        android:strokeWidth="4" />
+        android:strokeWidth="3" />
 </vector>
