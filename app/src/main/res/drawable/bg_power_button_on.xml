@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@drawable/bg_button_active_glow" />
-
     <item
         android:top="@dimen/power_shadow_inset_top"
         android:left="@dimen/power_shadow_inset_side"
@@ -36,4 +34,6 @@
                 android:endColor="@color/power_button_highlight_end" />
         </shape>
     </item>
+
+    <item android:drawable="@drawable/bg_button_active_glow" />
 </layer-list>
