@@ -11,11 +11,7 @@
         </shape>
     </item>
 
-    <item
-        android:left="@dimen/power_button_on_glow_gap"
-        android:top="@dimen/power_button_on_glow_gap"
-        android:right="@dimen/power_button_on_glow_gap"
-        android:bottom="@dimen/power_button_on_glow_face_bottom">
+    <item android:bottom="@dimen/power_face_inset_bottom">
         <shape android:shape="oval">
             <gradient
                 android:angle="270"
@@ -29,10 +25,10 @@
     </item>
 
     <item
-        android:left="@dimen/power_button_on_glow_highlight_side"
-        android:top="@dimen/power_button_on_glow_highlight_top"
-        android:right="@dimen/power_button_on_glow_highlight_side"
-        android:bottom="@dimen/power_button_on_glow_highlight_bottom">
+        android:left="@dimen/power_highlight_on_side"
+        android:top="@dimen/power_highlight_on_top"
+        android:right="@dimen/power_highlight_on_side"
+        android:bottom="@dimen/power_highlight_on_bottom">
         <shape android:shape="oval">
             <gradient
                 android:angle="270"
