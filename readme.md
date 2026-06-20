@@ -12,10 +12,13 @@
 
 ## Changelog
 
-### 0.9.6
-- added a separated upper arc glow to the ON power button state
+### 0.9.7
 - restored the ON power button face sizing so the button does not visually shrink when active
 - kept the glow static and behind the original ON button face instead of using it as a border
+- removed the bad ON glow inset dimensions that made the active button look smaller
+
+### 0.9.6
+- added a separated upper arc glow to the ON power button state
 - added a dark glass Auto-off countdown pill inside the power button
 - tightened countdown spacing to 4dp above and below while keeping the icon and ON/OFF label sizes unchanged
 
