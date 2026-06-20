@@ -14,8 +14,8 @@
 
 ### 0.9.6
 - added a separated upper arc glow to the ON power button state
-- kept the glow static and inside the existing button bounds so the home layout does not expand
-- inset the ON button face so the glow has a visible gap from the actual button surface
+- restored the ON power button face sizing so the button does not visually shrink when active
+- kept the glow static and behind the original ON button face instead of using it as a border
 - added a dark glass Auto-off countdown pill inside the power button
 - tightened countdown spacing to 4dp above and below while keeping the icon and ON/OFF label sizes unchanged
 
