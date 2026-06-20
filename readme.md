@@ -14,7 +14,8 @@
 
 ### 0.9.8
 - moved the active power glow into a separate larger halo layer behind the unchanged 156dp power button
-- kept the halo decorative and non-clickable while preserving the original power button touch target
+- kept the halo as a plain decorative view controlled by `MainActivity.kt` instead of a custom self-watching view
+- kept the halo non-clickable while preserving the original power button touch target
 - kept the ON power button background face-only so the button shape does not change between OFF and ON states
 
 ### 0.9.7
