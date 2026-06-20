@@ -14,8 +14,9 @@
 
 ### 0.9.7
 - restored the ON power button face sizing so the button does not visually shrink when active
-- kept the glow static and behind the original ON button face instead of using it as a border
+- replaced the hard active glow arc strokes with a soft radial haze
 - removed the bad ON glow inset dimensions that made the active button look smaller
+- kept the active glow static and subtle so it reads like light spill instead of a border
 
 ### 0.9.6
 - added a separated upper arc glow to the ON power button state
@@ -286,7 +287,7 @@
 
 ### 0.5.2
 - fixed app crash caused by unguarded access to `sliderBrightness` during activity startup (again)
-- ensured the brightness slider is safely initialized to prevent Null Pointer Exceptions
+- ensured the brightness slider is safely initialized to prevent null pointer exceptions
 
 ### 0.5.1
 - fixed app crash caused by unguarded access to `sliderBrightness` during activity startup
