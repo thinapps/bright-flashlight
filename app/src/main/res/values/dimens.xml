@@ -9,6 +9,7 @@
 
     <!-- power button -->
     <dimen name="power_button_size">156dp</dimen>
+    <dimen name="power_halo_size">196dp</dimen>
     <dimen name="power_button_elevation">8dp</dimen>
     <dimen name="power_button_padding_horizontal">18dp</dimen>
     <dimen name="power_button_padding_top">22dp</dimen>
