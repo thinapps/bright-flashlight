@@ -28,9 +28,10 @@
     <color name="power_button_on_end">#FFC92800</color>
     <color name="power_button_on_stroke">#FFFFA15F</color>
     <color name="power_button_on_highlight_start">#80FFFFFF</color>
-    <color name="button_active_glow_outer">#22FF6A2A</color>
-    <color name="button_active_glow_mid">#4DFF8A3D</color>
-    <color name="button_active_glow_inner">#99FFC18A</color>
+    <color name="button_active_glow_clear">#00FF8A3D</color>
+    <color name="button_active_glow_outer">#18FF6A2A</color>
+    <color name="button_active_glow_mid">#24FF8A3D</color>
+    <color name="button_active_glow_inner">#30FFC18A</color>
     <color name="power_countdown_pill_bg">#66000000</color>
     <color name="power_button_disabled_shadow">#8A8A8A</color>
     <color name="power_button_disabled_start">#FFBDBDBD</color>
