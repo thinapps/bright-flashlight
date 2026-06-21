@@ -12,6 +12,10 @@
 
 ## Changelog
 
+### 0.10.1
+- remembered whether the Screen Light color tray was collapsed or expanded when reopening Screen Light
+- saved the Screen Light tray state locally only when the user taps the tray toggle
+
 ### 0.10.0
 - fixed Auto-off service updates so brightness and strobe changes no longer reset an active timer
 - added a legacy launcher icon fallback for Android 7.x devices while keeping the Android 8+ adaptive icon path unchanged
