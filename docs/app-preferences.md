@@ -46,6 +46,7 @@ Current saved values:
 | `last_mode` | String | `TORCH` | Restores the last selected flashlight mode. |
 | `auto_off_minutes` | Int | `0` | Restores the selected Auto-off option. Supported values are `0`, `5`, `15`, `30`, and `60`. |
 | `strobe_speed` | Int | `3` | Restores the selected Strobe speed in hertz. Supported preset values are `1`, `2`, `3`, `4`, and `5`. |
+| `torch_strength_level` | Int | none | Restores the selected Torch brightness level on devices that support torch strength control. |
 | `screen_light_r` | Int | `255` | Restores the red channel for Screen Light. |
 | `screen_light_g` | Int | `255` | Restores the green channel for Screen Light. |
 | `screen_light_b` | Int | `255` | Restores the blue channel for Screen Light. |
@@ -103,6 +104,16 @@ Use `StrobeSpeedPreset` for:
 
 This keeps `MainActivity`, `AppPreferences`, and `TorchService` aligned when strobe behavior changes.
 
+## Torch brightness
+
+`torch_strength_level` stores the user's selected Torch brightness level only on devices that expose Camera2 torch strength control.
+
+Fresh installs and devices without a saved value keep the current behavior: Torch brightness starts at the device max strength.
+
+When restoring, `MainActivity` waits until `TorchController` reports the current device max strength, then clamps the saved value into the supported `1..maxStrength` range. This avoids applying a stale level that is too high for a different device or changed hardware report.
+
+The app should save this value only when the user changes the Brightness slider. Do not save the value while restoring preferences, and do not use this preference to auto-start Torch.
+
 ## Screen Light presets
 
 Screen Light uses fixed color preset tiles instead of exposing RGB sliders on the main Screen Light panel.
@@ -147,6 +158,7 @@ On app launch, `MainActivity` restores:
 - selected mode
 - Auto-off option
 - Strobe speed
+- Torch brightness level, when supported and previously saved
 
 On Screen Light launch, `ScreenLightActivity` restores:
 
@@ -161,6 +173,7 @@ The app saves preferences when the user changes normal UI choices:
 - changing mode saves `last_mode`
 - changing Auto-off while unlocked saves `auto_off_minutes`
 - changing Strobe speed saves `strobe_speed`
+- changing Torch brightness saves `torch_strength_level` when torch strength control is supported
 - tapping a Screen Light preset saves RGB values and `screen_light_preset`
 - tapping the Screen Light tray toggle saves `screen_light_tray_collapsed`
 
@@ -189,6 +202,9 @@ Before shipping preference changes, test:
 - confirm locked/dimmed Auto-off touches do not change or save `auto_off_minutes`
 - change Strobe speed, close app, reopen app
 - confirm Strobe speed restores to the same named preset
+- change Torch brightness, close app, reopen app
+- confirm Torch brightness restores to the saved level on supported devices
+- confirm Torch brightness defaults to max when no saved level exists
 - change Screen Light preset, close Screen Light, reopen Screen Light
 - confirm Screen Light restores the selected preset tile and matching color
 - collapse the Screen Light color tray, close Screen Light, reopen Screen Light
