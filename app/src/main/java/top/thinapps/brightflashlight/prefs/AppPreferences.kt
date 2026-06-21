@@ -17,6 +17,7 @@ data class SavedPreferences(
     val lastMode: String = DEFAULT_MODE,
     val autoOffMinutes: Int = DEFAULT_AUTO_OFF_MINUTES,
     val strobeSpeed: Int = StrobeSpeedPreset.DEFAULT_HZ,
+    val torchStrengthLevel: Int? = null,
     val screenLightR: Int = DEFAULT_SCREEN_LIGHT_COLOR,
     val screenLightG: Int = DEFAULT_SCREEN_LIGHT_COLOR,
     val screenLightB: Int = DEFAULT_SCREEN_LIGHT_COLOR,
@@ -27,6 +28,7 @@ data class SavedPreferences(
 private const val DEFAULT_MODE = "TORCH"
 private const val DEFAULT_AUTO_OFF_MINUTES = 0
 private const val DEFAULT_SCREEN_LIGHT_COLOR = 255
+private const val DEFAULT_TORCH_STRENGTH = 1
 
 private val allowedModes = setOf("TORCH", "STROBE", "SOS")
 private val allowedAutoOffMinutes = setOf(0, 5, 15, 30, 60)
@@ -43,6 +45,7 @@ class AppPreferences(context: Context) {
         val LAST_MODE = stringPreferencesKey("last_mode")
         val AUTO_OFF_MINUTES = intPreferencesKey("auto_off_minutes")
         val STROBE_SPEED = intPreferencesKey("strobe_speed")
+        val TORCH_STRENGTH_LEVEL = intPreferencesKey("torch_strength_level")
         val SCREEN_LIGHT_R = intPreferencesKey("screen_light_r")
         val SCREEN_LIGHT_G = intPreferencesKey("screen_light_g")
         val SCREEN_LIGHT_B = intPreferencesKey("screen_light_b")
@@ -63,6 +66,7 @@ class AppPreferences(context: Context) {
                 lastMode = normalizeMode(prefs[Keys.LAST_MODE]),
                 autoOffMinutes = normalizeAutoOffMinutes(prefs[Keys.AUTO_OFF_MINUTES] ?: DEFAULT_AUTO_OFF_MINUTES),
                 strobeSpeed = StrobeSpeedPreset.normalizeHz(prefs[Keys.STROBE_SPEED] ?: StrobeSpeedPreset.DEFAULT_HZ),
+                torchStrengthLevel = prefs[Keys.TORCH_STRENGTH_LEVEL]?.let(::normalizeTorchStrength),
                 screenLightR = normalizeColor(prefs[Keys.SCREEN_LIGHT_R] ?: DEFAULT_SCREEN_LIGHT_COLOR),
                 screenLightG = normalizeColor(prefs[Keys.SCREEN_LIGHT_G] ?: DEFAULT_SCREEN_LIGHT_COLOR),
                 screenLightB = normalizeColor(prefs[Keys.SCREEN_LIGHT_B] ?: DEFAULT_SCREEN_LIGHT_COLOR),
@@ -86,6 +90,12 @@ class AppPreferences(context: Context) {
     suspend fun saveStrobeSpeed(speed: Int) {
         dataStore.edit { prefs ->
             prefs[Keys.STROBE_SPEED] = StrobeSpeedPreset.normalizeHz(speed)
+        }
+    }
+
+    suspend fun saveTorchStrengthLevel(level: Int) {
+        dataStore.edit { prefs ->
+            prefs[Keys.TORCH_STRENGTH_LEVEL] = normalizeTorchStrength(level)
         }
     }
 
@@ -119,5 +129,9 @@ class AppPreferences(context: Context) {
 
     private fun normalizeColor(value: Int): Int {
         return value.coerceIn(0, 255)
+    }
+
+    private fun normalizeTorchStrength(level: Int): Int {
+        return level.coerceAtLeast(DEFAULT_TORCH_STRENGTH)
     }
 }
