@@ -12,6 +12,13 @@
 
 ## Changelog
 
+### 0.10.0
+- fixed Auto-off service updates so brightness and strobe changes no longer reset an active timer
+- added a legacy launcher icon fallback for Android 7.x devices while keeping the Android 8+ adaptive icon path unchanged
+- removed the transparent power halo gap cleanup layer, unused dimension, and dead drawable
+- corrected SOS timing gaps so symbol, letter, and word pauses use separate durations
+- moved Screen Light tray accessibility labels into string resources and removed small stale resource shims
+
 ### 0.9.10
 - fixed the active power halo gradient so it no longer renders as a donut ring
 - disabled the dark halo gap mask after testing showed it created a visible black ring around the power button
