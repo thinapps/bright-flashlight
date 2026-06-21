@@ -7,6 +7,8 @@
     <string name="action_torch_off">OFF</string>
     <string name="action_open_screen_light">Screen</string>
     <string name="action_back">Back</string>
+    <string name="action_show_color_tray">Show color tray</string>
+    <string name="action_hide_color_tray">Hide color tray</string>
     <string name="auto_off_countdown_placeholder">00:00</string>
 
     <string name="mode_label">Mode</string>
