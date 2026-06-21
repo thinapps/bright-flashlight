@@ -40,8 +40,9 @@ class TorchService : Service() {
         private const val MS_PER_MINUTE = 60_000L
         private const val SOS_DOT_MS = 200L
         private const val SOS_DASH_MS = 600L
-        private const val SOS_GAP_MS = 200L
-        private const val SOS_WORD_GAP_MS = 1200L
+        private const val SOS_SYMBOL_GAP_MS = 200L
+        private const val SOS_LETTER_GAP_MS = 600L
+        private const val SOS_WORD_GAP_MS = 1400L
 
         fun isActive(context: Context): Boolean {
             return context.applicationContext
@@ -293,10 +294,12 @@ class TorchService : Service() {
     private fun startSos() {
         sosRunning = true
         val pattern = mutableListOf<Pair<Boolean, Long>>().apply {
-            repeat(3) { add(true to SOS_DOT_MS); add(false to SOS_GAP_MS) }
-            repeat(3) { add(true to SOS_DASH_MS); add(false to SOS_GAP_MS) }
-            repeat(3) { add(true to SOS_DOT_MS); add(false to SOS_GAP_MS) }
-            add(false to SOS_WORD_GAP_MS)
+            repeat(2) { add(true to SOS_DOT_MS); add(false to SOS_SYMBOL_GAP_MS) }
+            add(true to SOS_DOT_MS); add(false to SOS_LETTER_GAP_MS)
+            repeat(2) { add(true to SOS_DASH_MS); add(false to SOS_SYMBOL_GAP_MS) }
+            add(true to SOS_DASH_MS); add(false to SOS_LETTER_GAP_MS)
+            repeat(2) { add(true to SOS_DOT_MS); add(false to SOS_SYMBOL_GAP_MS) }
+            add(true to SOS_DOT_MS); add(false to SOS_WORD_GAP_MS)
         }
 
         fun runFrom(index: Int) {
