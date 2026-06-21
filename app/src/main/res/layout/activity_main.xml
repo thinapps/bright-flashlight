@@ -61,15 +61,6 @@
             android:importantForAccessibility="no"
             android:visibility="invisible" />
 
-          <View
-            android:layout_width="@dimen/power_halo_gap_size"
-            android:layout_height="@dimen/power_halo_gap_size"
-            android:layout_gravity="center"
-            android:background="@drawable/bg_power_halo_gap"
-            android:clickable="false"
-            android:focusable="false"
-            android:importantForAccessibility="no" />
-
           <FrameLayout
             android:id="@+id/btnToggle"
             android:layout_width="@dimen/power_button_size"
