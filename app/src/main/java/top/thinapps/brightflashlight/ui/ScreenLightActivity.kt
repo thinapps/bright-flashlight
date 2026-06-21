@@ -135,10 +135,10 @@ class ScreenLightActivity : ComponentActivity() {
         if (!::trayToggleButton.isInitialized) return
         if (colorTrayCollapsed) {
             trayToggleButton.setImageResource(R.drawable.ic_expand_less)
-            trayToggleButton.contentDescription = "Show color tray"
+            trayToggleButton.contentDescription = getString(R.string.action_show_color_tray)
         } else {
             trayToggleButton.setImageResource(R.drawable.ic_expand_more)
-            trayToggleButton.contentDescription = "Hide color tray"
+            trayToggleButton.contentDescription = getString(R.string.action_hide_color_tray)
         }
     }
 
