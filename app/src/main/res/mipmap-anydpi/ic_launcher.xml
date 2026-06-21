@@ -39,11 +39,11 @@
 
     <path
         android:fillColor="#FF0B0D10"
-        android:pathData="M38,69A16,16 0,1 0,70 69A16,16 0,1 0,38 69" />
+        android:pathData="M54,53C45.2,53 38,60.2 38,69C38,77.8 45.2,85 54,85C62.8,85 70,77.8 70,69C70,60.2 62.8,53 54,53Z" />
 
     <path
         android:fillColor="#FFFF5A1F"
-        android:pathData="M43,69A11,11 0,1 0,65 69A11,11 0,1 0,43 69" />
+        android:pathData="M54,58C47.9,58 43,62.9 43,69C43,75.1 47.9,80 54,80C60.1,80 65,75.1 65,69C65,62.9 60.1,58 54,58Z" />
 
     <path
         android:fillColor="#FF101316"
