@@ -89,6 +89,8 @@ class TorchService : Service() {
     override fun onBind(intent: Intent?): IBinder? = null
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        val action = intent?.action
+
         intent?.getIntExtra(EXTRA_STROBE_SPEED, -1)?.let { speed ->
             if (speed >= 0) {
                 strobeSpeed = StrobeSpeedPreset.normalizeHz(speed)
@@ -103,12 +105,12 @@ class TorchService : Service() {
         }
 
         intent?.getIntExtra(EXTRA_AUTO_OFF_MINUTES, -1)?.let { minutes ->
-            if (minutes >= 0) {
+            if (minutes >= 0 && isStartAction(action)) {
                 setAutoOffMinutes(minutes)
             }
         }
 
-        when (intent?.action) {
+        when (action) {
             ACTION_TORCH_ON -> {
                 stopPatterns()
                 val level = currentIntensity.coerceAtLeast(DEFAULT_TORCH_INTENSITY)
@@ -228,6 +230,12 @@ class TorchService : Service() {
 
     private fun isAnyModeRunning(): Boolean {
         return strobeRunning || sosRunning || isActive(this)
+    }
+
+    private fun isStartAction(action: String?): Boolean {
+        return action == ACTION_TORCH_ON ||
+            action == ACTION_STROBE_START ||
+            action == ACTION_SOS_START
     }
 
     private fun stopAll() {
