@@ -89,9 +89,6 @@ class TorchController(context: Context) {
 
     fun getMaxStrength(): Int = if (maxStrengthLevel >= 1) maxStrengthLevel else 1
 
-    // compatibility shim for older callers (e.g., TorchService)
-    fun getMaxIntensity(): Int = getMaxStrength()
-
     @SuppressLint("MissingPermission")
     fun setTorch(on: Boolean, level: Int = getMaxStrength()): Boolean {
         if (!ensureCameraReady()) return false
