@@ -55,6 +55,7 @@ class MainActivity : ComponentActivity() {
   private var torchAvailable = false
   private var strengthSupported = false
   private var maxStrength = DEFAULT_TORCH_STRENGTH
+  private var savedTorchStrengthLevel: Int? = null
   private var autoOffControlsLocked = false
   private var lastBrightnessHapticValue = NO_HAPTIC_VALUE
   private var lastStrobeHapticValue = NO_HAPTIC_VALUE
@@ -271,6 +272,10 @@ class MainActivity : ComponentActivity() {
     }
 
     updateBrightnessValueLabel(sliderValue)
+    if (fromUser && !restoringPreferences && strengthSupported) {
+      savedTorchStrengthLevel = sliderValue
+      saveTorchStrengthPreference(sliderValue)
+    }
     if (fromUser && torchOn && selectedMode == Mode.TORCH && strengthSupported) {
       sendToService(ACTION_TORCH_UPDATE_INTENSITY, torchIntensity = sliderValue)
     }
@@ -338,6 +343,7 @@ class MainActivity : ComponentActivity() {
       else -> Mode.TORCH
     }
     selectedAutoOffMinutes = normalizeAutoOffMinutes(saved.autoOffMinutes)
+    savedTorchStrengthLevel = saved.torchStrengthLevel
     binding.groupMode.check(
       when (selectedMode) {
         Mode.STROBE -> R.id.btnModeStrobe
@@ -395,14 +401,17 @@ class MainActivity : ComponentActivity() {
       return
     }
 
+    val restoredStrength = savedTorchStrengthLevel?.coerceIn(DEFAULT_TORCH_STRENGTH, maxStrength) ?: maxStrength
+    savedTorchStrengthLevel = restoredStrength
+
     binding.cardBrightness.visibility = View.VISIBLE
     sb.isEnabled = true
     sb.valueFrom = DEFAULT_TORCH_STRENGTH.toFloat()
     sb.value = DEFAULT_TORCH_STRENGTH.toFloat()
     sb.valueTo = maxStrength.toFloat()
     sb.stepSize = BRIGHTNESS_STEP_SIZE
-    sb.value = maxStrength.toFloat()
-    updateBrightnessValueLabel(maxStrength)
+    sb.value = restoredStrength.toFloat()
+    updateBrightnessValueLabel(restoredStrength)
   }
 
   private fun hasCameraPermission(): Boolean {
@@ -747,6 +756,10 @@ class MainActivity : ComponentActivity() {
 
   private fun saveStrobeSpeedPreference(speed: Int) {
     lifecycleScope.launch { appPreferences.saveStrobeSpeed(speed) }
+  }
+
+  private fun saveTorchStrengthPreference(level: Int) {
+    lifecycleScope.launch { appPreferences.saveTorchStrengthLevel(level) }
   }
 
   private fun sendToService(action: String?, strobeSpeed: Int? = null, torchIntensity: Int? = null) {
