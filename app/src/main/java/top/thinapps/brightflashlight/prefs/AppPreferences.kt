@@ -1,6 +1,7 @@
 package top.thinapps.brightflashlight.prefs
 
 import android.content.Context
+import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.core.intPreferencesKey
@@ -19,7 +20,8 @@ data class SavedPreferences(
     val screenLightR: Int = DEFAULT_SCREEN_LIGHT_COLOR,
     val screenLightG: Int = DEFAULT_SCREEN_LIGHT_COLOR,
     val screenLightB: Int = DEFAULT_SCREEN_LIGHT_COLOR,
-    val screenLightPreset: String? = null
+    val screenLightPreset: String? = null,
+    val screenLightTrayCollapsed: Boolean = false
 )
 
 private const val DEFAULT_MODE = "TORCH"
@@ -45,6 +47,7 @@ class AppPreferences(context: Context) {
         val SCREEN_LIGHT_G = intPreferencesKey("screen_light_g")
         val SCREEN_LIGHT_B = intPreferencesKey("screen_light_b")
         val SCREEN_LIGHT_PRESET = stringPreferencesKey("screen_light_preset")
+        val SCREEN_LIGHT_TRAY_COLLAPSED = booleanPreferencesKey("screen_light_tray_collapsed")
     }
 
     val preferences: Flow<SavedPreferences> = dataStore.data
@@ -63,7 +66,8 @@ class AppPreferences(context: Context) {
                 screenLightR = normalizeColor(prefs[Keys.SCREEN_LIGHT_R] ?: DEFAULT_SCREEN_LIGHT_COLOR),
                 screenLightG = normalizeColor(prefs[Keys.SCREEN_LIGHT_G] ?: DEFAULT_SCREEN_LIGHT_COLOR),
                 screenLightB = normalizeColor(prefs[Keys.SCREEN_LIGHT_B] ?: DEFAULT_SCREEN_LIGHT_COLOR),
-                screenLightPreset = prefs[Keys.SCREEN_LIGHT_PRESET]
+                screenLightPreset = prefs[Keys.SCREEN_LIGHT_PRESET],
+                screenLightTrayCollapsed = prefs[Keys.SCREEN_LIGHT_TRAY_COLLAPSED] ?: false
             )
         }
 
@@ -96,6 +100,12 @@ class AppPreferences(context: Context) {
             } else {
                 prefs[Keys.SCREEN_LIGHT_PRESET] = preset
             }
+        }
+    }
+
+    suspend fun saveScreenLightTrayCollapsed(collapsed: Boolean) {
+        dataStore.edit { prefs ->
+            prefs[Keys.SCREEN_LIGHT_TRAY_COLLAPSED] = collapsed
         }
     }
 

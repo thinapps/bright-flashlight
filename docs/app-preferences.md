@@ -50,6 +50,7 @@ Current saved values:
 | `screen_light_g` | Int | `255` | Restores the green channel for Screen Light. |
 | `screen_light_b` | Int | `255` | Restores the blue channel for Screen Light. |
 | `screen_light_preset` | String | none | Restores the selected Screen Light preset tile when a preset was tapped. |
+| `screen_light_tray_collapsed` | Boolean | `false` | Restores whether the Screen Light color tray is collapsed. |
 
 ## Auto-off presets
 
@@ -119,6 +120,8 @@ Tapping a Screen Light preset saves:
 - the preset key in `screen_light_preset`
 - the matching RGB values in `screen_light_r`, `screen_light_g`, and `screen_light_b`
 
+Tapping the Screen Light color tray toggle saves the current tray state in `screen_light_tray_collapsed`. The default is `false`, so first launch and fresh installs keep the tray expanded.
+
 The user-facing labels can change without changing the saved preset keys. Keep the current keys stable unless a migration is intentionally added, because existing installs may already have one of those keys saved.
 
 The RGB keys remain because they are the simplest persisted color format and preserve compatibility with older installs that may already have a custom RGB color saved. If an older saved color has no preset key, Screen Light can still display that saved color, but new user-facing color changes should come from the fixed preset tiles.
@@ -149,6 +152,7 @@ On Screen Light launch, `ScreenLightActivity` restores:
 
 - last RGB color
 - selected preset tile, when the saved color came from a preset
+- whether the color tray was collapsed or expanded
 
 ## Save behavior
 
@@ -158,6 +162,7 @@ The app saves preferences when the user changes normal UI choices:
 - changing Auto-off while unlocked saves `auto_off_minutes`
 - changing Strobe speed saves `strobe_speed`
 - tapping a Screen Light preset saves RGB values and `screen_light_preset`
+- tapping the Screen Light tray toggle saves `screen_light_tray_collapsed`
 
 Locked or restored UI state should not save preferences as if the user changed them. In particular, Auto-off should not save when the dimmed locked bar rejects touches while Torch, Strobe, or SOS is active.
 
@@ -186,4 +191,8 @@ Before shipping preference changes, test:
 - confirm Strobe speed restores to the same named preset
 - change Screen Light preset, close Screen Light, reopen Screen Light
 - confirm Screen Light restores the selected preset tile and matching color
+- collapse the Screen Light color tray, close Screen Light, reopen Screen Light
+- confirm Screen Light restores the collapsed color tray state
+- expand the Screen Light color tray, close Screen Light, reopen Screen Light
+- confirm Screen Light restores the expanded color tray state
 - confirm flashlight does not turn on automatically after reopening the app

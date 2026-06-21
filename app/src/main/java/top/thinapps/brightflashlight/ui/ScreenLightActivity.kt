@@ -126,7 +126,12 @@ class ScreenLightActivity : ComponentActivity() {
     }
 
     private fun toggleColorTray() {
-        colorTrayCollapsed = !colorTrayCollapsed
+        applyColorTrayCollapsed(!colorTrayCollapsed)
+        saveColorTrayPreference()
+    }
+
+    private fun applyColorTrayCollapsed(collapsed: Boolean) {
+        colorTrayCollapsed = collapsed
         binding.layoutScreenPresets.visibility = if (colorTrayCollapsed) View.GONE else View.VISIBLE
         updateColorTrayToggle()
     }
@@ -154,6 +159,7 @@ class ScreenLightActivity : ComponentActivity() {
     private fun restorePreferences() {
         lifecycleScope.launch {
             val saved = appPreferences.preferences.first()
+            applyColorTrayCollapsed(saved.screenLightTrayCollapsed)
             val preset = presetForKey(saved.screenLightPreset)
             if (preset == null) {
                 clearPresetSelection()
@@ -205,6 +211,12 @@ class ScreenLightActivity : ComponentActivity() {
     private fun saveColorPreference(preset: ScreenPreset) {
         lifecycleScope.launch {
             appPreferences.saveScreenLightColor(preset.r, preset.g, preset.b, preset.key)
+        }
+    }
+
+    private fun saveColorTrayPreference() {
+        lifecycleScope.launch {
+            appPreferences.saveScreenLightTrayCollapsed(colorTrayCollapsed)
         }
     }
 
