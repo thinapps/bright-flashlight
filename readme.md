@@ -15,6 +15,8 @@
 ### 0.10.1
 - remembered whether the Screen Light color tray was collapsed or expanded when reopening Screen Light
 - saved the Screen Light tray state locally only when the user taps the tray toggle
+- remembered the selected Torch brightness level on devices with torch strength support
+- restored saved Torch brightness only after clamping it to the current device max strength
 
 ### 0.10.0
 - fixed Auto-off service updates so brightness and strobe changes no longer reset an active timer
