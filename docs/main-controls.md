@@ -68,6 +68,8 @@ Brightness values are real device torch strength levels from Camera2, not a fake
 
 The activity sets the slider range to the device-supported strength range and sends the selected strength level to `TorchService`. The service should clamp that value to the current device max strength and pass it through to `TorchController`.
 
+When torch strength control is supported, user brightness changes should save locally as `torch_strength_level`. On restore, apply the saved level only after the device max strength is known, clamp it into `1..maxStrength`, and keep fresh installs defaulting to max brightness.
+
 The visible Brightness slider labels start at `1` and end at the device-reported max strength. `0` should never be shown because it implies off, not low brightness.
 
 The Brightness header should mirror the Strobe Speed header pattern by keeping the title on the left and the current value label flush right. Use friendly relative words instead of raw device strength numbers.
@@ -183,6 +185,7 @@ Before shipping main-control changes, test:
 - Screen Light appears as a real top-right `Screen` overlay pill, not as a full-width primary button or part of the bottom stack
 - Screen Light remains available without Camera permission
 - power, Screen, Mode, Auto-off, Brightness, and Strobe Speed provide haptic feedback on user interactions
+- Torch brightness restores to the saved level on supported devices after closing and reopening the app
 - power button ON/OFF label is clear at `18sp`
 - power button keeps the countdown slot above ON/OFF without shifting the layout
 - Auto-off countdown appears as a compact dark glass `MM:SS` pill only when a light mode is active and Auto-off is enabled
