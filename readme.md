@@ -19,6 +19,7 @@
 - moved the Screen Light floating back button into XML while preserving its click, haptic, and inset behavior
 - moved Auto-off preset mapping into one small source-of-truth helper while preserving saved preference normalization and button selection behavior
 - made Screen Light preset application and saving read from the same color resources used by the visible swatches
+- constrained Screen Light chevron and back icon scaling in the host XML so Material vector intrinsic size stays generic
 
 ### 0.10.2
 - aligned the XML default Strobe Speed slider position with the saved Medium default
