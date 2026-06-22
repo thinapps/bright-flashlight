@@ -6,12 +6,17 @@ import android.os.Bundle
 import android.view.Gravity
 import android.view.HapticFeedbackConstants
 import android.view.View
+import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import androidx.activity.ComponentActivity
 import androidx.activity.enableEdgeToEdge
 import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updateLayoutParams
+import androidx.core.view.updatePadding
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.button.MaterialButton
 import kotlinx.coroutines.flow.first
@@ -67,7 +72,8 @@ class ScreenLightActivity : ComponentActivity() {
         binding = ActivityScreenLightBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setupBackButton()
+        val backButton = setupBackButton()
+        applyWindowInsets(backButton)
         setupColorTrayToggle()
         setupPresetButtons()
         clearPresetSelection()
@@ -76,13 +82,45 @@ class ScreenLightActivity : ComponentActivity() {
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
     }
 
-    private fun setupBackButton() {
+    private fun setupBackButton(): View {
         val backButton = layoutInflater.inflate(R.layout.view_screen_light_back_button, binding.root, false)
         backButton.setOnClickListener { view ->
             view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY)
             finish()
         }
         binding.root.addView(backButton)
+        return backButton
+    }
+
+    private fun applyWindowInsets(backButton: View) {
+        val baseTrayLeft = binding.layoutScreenControls.paddingLeft
+        val baseTrayRight = binding.layoutScreenControls.paddingRight
+        val baseTrayBottom = binding.layoutScreenControls.paddingBottom
+        val backButtonLayoutParams = backButton.layoutParams as ViewGroup.MarginLayoutParams
+        val baseBackStart = backButtonLayoutParams.marginStart
+        val baseBackTop = backButtonLayoutParams.topMargin
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { _, insets ->
+            val bars = insets.getInsets(
+                WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout()
+            )
+            val startInset = if (binding.root.layoutDirection == View.LAYOUT_DIRECTION_RTL) {
+                bars.right
+            } else {
+                bars.left
+            }
+
+            binding.layoutScreenControls.updatePadding(
+                left = baseTrayLeft + bars.left,
+                right = baseTrayRight + bars.right,
+                bottom = baseTrayBottom + bars.bottom
+            )
+            backButton.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                marginStart = baseBackStart + startInset
+                topMargin = baseBackTop + bars.top
+            }
+            insets
+        }
     }
 
     private fun setupColorTrayToggle() {
