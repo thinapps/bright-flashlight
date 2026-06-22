@@ -18,6 +18,7 @@
 - enabled edge-to-edge layout handling in both activities for Android 15+ system bar behavior
 - added main screen inset handling so the main content and Screen Light button avoid system bars and display cutouts
 - added Screen Light inset handling so the bottom color tray and floating back button avoid system bars and display cutouts
+- folded one-value Screen Light color and dimension files back into the shared resource files
 
 ### 0.10.1
 - remembered whether the Screen Light color tray was collapsed or expanded when reopening Screen Light
