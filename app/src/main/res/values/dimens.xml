@@ -89,8 +89,6 @@
     <dimen name="dialog_title_text_size">20sp</dimen>
 
     <!-- drawables -->
-    <dimen name="icon_intrinsic_size">24dp</dimen>
-    <dimen name="thin_stroke_width">2dp</dimen>
     <dimen name="power_shadow_inset_top">8dp</dimen>
     <dimen name="power_shadow_inset_side">3dp</dimen>
     <dimen name="power_face_inset_bottom">6dp</dimen>
