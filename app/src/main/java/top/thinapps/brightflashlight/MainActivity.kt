@@ -160,6 +160,7 @@ class MainActivity : ComponentActivity() {
       }
       insets
     }
+    ViewCompat.requestApplyInsets(binding.root)
   }
 
   private fun setupControls() {
