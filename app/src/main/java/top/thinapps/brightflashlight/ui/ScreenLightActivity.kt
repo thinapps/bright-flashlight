@@ -121,6 +121,7 @@ class ScreenLightActivity : ComponentActivity() {
             }
             insets
         }
+        ViewCompat.requestApplyInsets(binding.root)
     }
 
     private fun setupColorTrayToggle() {
