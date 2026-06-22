@@ -15,12 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/tvColor"
-            android:text="@string/screen_color"
-            android:textColor="@color/md_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+        <include layout="@layout/view_screen_light_color_row" />
 
         <GridLayout
             android:id="@+id/layoutScreenPresets"
