@@ -15,6 +15,10 @@ import androidx.activity.ComponentActivity
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updateLayoutParams
+import androidx.core.view.updatePadding
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.slider.Slider
 import kotlinx.coroutines.flow.first
@@ -96,6 +100,7 @@ class MainActivity : ComponentActivity() {
     binding = ActivityMainBinding.inflate(layoutInflater)
     setContentView(binding.root)
     sliderBrightness = binding.root.findViewById(R.id.sliderBrightness)
+    applyWindowInsets()
 
     setupControls()
     updateStrobeSpeedLabel()
@@ -126,6 +131,35 @@ class MainActivity : ComponentActivity() {
   override fun onDestroy() {
     countdownHandler.removeCallbacks(countdownRunnable)
     super.onDestroy()
+  }
+
+  private fun applyWindowInsets() {
+    val baseMainTop = binding.layoutMainContent.paddingTop
+    val baseMainBottom = binding.layoutMainContent.paddingBottom
+    val screenLightParams = binding.btnScreenLight.layoutParams as ViewGroup.MarginLayoutParams
+    val baseScreenLightTop = screenLightParams.topMargin
+    val baseScreenLightEnd = screenLightParams.marginEnd
+
+    ViewCompat.setOnApplyWindowInsetsListener(binding.root) { _, insets ->
+      val bars = insets.getInsets(
+        WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout()
+      )
+      val endInset = if (binding.root.layoutDirection == View.LAYOUT_DIRECTION_RTL) {
+        bars.left
+      } else {
+        bars.right
+      }
+
+      binding.layoutMainContent.updatePadding(
+        top = baseMainTop + bars.top,
+        bottom = baseMainBottom + bars.bottom
+      )
+      binding.btnScreenLight.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+        topMargin = baseScreenLightTop + bars.top
+        marginEnd = baseScreenLightEnd + endInset
+      }
+      insets
+    }
   }
 
   private fun setupControls() {
