@@ -21,6 +21,6 @@
         android:background="@android:color/transparent"
         android:contentDescription="@string/action_hide_color_tray"
         android:padding="@dimen/screen_button_icon_padding"
-        android:scaleType="center"
+        android:scaleType="fitCenter"
         android:src="@drawable/ic_expand_more" />
 </LinearLayout>
