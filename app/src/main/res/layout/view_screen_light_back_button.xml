@@ -10,5 +10,5 @@
     android:contentDescription="@string/action_back"
     android:elevation="@dimen/screen_button_elevation"
     android:padding="@dimen/screen_light_controls_padding"
-    android:scaleType="center"
+    android:scaleType="fitCenter"
     android:src="@drawable/ic_arrow_back" />
