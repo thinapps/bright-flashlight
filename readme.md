@@ -12,6 +12,10 @@
 
 ## Changelog
 
+### 0.10.3
+- added warning logs around torch camera probing and fallback paths so device-specific flashlight issues are easier to diagnose
+- kept torch availability, strength detection, and fallback behavior unchanged
+
 ### 0.10.2
 - aligned the XML default Strobe Speed slider position with the saved Medium default
 - kept the active and dimmed Strobe Speed sliders starting at Medium (3 Hz) before preference restore completes
