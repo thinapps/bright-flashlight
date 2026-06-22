@@ -405,4 +405,6 @@
                 app:strokeWidth="@dimen/screen_light_preset_tile_stroke_width" />
         </GridLayout>
     </LinearLayout>
+
+    <include layout="@layout/view_screen_light_back_button" />
 </FrameLayout>
