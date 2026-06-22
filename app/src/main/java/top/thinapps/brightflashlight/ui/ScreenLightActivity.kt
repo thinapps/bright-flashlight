@@ -10,6 +10,7 @@ import android.view.WindowManager
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import androidx.activity.ComponentActivity
+import androidx.activity.enableEdgeToEdge
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.button.MaterialButton
@@ -60,6 +61,7 @@ class ScreenLightActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
 
         appPreferences = AppPreferences(applicationContext)
         binding = ActivityScreenLightBinding.inflate(layoutInflater)
