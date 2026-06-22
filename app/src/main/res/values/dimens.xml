@@ -80,6 +80,7 @@
     <dimen name="screen_light_preset_tile_margin">2dp</dimen>
     <dimen name="screen_light_preset_tile_stroke_width">0dp</dimen>
     <dimen name="screen_light_preset_selected_stroke_width">0dp</dimen>
+    <dimen name="screen_back_button_background_inset">4dp</dimen>
 
     <!-- dialog -->
     <dimen name="dialog_title_padding_horizontal">24dp</dimen>
