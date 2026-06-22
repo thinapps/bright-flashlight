@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ImageButton xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/btnScreenBack"
     android:layout_width="@dimen/screen_button_height"
     android:layout_height="@dimen/screen_button_height"
     android:layout_gravity="top|start"
