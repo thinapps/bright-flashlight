@@ -9,6 +9,7 @@
     android:background="@drawable/bg_screen_light_back_button"
     android:contentDescription="@string/action_back"
     android:elevation="@dimen/screen_button_elevation"
+    android:imageTint="@color/md_text"
     android:padding="@dimen/screen_light_controls_padding"
     android:scaleType="fitCenter"
     android:src="@drawable/ic_arrow_back" />
