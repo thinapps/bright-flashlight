@@ -30,9 +30,7 @@ class ScreenLightActivity : ComponentActivity() {
     private data class ScreenPreset(
         val key: String,
         val buttonId: Int,
-        val r: Int,
-        val g: Int,
-        val b: Int
+        val colorResId: Int
     )
 
     private lateinit var binding: ActivityScreenLightBinding
@@ -40,26 +38,26 @@ class ScreenLightActivity : ComponentActivity() {
     private var colorTrayCollapsed = false
 
     private val presets = listOf(
-        ScreenPreset(PRESET_WHITE, R.id.btnPresetWhite, COLOR_MAX, COLOR_MAX, COLOR_MAX),
-        ScreenPreset(PRESET_COOL_WHITE, R.id.btnPresetCoolWhite, 244, 241, 232),
-        ScreenPreset(PRESET_WARM, R.id.btnPresetWarm, 234, 244, COLOR_MAX),
-        ScreenPreset(PRESET_CANDLE, R.id.btnPresetCandle, COLOR_MAX, 216, 168),
-        ScreenPreset(PRESET_AMBER, R.id.btnPresetAmber, COLOR_MAX, 154, 61),
-        ScreenPreset(PRESET_YELLOW, R.id.btnPresetYellow, COLOR_MAX, 196, COLOR_MIN),
-        ScreenPreset(PRESET_ORANGE, R.id.btnPresetOrange, COLOR_MAX, 106, COLOR_MIN),
-        ScreenPreset(PRESET_RED, R.id.btnPresetRed, COLOR_MAX, 32, 32),
-        ScreenPreset(PRESET_PINK, R.id.btnPresetPink, COLOR_MAX, 90, 138),
-        ScreenPreset(PRESET_MAGENTA, R.id.btnPresetMagenta, 214, 51, COLOR_MAX),
-        ScreenPreset(PRESET_LAVENDER, R.id.btnPresetLavender, 138, 92, COLOR_MAX),
-        ScreenPreset(PRESET_PURPLE, R.id.btnPresetPurple, 63, 81, COLOR_MAX),
-        ScreenPreset(PRESET_BLUE, R.id.btnPresetBlue, 30, 107, COLOR_MAX),
-        ScreenPreset(PRESET_SKY, R.id.btnPresetSky, 90, 200, COLOR_MAX),
-        ScreenPreset(PRESET_CYAN, R.id.btnPresetCyan, COLOR_MIN, 213, 232),
-        ScreenPreset(PRESET_AQUA, R.id.btnPresetAqua, COLOR_MIN, 191, 165),
-        ScreenPreset(PRESET_TEAL, R.id.btnPresetTeal, COLOR_MIN, 200, 83),
-        ScreenPreset(PRESET_GREEN, R.id.btnPresetGreen, 141, COLOR_MAX, 192),
-        ScreenPreset(PRESET_MINT, R.id.btnPresetMint, 184, 232, 48),
-        ScreenPreset(PRESET_LIME, R.id.btnPresetLime, 191, 199, 207)
+        ScreenPreset(PRESET_WHITE, R.id.btnPresetWhite, R.color.screen_preset_white),
+        ScreenPreset(PRESET_COOL_WHITE, R.id.btnPresetCoolWhite, R.color.screen_preset_cool_white),
+        ScreenPreset(PRESET_WARM, R.id.btnPresetWarm, R.color.screen_preset_warm),
+        ScreenPreset(PRESET_CANDLE, R.id.btnPresetCandle, R.color.screen_preset_candle),
+        ScreenPreset(PRESET_AMBER, R.id.btnPresetAmber, R.color.screen_preset_amber),
+        ScreenPreset(PRESET_YELLOW, R.id.btnPresetYellow, R.color.screen_preset_yellow),
+        ScreenPreset(PRESET_ORANGE, R.id.btnPresetOrange, R.color.screen_preset_orange),
+        ScreenPreset(PRESET_RED, R.id.btnPresetRed, R.color.screen_preset_red),
+        ScreenPreset(PRESET_PINK, R.id.btnPresetPink, R.color.screen_preset_pink),
+        ScreenPreset(PRESET_MAGENTA, R.id.btnPresetMagenta, R.color.screen_preset_magenta),
+        ScreenPreset(PRESET_LAVENDER, R.id.btnPresetLavender, R.color.screen_preset_lavender),
+        ScreenPreset(PRESET_PURPLE, R.id.btnPresetPurple, R.color.screen_preset_purple),
+        ScreenPreset(PRESET_BLUE, R.id.btnPresetBlue, R.color.screen_preset_blue),
+        ScreenPreset(PRESET_SKY, R.id.btnPresetSky, R.color.screen_preset_sky),
+        ScreenPreset(PRESET_CYAN, R.id.btnPresetCyan, R.color.screen_preset_cyan),
+        ScreenPreset(PRESET_AQUA, R.id.btnPresetAqua, R.color.screen_preset_aqua),
+        ScreenPreset(PRESET_TEAL, R.id.btnPresetTeal, R.color.screen_preset_teal),
+        ScreenPreset(PRESET_GREEN, R.id.btnPresetGreen, R.color.screen_preset_green),
+        ScreenPreset(PRESET_MINT, R.id.btnPresetMint, R.color.screen_preset_mint),
+        ScreenPreset(PRESET_LIME, R.id.btnPresetLime, R.color.screen_preset_lime)
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -182,7 +180,7 @@ class ScreenLightActivity : ComponentActivity() {
 
     private fun showPreset(preset: ScreenPreset) {
         setSelectedPreset(preset.key)
-        showColor(preset.r, preset.g, preset.b)
+        showColor(colorForPreset(preset))
     }
 
     private fun clearPresetSelection() {
@@ -216,13 +214,23 @@ class ScreenLightActivity : ComponentActivity() {
         return binding.root.findViewById(R.id.tvColor)
     }
 
+    private fun colorForPreset(preset: ScreenPreset): Int {
+        return ContextCompat.getColor(this, preset.colorResId)
+    }
+
     private fun presetForKey(key: String?): ScreenPreset? {
         return presets.firstOrNull { it.key == key }
     }
 
     private fun saveColorPreference(preset: ScreenPreset) {
+        val color = colorForPreset(preset)
         lifecycleScope.launch {
-            appPreferences.saveScreenLightColor(preset.r, preset.g, preset.b, preset.key)
+            appPreferences.saveScreenLightColor(
+                Color.red(color),
+                Color.green(color),
+                Color.blue(color),
+                preset.key
+            )
         }
     }
 
@@ -230,6 +238,10 @@ class ScreenLightActivity : ComponentActivity() {
         lifecycleScope.launch {
             appPreferences.saveScreenLightTrayCollapsed(colorTrayCollapsed)
         }
+    }
+
+    private fun showColor(color: Int) {
+        showColor(Color.red(color), Color.green(color), Color.blue(color))
     }
 
     private fun showColor(r: Int, g: Int, b: Int) {
