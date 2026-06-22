@@ -59,6 +59,8 @@
     <color name="screen_light_controls_scrim">#73000000</color>
     <color name="screen_button_bg">#FF22272D</color>
     <color name="screen_button_ripple">#33FFFFFF</color>
+    <color name="screen_back_button_ripple">#33000000</color>
+    <color name="screen_light_back_button_bg">#4D000000</color>
     <color name="screen_preset_white">#FFFFFFFF</color>
     <color name="screen_preset_cool_white">#FFF4F1E8</color>
     <color name="screen_preset_warm">#FFEAF4FF</color>
