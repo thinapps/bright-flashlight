@@ -3,13 +3,12 @@ package top.thinapps.brightflashlight.ui
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
-import android.view.Gravity
 import android.view.HapticFeedbackConstants
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.ImageButton
-import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.activity.ComponentActivity
 import androidx.activity.enableEdgeToEdge
 import androidx.core.content.ContextCompat
@@ -38,7 +37,6 @@ class ScreenLightActivity : ComponentActivity() {
 
     private lateinit var binding: ActivityScreenLightBinding
     private lateinit var appPreferences: AppPreferences
-    private lateinit var trayToggleButton: ImageButton
     private var colorTrayCollapsed = false
 
     private val presets = listOf(
@@ -125,44 +123,10 @@ class ScreenLightActivity : ComponentActivity() {
     }
 
     private fun setupColorTrayToggle() {
-        val tray = binding.layoutScreenPresets.parent as? LinearLayout ?: return
-        val colorTextIndex = tray.indexOfChild(binding.tvColor)
-        val colorRow = LinearLayout(this).apply {
-            orientation = LinearLayout.HORIZONTAL
-            gravity = Gravity.CENTER_VERTICAL
-            layoutParams = LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-            )
+        colorTrayToggleButton().setOnClickListener { view ->
+            view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY)
+            toggleColorTray()
         }
-
-        tray.removeView(binding.tvColor)
-        binding.tvColor.layoutParams = LinearLayout.LayoutParams(
-            0,
-            LinearLayout.LayoutParams.WRAP_CONTENT,
-            1f
-        )
-        colorRow.addView(binding.tvColor)
-
-        trayToggleButton = ImageButton(this).apply {
-            layoutParams = LinearLayout.LayoutParams(
-                resources.getDimensionPixelSize(R.dimen.warning_button_size),
-                resources.getDimensionPixelSize(R.dimen.warning_button_size)
-            )
-            setBackgroundColor(Color.TRANSPARENT)
-            setPadding(
-                resources.getDimensionPixelSize(R.dimen.screen_button_icon_padding),
-                resources.getDimensionPixelSize(R.dimen.screen_button_icon_padding),
-                resources.getDimensionPixelSize(R.dimen.screen_button_icon_padding),
-                resources.getDimensionPixelSize(R.dimen.screen_button_icon_padding)
-            )
-            setOnClickListener { view ->
-                view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY)
-                toggleColorTray()
-            }
-        }
-        colorRow.addView(trayToggleButton)
-        tray.addView(colorRow, colorTextIndex)
         updateColorTrayToggle()
     }
 
@@ -178,13 +142,13 @@ class ScreenLightActivity : ComponentActivity() {
     }
 
     private fun updateColorTrayToggle() {
-        if (!::trayToggleButton.isInitialized) return
+        val toggleButton = colorTrayToggleButton()
         if (colorTrayCollapsed) {
-            trayToggleButton.setImageResource(R.drawable.ic_expand_less)
-            trayToggleButton.contentDescription = getString(R.string.action_show_color_tray)
+            toggleButton.setImageResource(R.drawable.ic_expand_less)
+            toggleButton.contentDescription = getString(R.string.action_show_color_tray)
         } else {
-            trayToggleButton.setImageResource(R.drawable.ic_expand_more)
-            trayToggleButton.contentDescription = getString(R.string.action_hide_color_tray)
+            toggleButton.setImageResource(R.drawable.ic_expand_more)
+            toggleButton.contentDescription = getString(R.string.action_hide_color_tray)
         }
     }
 
@@ -245,6 +209,14 @@ class ScreenLightActivity : ComponentActivity() {
         return binding.root.findViewById(preset.buttonId)
     }
 
+    private fun colorTrayToggleButton(): ImageButton {
+        return binding.root.findViewById(R.id.btnColorTrayToggle)
+    }
+
+    private fun colorText(): TextView {
+        return binding.root.findViewById(R.id.tvColor)
+    }
+
     private fun presetForKey(key: String?): ScreenPreset? {
         return presets.firstOrNull { it.key == key }
     }
@@ -267,7 +239,7 @@ class ScreenLightActivity : ComponentActivity() {
         val normalizedB = normalizeColor(b)
         val color = Color.rgb(normalizedR, normalizedG, normalizedB)
         binding.root.setBackgroundColor(color)
-        binding.tvColor.text = getString(
+        colorText().text = getString(
             R.string.screen_color_value,
             formatColorHex(normalizedR, normalizedG, normalizedB)
         )
