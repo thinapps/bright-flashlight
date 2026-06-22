@@ -15,6 +15,8 @@
 ### 0.10.3
 - added warning logs around torch camera probing and fallback paths so device-specific flashlight issues are easier to diagnose
 - kept torch availability, strength detection, and fallback behavior unchanged
+- moved the Screen Light color tray row into XML and kept Kotlin focused on toggle behavior
+- moved the Screen Light floating back button into XML while preserving its click, haptic, and inset behavior
 
 ### 0.10.2
 - aligned the XML default Strobe Speed slider position with the saved Medium default
