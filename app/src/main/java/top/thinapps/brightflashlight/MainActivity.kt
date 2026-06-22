@@ -40,6 +40,7 @@ import top.thinapps.brightflashlight.torch.TorchService.Companion.ACTION_TORCH_U
 import top.thinapps.brightflashlight.torch.TorchService.Companion.EXTRA_AUTO_OFF_MINUTES
 import top.thinapps.brightflashlight.torch.TorchService.Companion.EXTRA_STROBE_SPEED
 import top.thinapps.brightflashlight.torch.TorchService.Companion.EXTRA_TORCH_INTENSITY
+import top.thinapps.brightflashlight.ui.AutoOffPreset
 import top.thinapps.brightflashlight.ui.ScreenLightActivity
 import java.util.Locale
 
@@ -51,7 +52,7 @@ class MainActivity : ComponentActivity() {
 
   private var sliderBrightness: Slider? = null
   private var selectedMode = Mode.TORCH
-  private var selectedAutoOffMinutes = DEFAULT_AUTO_OFF_MINUTES
+  private var selectedAutoOffMinutes = AutoOffPreset.OFF.minutes
   private var torchOn = false
   private var strobeRunning = false
   private var sosRunning = false
@@ -631,27 +632,15 @@ class MainActivity : ComponentActivity() {
   }
 
   private fun normalizeAutoOffMinutes(minutes: Int): Int {
-    return if (minutes in VALID_AUTO_OFF_MINUTES) minutes else DEFAULT_AUTO_OFF_MINUTES
+    return AutoOffPreset.normalizeMinutes(minutes)
   }
 
   private fun minutesForAutoOffButtonId(buttonId: Int): Int {
-    return when (buttonId) {
-      R.id.btnAutoOff5 -> AUTO_OFF_5_MINUTES
-      R.id.btnAutoOff15 -> AUTO_OFF_15_MINUTES
-      R.id.btnAutoOff30 -> AUTO_OFF_30_MINUTES
-      R.id.btnAutoOff60 -> AUTO_OFF_60_MINUTES
-      else -> DEFAULT_AUTO_OFF_MINUTES
-    }
+    return AutoOffPreset.minutesForButtonId(buttonId)
   }
 
   private fun autoOffButtonIdForMinutes(minutes: Int): Int {
-    return when (normalizeAutoOffMinutes(minutes)) {
-      AUTO_OFF_5_MINUTES -> R.id.btnAutoOff5
-      AUTO_OFF_15_MINUTES -> R.id.btnAutoOff15
-      AUTO_OFF_30_MINUTES -> R.id.btnAutoOff30
-      AUTO_OFF_60_MINUTES -> R.id.btnAutoOff60
-      else -> R.id.btnAutoOffOff
-    }
+    return AutoOffPreset.buttonIdForMinutes(minutes)
   }
 
   private fun enforceAutoOffSelection() {
@@ -809,7 +798,6 @@ class MainActivity : ComponentActivity() {
   }
 
   private companion object {
-    const val DEFAULT_AUTO_OFF_MINUTES = 0
     const val DEFAULT_TORCH_STRENGTH = 1
     const val NO_HAPTIC_VALUE = -1
     const val STROBE_SLIDER_MIN = 0
@@ -824,15 +812,5 @@ class MainActivity : ComponentActivity() {
     const val BRIGHTNESS_MEDIUM_RATIO = 0.67f
     const val DISABLED_SECTION_ALPHA = 0.45f
     const val ENABLED_SECTION_ALPHA = 1f
-    const val AUTO_OFF_5_MINUTES = 5
-    const val AUTO_OFF_15_MINUTES = 15
-    const val AUTO_OFF_30_MINUTES = 30
-    const val AUTO_OFF_60_MINUTES = 60
-    val VALID_AUTO_OFF_MINUTES = setOf(
-      AUTO_OFF_5_MINUTES,
-      AUTO_OFF_15_MINUTES,
-      AUTO_OFF_30_MINUTES,
-      AUTO_OFF_60_MINUTES
-    )
   }
 }
