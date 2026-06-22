@@ -8,6 +8,7 @@ import android.hardware.camera2.CameraAccessException
 import android.hardware.camera2.CameraCharacteristics
 import android.hardware.camera2.CameraManager
 import android.os.Build
+import android.util.Log
 import androidx.core.content.ContextCompat
 
 class TorchController(context: Context) {
@@ -35,14 +36,16 @@ class TorchController(context: Context) {
                     val c = cameraManager.getCameraCharacteristics(id)
                     c.get(CameraCharacteristics.FLASH_INFO_AVAILABLE) == true &&
                         c.get(CameraCharacteristics.LENS_FACING) == CameraCharacteristics.LENS_FACING_BACK
-                } catch (_: Throwable) {
+                } catch (e: Throwable) {
+                    Log.w(TAG, "Unable to read back camera characteristics", e)
                     false
                 }
             } ?: ids.firstOrNull { id ->
                 try {
                     cameraManager.getCameraCharacteristics(id)
                         .get(CameraCharacteristics.FLASH_INFO_AVAILABLE) == true
-                } catch (_: Throwable) {
+                } catch (e: Throwable) {
+                    Log.w(TAG, "Unable to read flash camera characteristics", e)
                     false
                 }
             }
@@ -50,7 +53,8 @@ class TorchController(context: Context) {
             backCameraId = chosenId
             probeStrength(chosenId)
             backCameraId != null
-        } catch (_: Throwable) {
+        } catch (e: Throwable) {
+            Log.w(TAG, "Unable to find a usable torch camera", e)
             resetCameraState()
             false
         }
@@ -72,7 +76,8 @@ class TorchController(context: Context) {
                 1
             }
             strengthSupported = Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && maxStrengthLevel > 1
-        } catch (_: Throwable) {
+        } catch (e: Throwable) {
+            Log.w(TAG, "Unable to read torch strength support", e)
             strengthSupported = false
             maxStrengthLevel = 1
         } finally {
@@ -100,7 +105,8 @@ class TorchController(context: Context) {
                 val clamped = level.coerceIn(1, getMaxStrength())
                 try {
                     setTorchStrength(id, clamped)
-                } catch (_: Throwable) {
+                } catch (e: Throwable) {
+                    Log.w(TAG, "Unable to set torch strength, falling back to default torch", e)
                     cameraManager.setTorchMode(id, true)
                 }
             } else {
@@ -135,7 +141,8 @@ class TorchController(context: Context) {
                 } else {
                     try {
                         setTorchStrength(id, level)
-                    } catch (_: Throwable) {
+                    } catch (e: Throwable) {
+                        Log.w(TAG, "Unable to set torch intensity, falling back to default torch", e)
                         cameraManager.setTorchMode(id, true)
                     }
                 }
@@ -152,10 +159,13 @@ class TorchController(context: Context) {
             false
         } catch (_: IllegalStateException) {
             false
-        } catch (_: Throwable) {
+        } catch (e: Throwable) {
+            Log.w(TAG, "Unexpected torch intensity failure", e)
             try {
                 cameraManager.setTorchMode(backCameraId ?: return false, intensity > 0)
-            } catch (_: Throwable) {}
+            } catch (fallbackError: Throwable) {
+                Log.w(TAG, "Fallback torch mode update failed", fallbackError)
+            }
             false
         }
     }
@@ -171,5 +181,9 @@ class TorchController(context: Context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             cameraManager.turnOnTorchWithStrengthLevel(id, level)
         }
+    }
+
+    private companion object {
+        const val TAG = "TorchController"
     }
 }
