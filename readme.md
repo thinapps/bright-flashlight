@@ -13,7 +13,7 @@
 ## Changelog
 
 ### 1.0.0
-- promoted Bright Flashlight to the first stable Google Play release after final system bar, Screen Light, and control polish
+- first stable Google Play release
 
 ### 0.10.4
 - forced readable status bar icons on the dark main screen while keeping the existing edge-to-edge layout
