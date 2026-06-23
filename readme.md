@@ -12,6 +12,11 @@
 
 ## Changelog
 
+### 0.10.4
+- forced readable status bar icons on the dark main screen while keeping the existing edge-to-edge layout
+- added dynamic Screen Light status bar contrast so bright screen colors use dark icons and dark screen colors use light icons
+- kept the bottom Android navigation bar behavior unchanged for this patch
+
 ### 0.10.3
 - added warning logs around torch camera probing and fallback paths so device-specific flashlight issues are easier to diagnose
 - kept torch availability, strength detection, and fallback behavior unchanged
