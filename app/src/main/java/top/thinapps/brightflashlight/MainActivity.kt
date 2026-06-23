@@ -227,10 +227,10 @@ class MainActivity : ComponentActivity() {
       performTapHaptic(view)
       showStrobeWarningDialog()
     }
-    binding.btnStrobeWarningPreview.setOnClickListener { view ->
-      performTapHaptic(view)
-      showStrobeWarningDialog()
-    }
+    binding.btnStrobeWarningPreview.isClickable = false
+    binding.btnStrobeWarningPreview.isFocusable = false
+    binding.btnStrobeWarningPreview.importantForAccessibility = View.IMPORTANT_FOR_ACCESSIBILITY_NO
+    binding.btnStrobeWarningPreview.contentDescription = null
   }
 
   private fun setupModeControls() {
@@ -467,7 +467,7 @@ class MainActivity : ComponentActivity() {
   }
 
   private fun requestCameraPermission() {
-    permLauncher.launch(Manifest.permission.CAMERA)
+    permLauncher.launch()
   }
 
   private fun showAccessNotice(show: Boolean) {
