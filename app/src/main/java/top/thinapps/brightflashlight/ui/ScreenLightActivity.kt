@@ -2,6 +2,7 @@ package top.thinapps.brightflashlight.ui
 
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.view.HapticFeedbackConstants
 import android.view.View
@@ -64,6 +65,9 @@ class ScreenLightActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            window.isNavigationBarContrastEnforced = false
+        }
 
         appPreferences = AppPreferences(applicationContext)
         binding = ActivityScreenLightBinding.inflate(layoutInflater)
@@ -251,16 +255,19 @@ class ScreenLightActivity : ComponentActivity() {
         val normalizedB = normalizeColor(b)
         val color = Color.rgb(normalizedR, normalizedG, normalizedB)
         binding.root.setBackgroundColor(color)
-        applyStatusBarContrast(color)
+        applySystemBarContrast(color)
         colorText().text = getString(
             R.string.screen_color_value,
             formatColorHex(normalizedR, normalizedG, normalizedB)
         )
     }
 
-    private fun applyStatusBarContrast(color: Int) {
-        WindowCompat.getInsetsController(window, window.decorView).isAppearanceLightStatusBars =
-            Color.luminance(color) >= STATUS_BAR_DARK_ICON_LUMINANCE
+    private fun applySystemBarContrast(color: Int) {
+        val useDarkIcons = Color.luminance(color) >= SYSTEM_BAR_DARK_ICON_LUMINANCE
+        WindowCompat.getInsetsController(window, window.decorView).apply {
+            isAppearanceLightStatusBars = useDarkIcons
+            isAppearanceLightNavigationBars = useDarkIcons
+        }
     }
 
     private fun normalizeColor(value: Int): Int {
@@ -294,6 +301,6 @@ class ScreenLightActivity : ComponentActivity() {
         const val PRESET_LIME = "LIME"
         const val COLOR_MIN = 0
         const val COLOR_MAX = 255
-        const val STATUS_BAR_DARK_ICON_LUMINANCE = 0.5f
+        const val SYSTEM_BAR_DARK_ICON_LUMINANCE = 0.5f
     }
 }
