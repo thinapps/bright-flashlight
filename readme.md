@@ -14,8 +14,8 @@
 
 ### 0.10.4
 - forced readable status bar icons on the dark main screen while keeping the existing edge-to-edge layout
-- added dynamic Screen Light status bar contrast so bright screen colors use dark icons and dark screen colors use light icons
-- kept the bottom Android navigation bar behavior unchanged for this patch
+- added dynamic Screen Light status and navigation bar contrast so bright screen colors use dark icons and dark screen colors use light icons
+- removed the Android 3-button navigation contrast scrim on both screens while preserving edge-to-edge inset handling
 
 ### 0.10.3
 - added warning logs around torch camera probing and fallback paths so device-specific flashlight issues are easier to diagnose
