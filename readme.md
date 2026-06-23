@@ -20,7 +20,7 @@
 - moved Auto-off preset mapping into one small source-of-truth helper while preserving saved preference normalization and button selection behavior
 - made Screen Light preset application and saving read from the same color resources used by the visible swatches
 - constrained Screen Light chevron and back icon scaling and tinting in the host XML so Material vector intrinsic size and fill stay generic
-- removed unused vector dimension shims after resetting SVGs to standard Material defaults
+- removed the unused icon intrinsic dimension shim after resetting SVGs to standard Material defaults
 
 ### 0.10.2
 - aligned the XML default Strobe Speed slider position with the saved Medium default
@@ -215,4 +215,4 @@
 ### 0.7.1
 - added a Strobe Speed warning icon that opens a simple flashing-light sensitivity warning modal
 - added a local warning vector icon plus warning title and message strings for the modal
-- dimmed the locked Auto-off section while a light mode is active so disabled controls match the slider placeholder style
+- dimmed the locked Auto-off section so disabled controls match the slider placeholder style
