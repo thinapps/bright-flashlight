@@ -16,6 +16,7 @@
 - forced readable status bar icons on the dark main screen while keeping the existing edge-to-edge layout
 - added dynamic Screen Light status and navigation bar contrast so bright screen colors use dark icons and dark screen colors use light icons
 - removed the Android 3-button navigation contrast scrim on both screens while preserving edge-to-edge inset handling
+- made the dimmed Strobe Speed warning icon decorative only so inactive controls do not open the warning modal
 
 ### 0.10.3
 - added warning logs around torch camera probing and fallback paths so device-specific flashlight issues are easier to diagnose
