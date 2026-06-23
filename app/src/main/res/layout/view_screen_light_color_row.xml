@@ -20,8 +20,8 @@
         android:layout_height="@dimen/warning_button_size"
         android:background="@android:color/transparent"
         android:contentDescription="@string/action_hide_color_tray"
-        android:imageTint="@color/md_text"
         android:padding="@dimen/screen_button_icon_padding"
         android:scaleType="fitCenter"
-        android:src="@drawable/ic_expand_more" />
+        android:src="@drawable/ic_expand_more"
+        android:tint="@color/md_text" />
 </LinearLayout>
