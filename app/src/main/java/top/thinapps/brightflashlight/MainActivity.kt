@@ -467,7 +467,7 @@ class MainActivity : ComponentActivity() {
   }
 
   private fun requestCameraPermission() {
-    permLauncher.launch()
+    permLauncher.launch(Manifest.permission.CAMERA)
   }
 
   private fun showAccessNotice(show: Boolean) {
