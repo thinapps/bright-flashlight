@@ -13,6 +13,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.enableEdgeToEdge
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
 import androidx.core.view.updatePadding
@@ -250,10 +251,16 @@ class ScreenLightActivity : ComponentActivity() {
         val normalizedB = normalizeColor(b)
         val color = Color.rgb(normalizedR, normalizedG, normalizedB)
         binding.root.setBackgroundColor(color)
+        applyStatusBarContrast(color)
         colorText().text = getString(
             R.string.screen_color_value,
             formatColorHex(normalizedR, normalizedG, normalizedB)
         )
+    }
+
+    private fun applyStatusBarContrast(color: Int) {
+        WindowCompat.getInsetsController(window, window.decorView).isAppearanceLightStatusBars =
+            Color.luminance(color) >= STATUS_BAR_DARK_ICON_LUMINANCE
     }
 
     private fun normalizeColor(value: Int): Int {
@@ -287,5 +294,6 @@ class ScreenLightActivity : ComponentActivity() {
         const val PRESET_LIME = "LIME"
         const val COLOR_MIN = 0
         const val COLOR_MAX = 255
+        const val STATUS_BAR_DARK_ICON_LUMINANCE = 0.5f
     }
 }
