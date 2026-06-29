@@ -1,5 +1,7 @@
 # Bright Flashlight
 
+Torch, strobe, SOS, and screen light
+
 ## Documentation
 
 | Document | Description |
