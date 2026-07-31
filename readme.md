@@ -16,7 +16,7 @@ Torch, strobe, SOS, and screen light
 
 ### 1.1.0
 - upgraded the Android build toolchain to AGP 8.10.1, Kotlin 2.2.21, Gradle 8.11.1, and Java 17
-- updated compile and target SDK levels to Android 16 / API 36 without changing Camera permissions or flashlight behavior
+- updated compile and target SDK levels to Android 16 / API 36 ahead of Google Play’s August 31, 2026 requirement for new apps and app updates
 
 ### 1.0.1
 - restores the active Torch, Strobe, or SOS interface and Auto-off countdown after activity recreation
