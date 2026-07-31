@@ -8,6 +8,7 @@ import android.hardware.camera2.CameraAccessException
 import android.hardware.camera2.CameraCharacteristics
 import android.hardware.camera2.CameraManager
 import android.os.Build
+import android.os.Handler
 import android.util.Log
 import androidx.core.content.ContextCompat
 
@@ -20,6 +21,7 @@ class TorchController(context: Context) {
     private var maxStrengthLevel: Int = 1
     private var strengthSupported: Boolean = false
     private var probed = false
+    private var torchCallback: CameraManager.TorchCallback? = null
 
     private fun hasCameraPermission(): Boolean {
         return ContextCompat.checkSelfPermission(appContext, Manifest.permission.CAMERA) ==
@@ -86,6 +88,45 @@ class TorchController(context: Context) {
     }
 
     fun isAvailable(): Boolean = ensureCameraReady()
+
+    fun registerTorchCallback(
+        handler: Handler,
+        onModeChanged: (Boolean) -> Unit,
+        onUnavailable: () -> Unit
+    ): Boolean {
+        if (torchCallback != null) return true
+        if (!ensureCameraReady()) return false
+        val selectedCameraId = backCameraId ?: return false
+
+        val callback = object : CameraManager.TorchCallback() {
+            override fun onTorchModeChanged(cameraId: String, enabled: Boolean) {
+                if (cameraId == selectedCameraId) onModeChanged(enabled)
+            }
+
+            override fun onTorchModeUnavailable(cameraId: String) {
+                if (cameraId == selectedCameraId) onUnavailable()
+            }
+        }
+
+        return try {
+            cameraManager.registerTorchCallback(callback, handler)
+            torchCallback = callback
+            true
+        } catch (e: Throwable) {
+            Log.w(TAG, "Unable to register torch state callback", e)
+            false
+        }
+    }
+
+    fun unregisterTorchCallback() {
+        val callback = torchCallback ?: return
+        torchCallback = null
+        try {
+            cameraManager.unregisterTorchCallback(callback)
+        } catch (e: Throwable) {
+            Log.w(TAG, "Unable to unregister torch state callback", e)
+        }
+    }
 
     fun getStrengthSupport(): Pair<Boolean, Int> {
         ensureCameraReady()
