@@ -1,20 +1,22 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
 android {
     namespace "top.thinapps.brightflashlight"
-    compileSdk 35
+    compileSdk 36
 
     defaultConfig {
         applicationId "top.thinapps.brightflashlight"
 
         // supported and target api levels
         minSdk 24
-        targetSdk 35
+        targetSdk 36
 
         // bump before each release
-        versionCode 62
-        versionName "1.0.1"
+        versionCode 63
+        versionName "1.1.0"
     }
 
     signingConfigs {
@@ -47,15 +49,17 @@ android {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
     }
+}
 
-    kotlinOptions {
-        jvmTarget = "17"
+kotlin {
+    compilerOptions {
+        jvmTarget = JvmTarget.fromTarget("17")
     }
 }
 
 dependencies {
     // kotlin runtime
-    implementation platform("org.jetbrains.kotlin:kotlin-bom:1.9.24")
+    implementation platform("org.jetbrains.kotlin:kotlin-bom:2.2.21")
     implementation "org.jetbrains.kotlin:kotlin-stdlib"
 
     // androidx app support
