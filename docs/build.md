@@ -8,6 +8,21 @@ The project keeps the simple root `build.gradle` and `settings.gradle` layout be
 
 The root `build.gradle` defines the Android and Kotlin build plugins plus the shared repositories. The app module owns the Android app settings, version, dependencies, signing config, and release build type.
 
+## Current toolchain
+
+The repository currently pins:
+
+- minimum SDK: `24`
+- compile SDK: `35`
+- target SDK: `35`
+- Android Build Tools: `35.0.0`
+- Android Gradle Plugin: `8.5.2`
+- Gradle: `8.9`
+- Kotlin: `1.9.24`
+- JDK and Java/Kotlin bytecode target: `17`
+
+Keep this section aligned with `app/build.gradle`, the root `build.gradle`, and `.github/workflows/android-release.yml` whenever the build toolchain changes.
+
 ## R8 and ProGuard
 
 R8 and ProGuard rules are not currently needed because release minification and resource shrinking are disabled in `app/build.gradle`.
