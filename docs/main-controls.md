@@ -107,7 +107,7 @@ The dimmed Strobe Speed preview should always mirror the saved/current Strobe Sp
 
 The Strobe Speed header keeps the title fixed on the left, places the warning icon immediately after the title, and keeps the changing speed value flush right. The dimmed Strobe Speed preview should mirror this header so the warning icon and current value remain visible even when Strobe mode is not selected.
 
-Tapping either Strobe Speed warning icon opens a simple modal with a bold title and a content paragraph warning about flashing light sensitivity and photosensitive epilepsy. Do not replace this with an onboarding notice, persistent banner, or stored dismissal state.
+The active Strobe Speed warning icon opens a simple modal with a bold title and a content paragraph warning about flashing light sensitivity and photosensitive epilepsy. The warning icon in the dimmed preview remains visible but non-interactive. Do not replace the modal with an onboarding notice, persistent banner, or stored dismissal state.
 
 The canonical speed mapping lives in:
 
@@ -196,7 +196,8 @@ Before shipping main-control changes, test:
 - Brightness value is flush right in the header and updates as Low, Medium, High, or Max based on device-supported strength levels
 - dimmed or unsupported Brightness placeholder shows `Max`
 - Brightness and Strobe Speed header/well spacing matches exactly
-- Strobe Speed warning icon appears immediately after the Strobe Speed title and opens a simple warning modal with a bold title and content paragraph when tapped
+- active Strobe Speed warning icon appears immediately after the Strobe Speed title and opens a simple warning modal with a bold title and content paragraph when tapped
+- dimmed Strobe Speed preview warning icon remains visible but does not accept taps
 - Strobe Speed value is flush right in the header with no trailing right gap
 - dimmed Strobe Speed preview mirrors the warning icon and saved/current speed value before Strobe mode is enabled
 - Brightness value bubble starts at `1`, not `0`, on devices with torch strength support
