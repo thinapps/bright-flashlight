@@ -176,6 +176,14 @@ When Auto-off is enabled before starting Torch, Strobe, or SOS, the power button
 
 `TorchService` should use a single reusable Auto-off check runnable and clear any pending check before posting the next one. Do not stack anonymous delayed Auto-off checks.
 
+## External torch interruption
+
+Android can turn off or temporarily reserve the flash when another app opens the camera or higher-priority camera resources are needed.
+
+`TorchService` should observe the selected flash camera while it exists. If steady Torch is externally switched off, or the flash becomes unavailable while Torch, Strobe, or SOS is active, the service should stop and clear its active state. Strobe and SOS must also stop if any scheduled flash pulse fails instead of continuing a pattern that is no longer controlling the hardware.
+
+Normal Strobe and SOS off-pulses are intentional and must not be mistaken for an external interruption. When the user returns to the app after an interruption, the activity should restore the cleared service state and show the power control as off.
+
 ## Testing checklist
 
 Before shipping main-control changes, test:
@@ -211,5 +219,8 @@ Before shipping main-control changes, test:
 - Torch mode shows the active Brightness overlay only on devices with torch strength support
 - Strobe mode shows Strobe Speed and updates while running
 - SOS mode hides Brightness and Strobe Speed but keeps Auto-off available
+- opening another camera app while Torch is active stops the service and restores the power control to off when returning
+- opening another camera app while Strobe or SOS is active stops the pattern instead of leaving stale active state
+- normal Strobe and SOS off-pulses continue without being treated as external interruption
 - Auto-off remains a single normal section, not a duplicate placeholder section
 - Auto-off options show `Off`, `5m`, `15m`, `30m`, and `1h`
