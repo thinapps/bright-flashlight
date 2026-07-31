@@ -13,12 +13,12 @@ The root `build.gradle` defines the Android and Kotlin build plugins plus the sh
 The repository currently pins:
 
 - minimum SDK: `24`
-- compile SDK: `35`
-- target SDK: `35`
+- compile SDK: `36`
+- target SDK: `36`
 - Android Build Tools: `35.0.0`
-- Android Gradle Plugin: `8.5.2`
-- Gradle: `8.9`
-- Kotlin: `1.9.24`
+- Android Gradle Plugin: `8.10.1`
+- Gradle: `8.11.1`
+- Kotlin: `2.2.21`
 - JDK and Java/Kotlin bytecode target: `17`
 
 Keep this section aligned with `app/build.gradle`, the root `build.gradle`, and `.github/workflows/android-release.yml` whenever the build toolchain changes.
