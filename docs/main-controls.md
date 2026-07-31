@@ -129,7 +129,7 @@ The well should feel related to the main power button, but less visually dominan
 
 Do not make the slider wells brighter or more raised than the power button. Keep orange on the active slider fill and thumb, not on the well outline.
 
-Brightness and Strobe Speed should keep matching vertical rhythm: `32dp` header row, `4dp` gap, `56dp` slider well, and `48dp` slider height.
+Brightness uses a `32dp` header row. Strobe Speed uses a `48dp` header row so its warning control has a full accessible touch target. Both keep a `4dp` gap, `56dp` slider well, and `48dp` slider height.
 
 ## Stable lower controls
 
@@ -195,7 +195,7 @@ Before shipping main-control changes, test:
 - all intentional dimmed sections use `0.45` alpha unless a documented reason says otherwise
 - Brightness value is flush right in the header and updates as Low, Medium, High, or Max based on device-supported strength levels
 - dimmed or unsupported Brightness placeholder shows `Max`
-- Brightness and Strobe Speed header/well spacing matches exactly
+- Brightness uses a `32dp` header and Strobe Speed uses a `48dp` header while both retain the same well and slider dimensions
 - active Strobe Speed warning icon appears immediately after the Strobe Speed title and opens a simple warning modal with a bold title and content paragraph when tapped
 - dimmed Strobe Speed preview warning icon remains visible but does not accept taps
 - Strobe Speed value is flush right in the header with no trailing right gap
