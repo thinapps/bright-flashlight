@@ -14,6 +14,9 @@ Torch, strobe, SOS, and screen light
 
 ## Changelog
 
+### 1.0.1
+- restores the active Torch, Strobe, or SOS interface and Auto-off countdown after activity recreation
+
 ### 1.0.0
 - first stable Google Play release
 
