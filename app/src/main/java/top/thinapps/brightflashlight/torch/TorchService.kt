@@ -94,11 +94,25 @@ class TorchService : Service() {
         controller = TorchController(applicationContext)
         currentIntensity = controller.getMaxStrength().coerceAtLeast(DEFAULT_TORCH_INTENSITY)
         startForeground(NOTIF_ID, buildNotification())
+        controller.registerTorchCallback(
+            handler = handler,
+            onModeChanged = { enabled ->
+                if (!enabled && currentActiveMode == ActiveMode.TORCH) {
+                    stopAndExit()
+                }
+            },
+            onUnavailable = {
+                if (currentActiveMode != ActiveMode.NONE) {
+                    stopAndExit()
+                }
+            }
+        )
     }
 
     override fun onDestroy() {
-        stopAll()
         setServiceState(ActiveMode.NONE)
+        controller.unregisterTorchCallback()
+        stopAll()
         super.onDestroy()
     }
 
@@ -150,8 +164,7 @@ class TorchService : Service() {
             }
             ACTION_STROBE_START -> {
                 stopPatterns()
-                if (controller.isAvailable()) {
-                    startStrobe()
+                if (controller.isAvailable() && startStrobe()) {
                     markRunning(ActiveMode.STROBE)
                 } else {
                     stopAndExit()
@@ -166,8 +179,7 @@ class TorchService : Service() {
             }
             ACTION_SOS_START -> {
                 stopPatterns()
-                if (controller.isAvailable()) {
-                    startSos()
+                if (controller.isAvailable() && startSos()) {
                     markRunning(ActiveMode.SOS)
                 } else {
                     stopAndExit()
@@ -231,8 +243,8 @@ class TorchService : Service() {
     }
 
     private fun stopAndExit() {
-        stopAll()
         setServiceState(ActiveMode.NONE)
+        stopAll()
         stopForeground(STOP_FOREGROUND_REMOVE)
         stopSelf()
     }
@@ -277,35 +289,52 @@ class TorchService : Service() {
         currentAutoOffAtMs = autoOffAtMs
     }
 
-    private fun startStrobe() {
+    private fun startStrobe(): Boolean {
         strobeRunning = true
         strobeLampOn = false
-        tickStrobe()
+        return tickStrobe()
     }
 
     private fun restartStrobe() {
         if (!strobeRunning) return
         handler.removeCallbacks(strobeTickRunnable)
-        tickStrobe()
+        if (!tickStrobe()) stopAndExit()
     }
 
     private val strobeTickRunnable = object : Runnable {
         override fun run() {
             if (!strobeRunning) return
             strobeLampOn = !strobeLampOn
-            controller.setTorchIntensity(if (strobeLampOn) currentIntensity.coerceAtLeast(DEFAULT_TORCH_INTENSITY) else 0)
+            val level = if (strobeLampOn) {
+                currentIntensity.coerceAtLeast(DEFAULT_TORCH_INTENSITY)
+            } else {
+                0
+            }
+            if (!controller.setTorchIntensity(level)) {
+                stopAndExit()
+                return
+            }
             handler.postDelayed(this, currentIntervalMs / 2)
         }
     }
 
-    private fun tickStrobe() {
-        if (!strobeRunning) return
+    private fun tickStrobe(): Boolean {
+        if (!strobeRunning) return false
         strobeLampOn = !strobeLampOn
-        controller.setTorchIntensity(if (strobeLampOn) currentIntensity.coerceAtLeast(DEFAULT_TORCH_INTENSITY) else 0)
+        val level = if (strobeLampOn) {
+            currentIntensity.coerceAtLeast(DEFAULT_TORCH_INTENSITY)
+        } else {
+            0
+        }
+        if (!controller.setTorchIntensity(level)) {
+            strobeRunning = false
+            return false
+        }
         handler.postDelayed(strobeTickRunnable, currentIntervalMs / 2)
+        return true
     }
 
-    private fun startSos() {
+    private fun startSos(): Boolean {
         sosRunning = true
         val pattern = mutableListOf<Pair<Boolean, Long>>().apply {
             repeat(2) { add(true to SOS_DOT_MS); add(false to SOS_SYMBOL_GAP_MS) }
@@ -319,10 +348,22 @@ class TorchService : Service() {
         fun runFrom(index: Int) {
             if (!sosRunning) return
             val (on, durationMs) = pattern[index]
-            controller.setTorchIntensity(if (on) currentIntensity.coerceAtLeast(DEFAULT_TORCH_INTENSITY) else 0)
+            val level = if (on) currentIntensity.coerceAtLeast(DEFAULT_TORCH_INTENSITY) else 0
+            if (!controller.setTorchIntensity(level)) {
+                stopAndExit()
+                return
+            }
             handler.postDelayed({ runFrom((index + 1) % pattern.size) }, durationMs)
         }
-        runFrom(0)
+
+        val (firstOn, firstDurationMs) = pattern.first()
+        val firstLevel = if (firstOn) currentIntensity.coerceAtLeast(DEFAULT_TORCH_INTENSITY) else 0
+        if (!controller.setTorchIntensity(firstLevel)) {
+            sosRunning = false
+            return false
+        }
+        handler.postDelayed({ runFrom(1 % pattern.size) }, firstDurationMs)
+        return true
     }
 
     private fun scheduleAutoOffCheck() {
