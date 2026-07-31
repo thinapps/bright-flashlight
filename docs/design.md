@@ -65,9 +65,9 @@ Bright Flashlight should feel like a simple hardware tool: dark, stable, readabl
 - Keep color preset tiles visually unlabeled so they read as simple swatches, while preserving accessibility names with content descriptions.
 - Keep Screen Light preset RGB values in `ScreenLightActivity.kt` matched to the visible swatch colors in `colors.xml`.
 - Give Screen Light color preset tiles the same tap haptic style as the main app controls.
-- Keep the Screen Light color tray expanded by default each time the screen opens.
+- Keep the Screen Light color tray expanded by default until the user changes it.
 - Let users collapse the Screen Light color tray from the color row with a chevron button instead of adding another floating control.
-- Do not persist the collapsed tray state across app opens.
+- Remember the user's expanded or collapsed tray state across app opens.
 - Do not use a segmented-control rail or toggle-bar layout for Screen Light color swatches.
 - Use compact square-corner swatch tiles so the color choices stay visual instead of reading like navigation buttons.
 - Do not use rounded corners on Screen Light color swatches.
