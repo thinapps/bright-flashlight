@@ -221,14 +221,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/camera_permission_message"
-            android:textColor="@color/md_text_dim" />
+            android:textColor="@color/md_text_dim"
+            android:textSize="@dimen/body_text_size" />
 
           <Button
             android:id="@+id/btnAccessNotice"
             android:layout_width="match_parent"
             android:layout_height="@dimen/access_button_height"
             android:layout_marginTop="@dimen/access_button_top_margin"
-            android:text="@string/camera_permission_button" />
+            android:text="@string/camera_permission_button"
+            android:textSize="@dimen/control_label_text_size" />
         </LinearLayout>
 
         <TextView
@@ -238,6 +240,7 @@
           android:layout_marginTop="@dimen/no_flash_top_margin"
           android:text="@string/no_flash_message"
           android:textColor="@color/md_text_dim"
+          android:textSize="@dimen/body_text_size"
           android:visibility="gone" />
 
       </LinearLayout>
@@ -400,7 +403,7 @@
 
           <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/slider_header_height"
+            android:layout_height="@dimen/strobe_header_height"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
@@ -416,8 +419,8 @@
 
             <ImageButton
               android:id="@+id/btnStrobeWarningPreview"
-              android:layout_width="@dimen/warning_button_size"
-              android:layout_height="@dimen/warning_button_size"
+              android:layout_width="@dimen/minimum_touch_target_size"
+              android:layout_height="@dimen/minimum_touch_target_size"
               android:layout_marginStart="@dimen/warning_button_margin_start"
               android:background="?attr/selectableItemBackgroundBorderless"
               android:contentDescription="@string/strobe_warning_title"
@@ -481,7 +484,7 @@
 
           <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/slider_header_height"
+            android:layout_height="@dimen/strobe_header_height"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
@@ -498,8 +501,8 @@
 
             <ImageButton
               android:id="@+id/btnStrobeWarning"
-              android:layout_width="@dimen/warning_button_size"
-              android:layout_height="@dimen/warning_button_size"
+              android:layout_width="@dimen/minimum_touch_target_size"
+              android:layout_height="@dimen/minimum_touch_target_size"
               android:layout_marginStart="@dimen/warning_button_margin_start"
               android:background="?attr/selectableItemBackgroundBorderless"
               android:contentDescription="@string/strobe_warning_title"
