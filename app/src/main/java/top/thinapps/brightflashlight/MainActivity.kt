@@ -32,6 +32,7 @@ import top.thinapps.brightflashlight.prefs.SavedPreferences
 import top.thinapps.brightflashlight.torch.StrobeSpeedPreset
 import top.thinapps.brightflashlight.torch.TorchController
 import top.thinapps.brightflashlight.torch.TorchService
+import top.thinapps.brightflashlight.torch.TorchService.ActiveMode
 import top.thinapps.brightflashlight.torch.TorchService.Companion.ACTION_SOS_START
 import top.thinapps.brightflashlight.torch.TorchService.Companion.ACTION_SOS_STOP
 import top.thinapps.brightflashlight.torch.TorchService.Companion.ACTION_STROBE_START
@@ -60,6 +61,7 @@ class MainActivity : ComponentActivity() {
   private var strobeRunning = false
   private var sosRunning = false
   private var restoringPreferences = false
+  private var preferencesRestored = false
   private var torch: TorchController? = null
   private var torchAvailable = false
   private var strengthSupported = false
@@ -130,11 +132,10 @@ class MainActivity : ComponentActivity() {
 
   override fun onResume() {
     super.onResume()
-    if (::binding.isInitialized && isAnyLightActive() && !TorchService.isActive(this)) {
-      clearRunningState()
-    } else if (::binding.isInitialized) {
+    if (::binding.isInitialized && preferencesRestored) {
+      restoreRunningStateFromService()
+      refreshTorchUi()
       syncUiEnabledState(hasCameraPermission())
-      updateAutoOffCountdown()
     }
   }
 
@@ -256,6 +257,7 @@ class MainActivity : ComponentActivity() {
     if (granted) {
       showAccessNotice(false)
       ensureTorch()
+      if (preferencesRestored) restoreRunningStateFromService()
       refreshTorchUi()
       syncUiEnabledState(true)
     } else {
@@ -367,6 +369,7 @@ class MainActivity : ComponentActivity() {
       restoringPreferences = true
       applySavedPreferences(saved)
       restoringPreferences = false
+      preferencesRestored = true
       syncAfterPreferenceRestore()
     }
   }
@@ -375,6 +378,7 @@ class MainActivity : ComponentActivity() {
     if (hasCameraPermission()) {
       showAccessNotice(false)
       ensureTorch()
+      restoreRunningStateFromService()
       refreshTorchUi()
       syncUiEnabledState(true)
     } else {
@@ -589,6 +593,55 @@ class MainActivity : ComponentActivity() {
     stopAutoOffCountdown()
     setPowerLabel(off = true)
     syncUiEnabledState(hasCameraPermission())
+  }
+
+  private fun restoreRunningStateFromService() {
+    val activeMode = TorchService.activeMode(this)
+    if (activeMode == ActiveMode.NONE) {
+      if (isAnyLightActive()) {
+        clearRunningState()
+      } else {
+        stopAutoOffCountdown()
+      }
+      return
+    }
+
+    torchOn = false
+    strobeRunning = false
+    sosRunning = false
+
+    selectedMode = when (activeMode) {
+      ActiveMode.STROBE -> Mode.STROBE
+      ActiveMode.SOS -> Mode.SOS
+      else -> Mode.TORCH
+    }
+
+    val wasRestoringPreferences = restoringPreferences
+    restoringPreferences = true
+    binding.groupMode.check(
+      when (selectedMode) {
+        Mode.STROBE -> R.id.btnModeStrobe
+        Mode.SOS -> R.id.btnModeSos
+        Mode.TORCH -> R.id.btnModeTorch
+      }
+    )
+    restoringPreferences = wasRestoringPreferences
+
+    torchOn = activeMode == ActiveMode.TORCH
+    strobeRunning = activeMode == ActiveMode.STROBE
+    sosRunning = activeMode == ActiveMode.SOS
+    restoreAutoOffCountdownFromService()
+  }
+
+  private fun restoreAutoOffCountdownFromService() {
+    countdownHandler.removeCallbacks(countdownRunnable)
+    autoOffEndsAtMs = TorchService.autoOffEndsAtMs(this)
+    if (selectedAutoOffMinutes > 0 && autoOffEndsAtMs > System.currentTimeMillis()) {
+      updateAutoOffCountdown()
+      countdownHandler.postDelayed(countdownRunnable, COUNTDOWN_TICK_MS)
+    } else {
+      stopAutoOffCountdown()
+    }
   }
 
   private fun isAnyLightActive(): Boolean {
