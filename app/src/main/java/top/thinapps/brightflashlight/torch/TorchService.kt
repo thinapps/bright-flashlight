@@ -16,6 +16,8 @@ import top.thinapps.brightflashlight.R
 
 class TorchService : Service() {
 
+    enum class ActiveMode { NONE, TORCH, STROBE, SOS }
+
     companion object {
         const val ACTION_TORCH_ON = "act_torch_on"
         const val ACTION_TORCH_OFF = "act_torch_off"
@@ -35,6 +37,8 @@ class TorchService : Service() {
         private const val NOTIF_TURN_OFF_REQUEST_CODE = 0
         private const val PREFS = "torch_service_state"
         private const val KEY_ACTIVE = "active"
+        private const val KEY_ACTIVE_MODE = "active_mode"
+        private const val KEY_AUTO_OFF_AT_MS = "auto_off_at_ms"
         private const val DEFAULT_TORCH_INTENSITY = 1
         private const val AUTO_OFF_CHECK_INTERVAL_MS = 1000L
         private const val MS_PER_MINUTE = 60_000L
@@ -45,9 +49,27 @@ class TorchService : Service() {
         private const val SOS_WORD_GAP_MS = 1400L
 
         fun isActive(context: Context): Boolean {
+            return activeMode(context) != ActiveMode.NONE
+        }
+
+        fun activeMode(context: Context): ActiveMode {
+            val preferences = context.applicationContext
+                .getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+            if (!preferences.getBoolean(KEY_ACTIVE, false)) return ActiveMode.NONE
+
+            return when (preferences.getString(KEY_ACTIVE_MODE, null)) {
+                ActiveMode.TORCH.name -> ActiveMode.TORCH
+                ActiveMode.STROBE.name -> ActiveMode.STROBE
+                ActiveMode.SOS.name -> ActiveMode.SOS
+                else -> ActiveMode.NONE
+            }
+        }
+
+        fun autoOffEndsAtMs(context: Context): Long {
+            if (!isActive(context)) return 0L
             return context.applicationContext
                 .getSharedPreferences(PREFS, Context.MODE_PRIVATE)
-                .getBoolean(KEY_ACTIVE, false)
+                .getLong(KEY_AUTO_OFF_AT_MS, 0L)
         }
     }
 
@@ -83,7 +105,7 @@ class TorchService : Service() {
 
     override fun onDestroy() {
         stopAll()
-        setServiceActive(false)
+        setServiceState(ActiveMode.NONE)
         super.onDestroy()
     }
 
@@ -116,7 +138,7 @@ class TorchService : Service() {
                 stopPatterns()
                 val level = currentIntensity.coerceAtLeast(DEFAULT_TORCH_INTENSITY)
                 if (controller.setTorchIntensity(level)) {
-                    markRunning()
+                    markRunning(ActiveMode.TORCH)
                 } else {
                     stopAndExit()
                 }
@@ -127,7 +149,7 @@ class TorchService : Service() {
             ACTION_TORCH_UPDATE_INTENSITY -> {
                 if (!strobeRunning && !sosRunning) {
                     if (controller.setTorchIntensity(currentIntensity)) {
-                        markRunning()
+                        markRunning(ActiveMode.TORCH)
                     } else {
                         stopAndExit()
                     }
@@ -137,7 +159,7 @@ class TorchService : Service() {
                 stopPatterns()
                 if (controller.isAvailable()) {
                     startStrobe()
-                    markRunning()
+                    markRunning(ActiveMode.STROBE)
                 } else {
                     stopAndExit()
                 }
@@ -153,7 +175,7 @@ class TorchService : Service() {
                 stopPatterns()
                 if (controller.isAvailable()) {
                     startSos()
-                    markRunning()
+                    markRunning(ActiveMode.SOS)
                 } else {
                     stopAndExit()
                 }
@@ -209,23 +231,27 @@ class TorchService : Service() {
         notificationManager.notify(NOTIF_ID, buildNotification())
     }
 
-    private fun markRunning() {
-        setServiceActive(true)
+    private fun markRunning(mode: ActiveMode) {
+        setServiceState(mode)
         scheduleAutoOffCheck()
         updateNotification()
     }
 
     private fun stopAndExit() {
         stopAll()
-        setServiceActive(false)
+        setServiceState(ActiveMode.NONE)
         stopForeground(STOP_FOREGROUND_REMOVE)
         stopSelf()
     }
 
-    private fun setServiceActive(active: Boolean) {
+    private fun setServiceState(mode: ActiveMode) {
         getSharedPreferences(PREFS, Context.MODE_PRIVATE)
             .edit()
-            .putBoolean(KEY_ACTIVE, active)
+            .putBoolean(KEY_ACTIVE, mode != ActiveMode.NONE)
+            .putString(KEY_ACTIVE_MODE, mode.name)
+            .apply {
+                if (mode == ActiveMode.NONE) putLong(KEY_AUTO_OFF_AT_MS, 0L)
+            }
             .apply()
     }
 
@@ -261,6 +287,10 @@ class TorchService : Service() {
         } else {
             System.currentTimeMillis() + minutes.toLong() * MS_PER_MINUTE
         }
+        getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+            .edit()
+            .putLong(KEY_AUTO_OFF_AT_MS, autoOffAtMs)
+            .apply()
     }
 
     private fun startStrobe() {
