@@ -37,6 +37,16 @@ If permission is granted but the device does not expose a usable camera flash:
 - the no-flash message is shown
 - Screen Light remains available
 
+## Foreground service notification
+
+Torch, Strobe, and SOS run through a foreground service so the selected light mode can remain active when the app is no longer visible. Android requires that service to create and submit an ongoing notification.
+
+The notification code is therefore required service infrastructure and must not be removed as unused code.
+
+The app intentionally does not request `POST_NOTIFICATIONS` merely to display this persistent service notice. On Android 13 and newer, the foreground service can still run without that permission. Android may omit its notice from the normal notification drawer while continuing to show the running app through the system foreground-service Task Manager or Active apps interface.
+
+On Android versions where the service notification is shown normally, it uses a low-importance channel and includes a `Turn Off` action.
+
 ## What not to add
 
 Do not add a long onboarding screen for Camera permission.
@@ -47,6 +57,8 @@ Keep permission UX direct:
 - show a short recovery message if permission is missing
 - keep Screen Light available
 - avoid long privacy copy in the main UI
+
+Do not request notification permission solely to make the required foreground-service notice appear in the normal notification drawer.
 
 ## Testing checklist
 
