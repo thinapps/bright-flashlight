@@ -14,6 +14,9 @@ Torch, strobe, SOS, and screen light
 
 ## Changelog
 
+### 1.1.2
+- stops and clears active Torch, Strobe, or SOS state when the system or another app makes the camera flash unavailable
+
 ### 1.1.1
 - increased small icon controls and Screen Light color presets to accessible touch-target sizes
 - added explicit text sizes to remaining app-owned interface text
