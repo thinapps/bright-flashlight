@@ -10,17 +10,18 @@
         android:id="@+id/tvColor"
         android:text="@string/screen_color"
         android:textColor="@color/md_text"
+        android:textSize="@dimen/body_text_size"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1" />
 
     <ImageButton
         android:id="@+id/btnColorTrayToggle"
-        android:layout_width="@dimen/warning_button_size"
-        android:layout_height="@dimen/warning_button_size"
+        android:layout_width="@dimen/minimum_touch_target_size"
+        android:layout_height="@dimen/minimum_touch_target_size"
         android:background="@android:color/transparent"
         android:contentDescription="@string/action_hide_color_tray"
-        android:padding="@dimen/screen_button_icon_padding"
+        android:padding="@dimen/screen_tray_toggle_padding"
         android:scaleType="fitCenter"
         android:src="@drawable/ic_expand_more"
         android:tint="@color/md_text" />
