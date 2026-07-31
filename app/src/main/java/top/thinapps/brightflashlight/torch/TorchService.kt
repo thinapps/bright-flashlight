@@ -35,10 +35,6 @@ class TorchService : Service() {
         private const val CH_ID = "flashlight"
         private const val NOTIF_ID = 42
         private const val NOTIF_TURN_OFF_REQUEST_CODE = 0
-        private const val PREFS = "torch_service_state"
-        private const val KEY_ACTIVE = "active"
-        private const val KEY_ACTIVE_MODE = "active_mode"
-        private const val KEY_AUTO_OFF_AT_MS = "auto_off_at_ms"
         private const val DEFAULT_TORCH_INTENSITY = 1
         private const val AUTO_OFF_CHECK_INTERVAL_MS = 1000L
         private const val MS_PER_MINUTE = 60_000L
@@ -48,28 +44,25 @@ class TorchService : Service() {
         private const val SOS_LETTER_GAP_MS = 600L
         private const val SOS_WORD_GAP_MS = 1400L
 
+        @Volatile
+        private var currentActiveMode = ActiveMode.NONE
+
+        @Volatile
+        private var currentAutoOffAtMs = 0L
+
+        @Suppress("UNUSED_PARAMETER")
         fun isActive(context: Context): Boolean {
-            return activeMode(context) != ActiveMode.NONE
+            return currentActiveMode != ActiveMode.NONE
         }
 
+        @Suppress("UNUSED_PARAMETER")
         fun activeMode(context: Context): ActiveMode {
-            val preferences = context.applicationContext
-                .getSharedPreferences(PREFS, Context.MODE_PRIVATE)
-            if (!preferences.getBoolean(KEY_ACTIVE, false)) return ActiveMode.NONE
-
-            return when (preferences.getString(KEY_ACTIVE_MODE, null)) {
-                ActiveMode.TORCH.name -> ActiveMode.TORCH
-                ActiveMode.STROBE.name -> ActiveMode.STROBE
-                ActiveMode.SOS.name -> ActiveMode.SOS
-                else -> ActiveMode.NONE
-            }
+            return currentActiveMode
         }
 
+        @Suppress("UNUSED_PARAMETER")
         fun autoOffEndsAtMs(context: Context): Long {
-            if (!isActive(context)) return 0L
-            return context.applicationContext
-                .getSharedPreferences(PREFS, Context.MODE_PRIVATE)
-                .getLong(KEY_AUTO_OFF_AT_MS, 0L)
+            return if (currentActiveMode == ActiveMode.NONE) 0L else currentAutoOffAtMs
         }
     }
 
@@ -245,14 +238,8 @@ class TorchService : Service() {
     }
 
     private fun setServiceState(mode: ActiveMode) {
-        getSharedPreferences(PREFS, Context.MODE_PRIVATE)
-            .edit()
-            .putBoolean(KEY_ACTIVE, mode != ActiveMode.NONE)
-            .putString(KEY_ACTIVE_MODE, mode.name)
-            .apply {
-                if (mode == ActiveMode.NONE) putLong(KEY_AUTO_OFF_AT_MS, 0L)
-            }
-            .apply()
+        currentActiveMode = mode
+        if (mode == ActiveMode.NONE) currentAutoOffAtMs = 0L
     }
 
     private fun isAnyModeRunning(): Boolean {
@@ -287,10 +274,7 @@ class TorchService : Service() {
         } else {
             System.currentTimeMillis() + minutes.toLong() * MS_PER_MINUTE
         }
-        getSharedPreferences(PREFS, Context.MODE_PRIVATE)
-            .edit()
-            .putLong(KEY_AUTO_OFF_AT_MS, autoOffAtMs)
-            .apply()
+        currentAutoOffAtMs = autoOffAtMs
     }
 
     private fun startStrobe() {
