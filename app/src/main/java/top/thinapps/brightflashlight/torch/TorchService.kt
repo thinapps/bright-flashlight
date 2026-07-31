@@ -68,6 +68,7 @@ class TorchService : Service() {
 
     private lateinit var controller: TorchController
     private val handler = Handler(Looper.getMainLooper())
+    private val torchCallbackHandler = Handler(Looper.getMainLooper())
     private val notificationManager by lazy { getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager }
 
     private var strobeRunning = false
@@ -95,7 +96,7 @@ class TorchService : Service() {
         currentIntensity = controller.getMaxStrength().coerceAtLeast(DEFAULT_TORCH_INTENSITY)
         startForeground(NOTIF_ID, buildNotification())
         controller.registerTorchCallback(
-            handler = handler,
+            handler = torchCallbackHandler,
             onModeChanged = { enabled ->
                 if (!enabled && currentActiveMode == ActiveMode.TORCH) {
                     stopAndExit()
@@ -112,6 +113,7 @@ class TorchService : Service() {
     override fun onDestroy() {
         setServiceState(ActiveMode.NONE)
         controller.unregisterTorchCallback()
+        torchCallbackHandler.removeCallbacksAndMessages(null)
         stopAll()
         super.onDestroy()
     }
