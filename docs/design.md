@@ -29,14 +29,14 @@ Bright Flashlight should feel like a simple hardware tool: dark, stable, readabl
 - Dimmed unavailable controls should use `0.45` alpha.
 - Disabled previews should preserve layout rhythm but must not accept value-changing input.
 - If a disabled-looking control must keep an active selection visible, consume touches before they can change or clear the current value.
-- Informational warning icons may remain tappable in dimmed preview states when they only open safety information and do not change app state.
+- Keep the inactive Strobe Speed warning icon visible but non-interactive; only the active warning icon should open the safety dialog.
 - Locked controls should not save preferences, fire haptics, or leave the UI with no selected value.
 
 ## Layout rhythm
 
 - Maintain the current 24dp effective screen gutters.
 - Preserve stable vertical slots for Brightness, Strobe Speed, and Auto-off so the UI does not jump between modes.
-- Keep Brightness and Strobe Speed header and slider well heights matched.
+- Keep the Brightness and Strobe Speed slider wells and slider heights matched. Brightness uses a `32dp` header, while Strobe Speed uses a `48dp` header for its accessible warning control.
 - Use larger tappable areas around small icons instead of making visible glyphs oversized.
 - Prefer clear text labels and predictable placement over dense controls.
 
