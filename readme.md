@@ -113,7 +113,7 @@ Torch, strobe, SOS, and screen light
 - reduced the visible Screen Light back button oval and ripple to 40dp while keeping the 48dp tap target
 - rebalanced the 20 Screen Light preset colors to reduce near-duplicates across warm, alert, blue-green, and playful tones
 - updated Screen Light preset accessibility names to match the new color roles
-- matched Screen Light preset RGB values used when tapping swatches to the visible swatch colors
+- matched the Screen Light preset RGB values used when tapping swatches to the visible swatch colors
 - defined the Screen Light back button background color resource explicitly
 
 ### 0.9.4
