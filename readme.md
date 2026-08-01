@@ -15,6 +15,9 @@ Torch, strobe, SOS, and screen light
 
 ## Changelog
 
+### 1.1.4
+- restored visible tick marks for the five fixed Strobe Speed presets while keeping device-dependent Brightness sliders tickless
+
 ### 1.1.3
 - prevents the initial torch callback status from immediately stopping Torch after startup
 
