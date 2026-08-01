@@ -27,8 +27,9 @@
     <dimen name="minimum_touch_target_size">48dp</dimen>
     <dimen name="segmented_control_height">52dp</dimen>
     <dimen name="segmented_control_top_margin">8dp</dimen>
-    <dimen name="segmented_control_padding">4dp</dimen>
-    <dimen name="segmented_control_button_height">44dp</dimen>
+    <dimen name="segmented_control_padding_horizontal">4dp</dimen>
+    <dimen name="segmented_control_padding_vertical">2dp</dimen>
+    <dimen name="segmented_control_button_height">48dp</dimen>
     <dimen name="segmented_control_button_corner_radius">18dp</dimen>
     <dimen name="segmented_control_auto_button_corner_radius">16dp</dimen>
     <dimen name="segmented_control_stroke_width">1dp</dimen>
