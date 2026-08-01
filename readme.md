@@ -6,12 +6,12 @@ Torch, strobe, SOS, and screen light
 
 | Document | Description |
 | --- | --- |
-| [Main Controls](docs/main-controls.md) | Explains the main flashlight, screen light, mode, slider, and auto-off controls. |
-| [App Preferences](docs/app-preferences.md) | Documents saved app preferences and how user choices persist locally. |
-| [Build](docs/build.md) | Explains Gradle, R8, and ProGuard choices for the current GitHub Actions build. |
-| [Design](docs/design.md) | Defines icon, dimming, layout, and visual design rules for the app. |
-| [Permissions](docs/permissions.md) | Explains Camera permission behavior, fallback states, and recovery prompts. |
-| [Scope](docs/scope.md) | Defines supported features, reliability work, and intentional product boundaries. |
+| [Main Controls](docs/main-controls.md) | Details the home-screen layout and behavior for Torch, Strobe, SOS, Screen Light, Brightness, Auto-off, accessibility, and control testing. |
+| [App Preferences](docs/app-preferences.md) | Documents locally saved mode, brightness, Strobe Speed, Auto-off, and Screen Light choices, including validation and restore behavior. |
+| [Build](docs/build.md) | Records the Android and Gradle toolchain, GitHub Actions release workflow, signing setup, and the decisions around R8 and resource shrinking. |
+| [Design](docs/design.md) | Defines visual and interaction rules for layout rhythm, icons, touch targets, dimmed states, the power control, and Screen Light. |
+| [Permissions](docs/permissions.md) | Explains Camera permission requirements, flash-hardware detection, denied or unavailable states, recovery behavior, and the Screen Light fallback. |
+| [Scope](docs/scope.md) | Defines the supported product surface, reliability priorities, deferred ideas, and intentional boundaries that keep the app focused. |
 
 ## Changelog
 
@@ -113,7 +113,7 @@ Torch, strobe, SOS, and screen light
 - reduced the visible Screen Light back button oval and ripple to 40dp while keeping the 48dp tap target
 - rebalanced the 20 Screen Light preset colors to reduce near-duplicates across warm, alert, blue-green, and playful tones
 - updated Screen Light preset accessibility names to match the new color roles
-- matched the Screen Light preset RGB values used when tapping swatches to the visible swatch colors
+- matched Screen Light preset RGB values used when tapping swatches to the visible swatch colors
 - defined the Screen Light back button background color resource explicitly
 
 ### 0.9.4
