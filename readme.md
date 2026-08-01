@@ -1,6 +1,10 @@
 # Bright Flashlight
 
-Simple Android flashlight with torch, strobe, SOS, adjustable brightness, auto-off, and screen light.
+Bright Flashlight is a focused Android utility for controlling the device flash with Torch, Strobe, and SOS modes. Supported devices can also adjust torch brightness, choose among five fixed strobe speeds, and set an automatic shutoff timer.
+
+For devices without a usable camera flash—or when a softer light is needed—the built-in Screen Light turns the display into a full-screen lamp with a compact set of color presets.
+
+The app keeps preferences locally and is designed as a simple privacy-friendly tool with no accounts, ads, analytics, or Internet permission.
 
 ## Documentation
 
