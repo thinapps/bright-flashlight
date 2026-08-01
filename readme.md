@@ -1,6 +1,6 @@
 # Bright Flashlight
 
-Torch, strobe, SOS, and screen light
+Simple Android flashlight with torch, strobe, SOS, adjustable brightness, auto-off, and screen light.
 
 ## Documentation
 
