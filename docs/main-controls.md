@@ -87,6 +87,8 @@ For `4+` strength levels, `Max` is reserved for the exact maximum value. Other v
 
 The dimmed Brightness placeholder should always show `Max`. This keeps the inactive placeholder simple and avoids presenting a stale or fake adjustable value when Brightness is unavailable or not active.
 
+Brightness sliders intentionally keep tick marks hidden. The number of supported strength levels varies by device, so a visible tick pattern would imply a standardized hardware scale that does not exist.
+
 Do not remap brightness through an old generic UI scale in the service.
 
 ## Strobe Speed
@@ -94,6 +96,8 @@ Do not remap brightness through an old generic UI scale in the service.
 Strobe Speed uses five linear preset values. Its visible slider value label should show `1` through `5`, because `0` implies off even though the slowest preset is still active.
 
 The default Strobe Speed is `Medium (3 Hz)`. This keeps the default centered in the five-step scale while avoiding the most intense flashing rates.
+
+Both the active and dimmed preview sliders show five tick marks, one for each fixed speed preset. Keep these ticks visible because Strobe Speed is a discrete five-position control rather than a continuous or device-dependent range.
 
 | Visible slider label | Label | Hertz |
 | --- | --- | --- |
@@ -202,11 +206,13 @@ Before shipping main-control changes, test:
 - Auto-off always has exactly one selected option; no interaction should leave the Auto-off bar with nothing highlighted
 - all intentional dimmed sections use `0.45` alpha unless a documented reason says otherwise
 - Brightness value is flush right in the header and updates as Low, Medium, High, or Max based on device-supported strength levels
+- Brightness sliders remain tickless because the supported strength range depends on the device
 - dimmed or unsupported Brightness placeholder shows `Max`
 - Brightness uses a `32dp` header and Strobe Speed uses a `48dp` header while both retain the same well and slider dimensions
 - active Strobe Speed warning icon appears immediately after the Strobe Speed title and opens a simple warning modal with a bold title and content paragraph when tapped
 - dimmed Strobe Speed preview warning icon remains visible but does not accept taps
 - Strobe Speed value is flush right in the header with no trailing right gap
+- active and dimmed Strobe Speed sliders each show five tick marks for the five fixed presets
 - dimmed Strobe Speed preview mirrors the warning icon and saved/current speed value before Strobe mode is enabled
 - Brightness value bubble starts at `1`, not `0`, on devices with torch strength support
 - Strobe Speed value bubble shows `1` through `5`, not `0` through `4`
