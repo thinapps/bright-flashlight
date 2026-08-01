@@ -145,7 +145,10 @@
           android:layout_height="@dimen/segmented_control_height"
           android:layout_marginTop="@dimen/segmented_control_top_margin"
           android:background="@drawable/bg_segmented_control_rail"
-          android:padding="@dimen/segmented_control_padding"
+          android:paddingStart="@dimen/segmented_control_padding_horizontal"
+          android:paddingTop="@dimen/segmented_control_padding_vertical"
+          android:paddingEnd="@dimen/segmented_control_padding_horizontal"
+          android:paddingBottom="@dimen/segmented_control_padding_vertical"
           app:singleSelection="true"
           app:selectionRequired="true"
           app:checkedButton="@id/btnModeTorch">
@@ -579,7 +582,10 @@
           android:layout_height="@dimen/segmented_control_height"
           android:layout_marginTop="@dimen/slider_section_padding_bottom"
           android:background="@drawable/bg_segmented_control_rail"
-          android:padding="@dimen/segmented_control_padding"
+          android:paddingStart="@dimen/segmented_control_padding_horizontal"
+          android:paddingTop="@dimen/segmented_control_padding_vertical"
+          android:paddingEnd="@dimen/segmented_control_padding_horizontal"
+          android:paddingBottom="@dimen/segmented_control_padding_vertical"
           app:singleSelection="true"
           app:selectionRequired="true"
           app:checkedButton="@id/btnAutoOffOff">
