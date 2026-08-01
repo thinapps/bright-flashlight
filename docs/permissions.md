@@ -47,6 +47,23 @@ The app intentionally does not request `POST_NOTIFICATIONS` merely to display th
 
 On Android versions where the service notification is shown normally, it uses a low-importance channel and includes a `Turn Off` action.
 
+## In-app privacy policy
+
+The main-screen footer includes an underlined `Privacy Policy` link below the local/open-source message.
+
+The link opens a Material dialog inside the app instead of requiring a browser or Internet connection. It uses the same tap haptic as other controls and provides a `Close` button.
+
+The policy explains only current behavior:
+
+- Camera permission controls the flash and does not capture photos, video, or audio
+- Torch, Strobe, SOS, and Auto-off service activity stays local
+- Screen Light does not require Camera permission
+- interface preferences are stored locally with DataStore
+- the app has no Internet permission, accounts, advertising, analytics, or ThinApps cloud service
+- Android cloud backup is disabled
+
+Keep the footer link at a minimum `48dp` touch height. Update the policy text whenever permissions, stored information, network behavior, analytics, advertising, backup behavior, or external services change.
+
 ## What not to add
 
 Do not add a long onboarding screen for Camera permission.
@@ -71,3 +88,6 @@ Before shipping permission changes, test:
 - confirm Torch/Strobe/SOS controls stay unavailable without permission
 - confirm Screen Light opens without permission
 - confirm no-flash devices show the no-flash message only after permission is granted
+- confirm the footer Privacy Policy link has a full `48dp` touch height
+- tap the Privacy Policy link and confirm haptic feedback, policy text, scrolling, and the `Close` button work
+- confirm the policy accurately matches the manifest, DataStore preferences, foreground service, backup setting, and network behavior
