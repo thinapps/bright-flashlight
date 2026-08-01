@@ -5,6 +5,7 @@
     <dimen name="main_controls_bottom_padding">18dp</dimen>
     <dimen name="home_footer_top_margin">24dp</dimen>
     <dimen name="home_footer_line_spacing">2dp</dimen>
+    <dimen name="privacy_link_top_margin">8dp</dimen>
     <dimen name="power_button_size">156dp</dimen>
     <dimen name="power_halo_size">228dp</dimen>
     <dimen name="power_button_elevation">8dp</dimen>
