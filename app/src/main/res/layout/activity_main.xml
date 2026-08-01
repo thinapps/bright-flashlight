@@ -419,8 +419,8 @@
 
             <ImageButton
               android:id="@+id/btnStrobeWarningPreview"
-              android:layout_width="@dimen/minimum_touch_target_size"
-              android:layout_height="@dimen/minimum_touch_target_size"
+              android:layout_width="@dimen/warning_button_size"
+              android:layout_height="@dimen/warning_button_size"
               android:layout_marginStart="@dimen/warning_button_margin_start"
               android:background="?attr/selectableItemBackgroundBorderless"
               android:contentDescription="@string/strobe_warning_title"
@@ -501,8 +501,8 @@
 
             <ImageButton
               android:id="@+id/btnStrobeWarning"
-              android:layout_width="@dimen/minimum_touch_target_size"
-              android:layout_height="@dimen/minimum_touch_target_size"
+              android:layout_width="@dimen/warning_button_size"
+              android:layout_height="@dimen/warning_button_size"
               android:layout_marginStart="@dimen/warning_button_margin_start"
               android:background="?attr/selectableItemBackgroundBorderless"
               android:contentDescription="@string/strobe_warning_title"
