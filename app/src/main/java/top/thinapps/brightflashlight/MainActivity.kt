@@ -5,12 +5,14 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
+import android.graphics.Rect
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.HapticFeedbackConstants
 import android.view.MotionEvent
+import android.view.TouchDelegate
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.ComponentActivity
@@ -228,10 +230,31 @@ class MainActivity : ComponentActivity() {
       performTapHaptic(view)
       showStrobeWarningDialog()
     }
+    installStrobeWarningTouchDelegate()
+
     binding.btnStrobeWarningPreview.isClickable = false
     binding.btnStrobeWarningPreview.isFocusable = false
     binding.btnStrobeWarningPreview.importantForAccessibility = View.IMPORTANT_FOR_ACCESSIBILITY_NO
     binding.btnStrobeWarningPreview.contentDescription = null
+  }
+
+  private fun installStrobeWarningTouchDelegate() {
+    val target = binding.btnStrobeWarning
+    binding.layoutMainContent.post {
+      val bounds = Rect(0, 0, target.width, target.height)
+      binding.layoutMainContent.offsetDescendantRectToMyCoords(target, bounds)
+
+      val minimumSize = resources.getDimensionPixelSize(R.dimen.minimum_touch_target_size)
+      val horizontalExtra = (minimumSize - bounds.width()).coerceAtLeast(0)
+      val topExtra = (minimumSize - bounds.height()).coerceAtLeast(0)
+      val leftExtra = horizontalExtra / 2
+
+      bounds.left -= leftExtra
+      bounds.right += horizontalExtra - leftExtra
+      bounds.top -= topExtra
+
+      binding.layoutMainContent.touchDelegate = TouchDelegate(bounds, target)
+    }
   }
 
   private fun setupModeControls() {
@@ -739,6 +762,7 @@ class MainActivity : ComponentActivity() {
     binding.cardStrobe.visibility = if (showActiveStrobe) View.VISIBLE else View.INVISIBLE
     binding.cardStrobe.isEnabled = showActiveStrobe
     binding.cardStrobe.isClickable = showActiveStrobe
+    binding.btnStrobeWarning.isEnabled = showActiveStrobe
     binding.cardStrobe.alpha = 1f
     binding.cardAutoOff.alpha = if (autoOffLocked) DISABLED_SECTION_ALPHA else ENABLED_SECTION_ALPHA
     binding.btnScreenLight.isEnabled = true
