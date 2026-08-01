@@ -14,6 +14,9 @@ Torch, strobe, SOS, and screen light
 
 ## Changelog
 
+### 1.1.3
+- prevents the initial torch callback status from immediately stopping Torch after startup
+
 ### 1.1.2
 - stops and clears active Torch, Strobe, or SOS state when the system or another app makes the camera flash unavailable
 
