@@ -6,7 +6,7 @@ Bright Flashlight is a focused lighting utility, not a general phone-tool collec
 
 The supported product scope is:
 
-- steady rear-camera Torch control
+- steady camera-flash Torch control, preferring a rear-facing flash when available
 - Strobe with simple speed presets and a flashing-light warning
 - SOS using the standard repeating light pattern
 - Screen Light with fixed color presets
