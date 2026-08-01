@@ -3,8 +3,8 @@
     <solid android:color="@color/segmented_control_rail" />
     <corners android:radius="@dimen/segmented_control_rail_radius" />
     <padding
-        android:left="@dimen/segmented_control_padding"
-        android:top="@dimen/segmented_control_padding"
-        android:right="@dimen/segmented_control_padding"
-        android:bottom="@dimen/segmented_control_padding" />
+        android:left="@dimen/segmented_control_padding_horizontal"
+        android:top="@dimen/segmented_control_padding_vertical"
+        android:right="@dimen/segmented_control_padding_horizontal"
+        android:bottom="@dimen/segmented_control_padding_vertical" />
 </shape>
