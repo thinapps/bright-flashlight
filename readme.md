@@ -11,6 +11,7 @@ Torch, strobe, SOS, and screen light
 | [Build](docs/build.md) | Explains Gradle, R8, and ProGuard choices for the current GitHub Actions build. |
 | [Design](docs/design.md) | Defines icon, dimming, layout, and visual design rules for the app. |
 | [Permissions](docs/permissions.md) | Explains Camera permission behavior, fallback states, and recovery prompts. |
+| [Scope](docs/scope.md) | Defines supported features, reliability work, and intentional product boundaries. |
 
 ## Changelog
 
