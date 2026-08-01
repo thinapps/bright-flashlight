@@ -97,14 +97,25 @@ class TorchController(context: Context) {
         if (torchCallback != null) return true
         if (!ensureCameraReady()) return false
         val selectedCameraId = backCameraId ?: return false
+        var initialStatusPending = true
 
         val callback = object : CameraManager.TorchCallback() {
             override fun onTorchModeChanged(cameraId: String, enabled: Boolean) {
-                if (cameraId == selectedCameraId) onModeChanged(enabled)
+                if (cameraId != selectedCameraId) return
+                if (initialStatusPending) {
+                    initialStatusPending = false
+                    return
+                }
+                onModeChanged(enabled)
             }
 
             override fun onTorchModeUnavailable(cameraId: String) {
-                if (cameraId == selectedCameraId) onUnavailable()
+                if (cameraId != selectedCameraId) return
+                if (initialStatusPending) {
+                    initialStatusPending = false
+                    return
+                }
+                onUnavailable()
             }
         }
 
