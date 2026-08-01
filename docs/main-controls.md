@@ -37,6 +37,10 @@ Main control interactions should feel tactile:
 - Mode and Auto-off changes use tap haptic feedback only for real user changes, not during saved-preference restore.
 - Brightness and Strobe Speed sliders use the same tap haptic feedback as the other working controls on real user step changes.
 
+## Segmented controls
+
+Mode and Auto-off use the same `52dp` segmented-control rail. Keep `4dp` horizontal rail padding, reduce only the vertical rail padding to `2dp`, and keep each child button at `48dp` high. The arithmetic must remain `2dp + 48dp + 2dp = 52dp`, so every option has a full-height accessible touch target without changing the overall rail height or horizontal rhythm.
+
 ## Control visibility
 
 Torch-related controls require Camera permission and a usable device flash.
@@ -199,6 +203,7 @@ Before shipping main-control changes, test:
 - Screen Light appears as a real top-right `Screen` overlay pill, not as a full-width primary button or part of the bottom stack
 - Screen Light remains available without Camera permission
 - power, Screen, Mode, Auto-off, Brightness, and Strobe Speed provide haptic feedback on user interactions
+- Mode and Auto-off rails remain `52dp` high with `4dp` horizontal padding, `2dp` vertical padding, and full `48dp` child-button touch heights
 - Torch brightness restores to the saved level on supported devices after closing and reopening the app
 - power button ON/OFF label is clear at `18sp`
 - power button keeps the countdown slot above ON/OFF without shifting the layout
