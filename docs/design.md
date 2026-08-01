@@ -36,6 +36,7 @@ Bright Flashlight should feel like a simple hardware tool: dark, stable, readabl
 
 - Maintain the current 24dp effective screen gutters.
 - Preserve stable vertical slots for Brightness, Strobe Speed, and Auto-off so the UI does not jump between modes.
+- Keep Mode and Auto-off segmented rails at `52dp` with `4dp` horizontal padding and `2dp` vertical padding so every child button retains a full `48dp` touch height.
 - Keep the Brightness and Strobe Speed slider wells, slider heights, and `32dp` header rows matched.
 - Keep the Strobe warning button visually compact at `28dp` with `8dp` padding around the approximately `12dp` glyph.
 - Preserve a `48dp` effective target for the active warning button by expanding its touch area sideways and upward only; never extend it downward into the slider gap or well.
