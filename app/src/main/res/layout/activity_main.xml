@@ -466,7 +466,7 @@
               app:thumbColor="@color/slider_thumb"
               app:thumbElevation="@dimen/slider_thumb_elevation"
               app:thumbRadius="@dimen/slider_thumb_radius"
-              app:tickVisible="false"
+              app:tickVisible="true"
               app:trackColorActive="@color/slider_track_active"
               app:trackColorInactive="@color/slider_track_inactive"
               app:trackHeight="@dimen/slider_track_height" />
@@ -547,7 +547,7 @@
               app:thumbColor="@color/slider_thumb"
               app:thumbElevation="@dimen/slider_thumb_elevation"
               app:thumbRadius="@dimen/slider_thumb_radius"
-              app:tickVisible="false"
+              app:tickVisible="true"
               app:trackColorActive="@color/slider_track_active"
               app:trackColorInactive="@color/slider_track_inactive"
               app:trackHeight="@dimen/slider_track_height" />
