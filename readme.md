@@ -18,6 +18,7 @@ Torch, strobe, SOS, and screen light
 ### 1.1.4
 - restored visible tick marks for the five fixed Strobe Speed presets while keeping device-dependent Brightness sliders tickless
 - matched the Strobe Speed header spacing to Brightness while preserving a 48dp warning target that expands sideways and upward without entering the slider area
+- increased Mode and Auto-off segmented control buttons to 48dp while keeping the 52dp rails and existing horizontal rhythm
 
 ### 1.1.3
 - prevents the initial torch callback status from immediately stopping Torch after startup
