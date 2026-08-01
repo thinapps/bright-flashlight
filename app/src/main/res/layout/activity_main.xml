@@ -698,6 +698,20 @@
         android:textColor="@color/md_text_dim"
         android:textSize="@dimen/section_label_text_size" />
 
+      <top.thinapps.brightflashlight.PrivacyPolicyTextView
+        android:id="@+id/privacyPolicy"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/privacy_link_top_margin"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center"
+        android:minHeight="@dimen/minimum_touch_target_size"
+        android:text="@string/privacy_policy_link"
+        android:textColor="@color/md_text_dim"
+        android:textSize="@dimen/section_label_text_size" />
+
     </LinearLayout>
   </ScrollView>
 
