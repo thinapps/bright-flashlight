@@ -113,6 +113,8 @@ The Strobe Speed header keeps the title fixed on the left, places the warning ic
 
 The active Strobe Speed warning icon opens a simple modal with a bold title and a content paragraph warning about flashing light sensitivity and photosensitive epilepsy. The warning icon in the dimmed preview remains visible but non-interactive. Do not replace the modal with an onboarding notice, persistent banner, or stored dismissal state.
 
+The active and preview warning controls use a compact `28dp` visual button with `8dp` padding, leaving an approximately `12dp` visible warning glyph. The active button keeps a `48dp` effective target through a `TouchDelegate`: the extra width is split across the left and right sides, while the full extra height is added above the button. The delegated bottom edge must remain unchanged so the target never reaches downward into the slider gap or well.
+
 The canonical speed mapping lives in:
 
 ```text
@@ -133,7 +135,7 @@ The well should feel related to the main power button, but less visually dominan
 
 Do not make the slider wells brighter or more raised than the power button. Keep orange on the active slider fill and thumb, not on the well outline.
 
-Brightness uses a `32dp` header row. Strobe Speed uses a `48dp` header row so its warning control has a full accessible touch target. Both keep a `4dp` gap, `56dp` slider well, and `48dp` slider height.
+Brightness and Strobe Speed both use `32dp` header rows, a `4dp` gap, a `56dp` slider well, and a `48dp` slider height. The Strobe warning control preserves accessibility through its upward-and-sideways delegated target instead of making the header taller than Brightness.
 
 ## Stable lower controls
 
@@ -208,7 +210,10 @@ Before shipping main-control changes, test:
 - Brightness value is flush right in the header and updates as Low, Medium, High, or Max based on device-supported strength levels
 - Brightness sliders remain tickless because the supported strength range depends on the device
 - dimmed or unsupported Brightness placeholder shows `Max`
-- Brightness uses a `32dp` header and Strobe Speed uses a `48dp` header while both retain the same well and slider dimensions
+- Brightness and Strobe Speed both use `32dp` headers while retaining the same well and slider dimensions
+- active and dimmed Strobe Speed warning icons use `28dp` visual buttons, `8dp` padding, and approximately `12dp` visible glyphs
+- the active Strobe warning target reaches at least `48dp` by expanding sideways and upward only
+- taps in the slider gap or slider well are never captured by the Strobe warning target
 - active Strobe Speed warning icon appears immediately after the Strobe Speed title and opens a simple warning modal with a bold title and content paragraph when tapped
 - dimmed Strobe Speed preview warning icon remains visible but does not accept taps
 - Strobe Speed value is flush right in the header with no trailing right gap
