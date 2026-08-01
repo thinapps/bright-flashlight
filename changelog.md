@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.5
+- added an accessible main-screen Privacy Policy link with an in-app Material dialog, tap haptic, and Close action
+- documented Camera, foreground service, Screen Light, local preference, backup, and no-network privacy behavior
+
 ## 1.1.4
 - restored visible tick marks for the five fixed Strobe Speed presets while keeping device-dependent Brightness sliders tickless
 - matched the Strobe Speed header spacing to Brightness while preserving a 48dp warning target that expands sideways and upward without entering the slider area
