@@ -8,6 +8,8 @@ The app keeps preferences locally and is designed as a simple privacy-friendly t
 
 ## Documentation
 
+Bright Flashlight follows the shared ThinApps Guidelines by default; the app-specific documentation in this repository takes precedence where it records an intentional product or technical difference.
+
 | Document | Description |
 | --- | --- |
 | [Main Controls](docs/main-controls.md) | Details the home-screen layout and behavior for Torch, Strobe, SOS, Screen Light, Brightness, Auto-off, accessibility, and control testing. |
@@ -19,5 +21,3 @@ The app keeps preferences locally and is designed as a simple privacy-friendly t
 | [Google Play](docs/google-play.md) | Records the current Google Play app name, category, short description, and full description. |
 | [Changelog](changelog.md) | Lists every released version and the complete history of fixes, features, interface changes, reliability work, and build updates. |
 | [ThinApps Guidelines](https://github.com/thinapps/android-guidelines) | Provides the shared product, Android, repository, workflow, privacy, Google Play, and release defaults used across ThinApps projects. |
-
-Bright Flashlight follows the shared ThinApps Guidelines by default; the app-specific documentation in this repository takes precedence where it records an intentional product or technical difference.
