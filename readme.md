@@ -18,3 +18,4 @@ The app keeps preferences locally and is designed as a simple privacy-friendly t
 | [Scope](docs/scope.md) | Defines the supported product surface, reliability priorities, deferred ideas, and intentional boundaries that keep the app focused. |
 | [Google Play](docs/google-play.md) | Records the current Google Play app name, category, short description, and full description. |
 | [Changelog](changelog.md) | Lists every released version and the complete history of fixes, features, interface changes, reliability work, and build updates. |
+| [ThinApps Guidelines](https://github.com/thinapps/android-guidelines) | Provides the shared product, Android, repository, workflow, privacy, Google Play, and release defaults used across ThinApps projects. |
