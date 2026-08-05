@@ -12,6 +12,7 @@ Bright Flashlight follows the shared ThinApps Guidelines by default; the app-spe
 
 | Document | Description |
 | --- | --- |
+| [Agent Instructions](agents.md) | Defines persistent repository instructions, precedence, product guardrails, commit policy, workflow rules, and review expectations for coding agents. |
 | [Main Controls](docs/main-controls.md) | Details the home-screen layout and behavior for Torch, Strobe, SOS, Screen Light, Brightness, Auto-off, accessibility, and control testing. |
 | [App Preferences](docs/app-preferences.md) | Documents locally saved mode, brightness, Strobe Speed, Auto-off, and Screen Light choices, including validation and restore behavior. |
 | [Build](docs/build.md) | Records the Android and Gradle toolchain, GitHub Actions release workflow, signing setup, and the decisions around R8 and resource shrinking. |
